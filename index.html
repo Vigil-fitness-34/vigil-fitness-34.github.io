@@ -314,7 +314,7 @@ table.rt tr:last-child td{border-bottom:0}
 /* Nox – sidekick */
 .nox{display:block;overflow:visible;flex:none}
 .nox .bob{animation:bob 3.2s ease-in-out infinite}
-.nox .eyes{animation:blink 5s infinite;transform-origin:60px 53px}
+.nox .eyes{animation:blink 5s infinite;transform-box:fill-box;transform-origin:center}
 .nox .zz{animation:zz 2.6s ease-in-out infinite}
 .nox .spark{animation:spark 1.8s ease-in-out infinite}
 .nox .spark:nth-of-type(2){animation-delay:.6s}.nox .spark:nth-of-type(3){animation-delay:1.2s}
@@ -481,7 +481,7 @@ function defaultState(){
   return {version:VERSION,created:Date.now(),
     profile:{name:'',startWeight:100,goalWeight:85,campaignStart:dayKey(mondayOf(new Date())),restSec:120,autoTimer:true,bigStep5:false,vibrate:true,sound:true,wakeLock:true,weeklyTarget:4,sex:'m',birthYear:'',height:''},
     exercises:defaultExercises(),templates:defaultTemplates(),sessions:[],bodyweight:[],
-    game:{unlocked:{},seenMissions:{},lastLevel:1,gear:{scarf:'y',head:null,hand:null},petName:'Nox',species:null,maxStage:0},active:null};
+    game:{unlocked:{},seenMissions:{},lastLevel:1,gear:{scarf:'y',head:null,hand:null},petName:'Nox',species:null,maxStage:0,growthV:2},active:null};
 }
 function migrate(d){
   const def=defaultState();
@@ -494,6 +494,7 @@ function migrate(d){
   o.sessions.forEach(s=>{s.entries=Array.isArray(s.entries)?s.entries:[];s.entries.forEach(e=>{e.sets=Array.isArray(e.sets)?e.sets:[];e.target=e.target||{};});});
   o.bodyweight=o.bodyweight.filter(e=>e&&e.date&&num(e.kg)>0).map(e=>({date:e.date,kg:num(e.kg)}));
   if(o.active&&!Array.isArray(o.active.entries)) o.active=null;
+  if(o.game.growthV!==2){o.game.maxStage=0;o.game.growthV=2;}
   delete o.app; delete o.exportedAt; o.version=VERSION;
   return o;
 }
@@ -862,10 +863,17 @@ const ANIMALS=[
   {id:'gorilla',name:'Gorilla',main:'#2b2b33',dark:'#202027',light:'#45454f',spot:'#6e6e7e'},
   {id:'dragon',name:'Drache',main:'#1f3f66',dark:'#16304f',light:'#c9a33c',spot:'#ff7b3d'},
 ];
-const STAGES=[{name:'Ei'},{name:'Baby',min:0},{name:'Jungtier',min:12},{name:'Kämpfer',min:25},{name:'Bestie',min:40},{name:'Titan',min:55},{name:'Legende',min:72}];
+const STAGES=[{name:'Ei'},{name:'Baby',min:0},{name:'Jungtier',min:6},{name:'Kämpfer',min:16},{name:'Bestie',min:32},{name:'Titan',min:55},{name:'Legende',min:85}];
+/* growth = consistency + own strength gain (not absolute strength) */
+function growthInfo(){
+  const sessions=S.sessions.length, t=Math.max(1,num(S.profile.weeklyTarget)||4), fullWeeks=Object.values(weekCounts()).filter(v=>v>=t).length;
+  const lifts=MAIN.map(liftInfo).filter(l=>l&&l.ser.length>=2), gainPct=lifts.length?lifts.reduce((a,l)=>a+Math.max(0,l.gainPct),0)/lifts.length:0;
+  const gainPts=Math.floor(gainPct/2);
+  return {sessions,fullWeeks,gainPct,gainPts,pts:sessions+fullWeeks*3+gainPts};
+}
 const STAGE_TF=[null,[.6,.6],[.72,.72],[.84,.84],[.95,.93],[1.05,.97],[1.12,1]];
 const animal=()=>ANIMALS.find(a=>a.id===S.game.species)||null;
-function stageCalc(){if(!S.sessions.length)return 0;const sc=strengthScore();let i=1;if(sc!=null)for(let k=2;k<STAGES.length;k++)if(sc>=STAGES[k].min)i=k;return i;}
+function stageCalc(){if(!S.sessions.length)return 0;const p=growthInfo().pts;let i=1;for(let k=2;k<STAGES.length;k++)if(p>=STAGES[k].min)i=k;return i;}
 function stageIdx(){const c=stageCalc();return c===0?0:Math.max(c,num(S.game.maxStage)||1);}
 const petName=()=>S.game.petName||'Nox';
 const petTitle=()=>{const a=animal(),st=stageIdx();return a?(st===0?`${a.name}-Ei`:`${a.name} · ${STAGES[st].name}`):'Ei';};
@@ -884,44 +892,134 @@ function eggSVG(size,mood,cls,spot='#5b8def'){
   else eyes=`<g class="eyes"><circle cx="48" cy="58" r="4.5" fill="${Y}"/><circle cx="72" cy="58" r="4.5" fill="${Y}"/><circle cx="48" cy="58.5" r="2.2" fill="#0b0d12"/><circle cx="72" cy="58.5" r="2.2" fill="#0b0d12"/></g>`;
   return `<svg class="nox egg ${cls}" viewBox="0 0 120 124" width="${size}" height="${Math.round(size*124/120)}" aria-hidden="true"><ellipse cx="60" cy="116" rx="26" ry="4" fill="#000" opacity=".35"/><g class="bob"><ellipse cx="60" cy="72" rx="32" ry="41" fill="#ebe5d6"/><ellipse cx="47" cy="50" rx="7" ry="12" fill="#fff" opacity=".45"/><circle cx="40" cy="88" r="5" fill="${spot}" opacity=".6"/><circle cx="79" cy="92" r="3.5" fill="${spot}" opacity=".6"/><circle cx="73" cy="37" r="3.5" fill="${spot}" opacity=".6"/><circle cx="51" cy="101" r="2.5" fill="${Y}" opacity=".7"/><path d="M29 60L38 51L45 59L53 50L60 58L67 50L75 59L82 51L91 60L91 64L82 57L75 66L67 57L60 65L53 57L45 66L38 57L29 66Z" fill="#101318"/>${eyes}<polygon points="54,79 58,79 60,85 62,79 66,79 62,89 58,89" fill="${Y}"/></g></svg>`;
 }
+/* body proportions per stage (viewBox 160x170, ground y=160) – head shrinks, shoulders/arms grow */
+const STAGE_P=[null,
+  {hr:31,hy:104,top:122,bot:152,sh:17,wa:22,arm:6,bi:0,er:11.5},
+  {hr:28,hy:84,top:104,bot:146,sh:23,wa:23,arm:7.5,bi:0,er:10.5},
+  {hr:25,hy:64,top:84,bot:137,sh:30,wa:24,arm:9.5,bi:2.5,er:9},
+  {hr:23,hy:51,top:69,bot:131,sh:40,wa:25,arm:12,bi:5.5,er:8.2},
+  {hr:22,hy:44,top:61,bot:128,sh:50,wa:28,arm:15,bi:8.5,er:7.8},
+  {hr:22,hy:40,top:56,bot:126,sh:58,wa:31,arm:18,bi:11.5,er:7.8}];
+const r1=v=>Math.round(v*10)/10;
+function armPts(side,P,st,flex){
+  const sx=80+side*(P.sh-P.arm*.3), sy=P.top+P.arm*.7, h=P.bot-P.top;
+  if(flex) return [[sx,sy],[80+side*(P.sh+P.arm*1.3),P.top+P.arm*.4],[80+side*(P.sh+P.arm*.9),P.top-P.arm*1.9]];
+  if(st<=2) return [[sx,sy],[80+side*(P.sh+P.arm*.9),sy+h*.28],[80+side*(P.sh+P.arm*.4),sy+h*.52]];
+  return [[sx,sy],[80+side*(P.sh+P.arm*.9),P.top+h*.42],[80+side*(P.sh+P.arm*.5),P.bot-P.arm*.3]];
+}
+function armSVG(pts,P,st,an){
+  const [[a,b],[c,d],[e,f]]=pts.map(p=>p.map(r1)), w=P.arm*2, L=(t)=>[r1(c+(e-c)*t),r1(d+(f-d)*t)];
+  const path=`M${a} ${b}L${c} ${d}L${e} ${f}`;
+  let s=`<path d="${path}" stroke="${an.dark}" stroke-width="${w+3}" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="${path}" stroke="${an.main}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+  if(P.bi>0){
+    const ang=r1(Math.atan2(d-b,c-a)*180/Math.PI); let ox=-(d-b),oy=c-a; const l=Math.hypot(ox,oy)||1; ox/=l; oy/=l; if(oy>0){ox=-ox;oy=-oy;}
+    const bx=r1((a+c)/2+ox*P.bi*.5), by=r1((b+d)/2+oy*P.bi*.5), rx=r1(P.arm*.9+P.bi*.5), ry=r1(P.arm*.75+P.bi*.35);
+    s+=`<ellipse cx="${bx}" cy="${by}" rx="${rx}" ry="${ry}" transform="rotate(${ang} ${bx} ${by})" fill="${an.main}" stroke="${an.dark}" stroke-width="1.5"/>`
+      +`<ellipse cx="${r1(bx+ox*ry*.35)}" cy="${r1(by+oy*ry*.35)}" rx="${r1(rx*.55)}" ry="${r1(ry*.3)}" transform="rotate(${ang} ${bx} ${by})" fill="#fff" opacity=".13"/>`;
+    if(st>=5) s+=`<path d="M${r1(bx-rx*.5)} ${by}q${r1(rx*.25)} -3 ${r1(rx*.5)} 0t${r1(rx*.5)} 0" transform="rotate(${ang} ${bx} ${by})" stroke="#e0566b" stroke-width="1.4" fill="none" opacity=".8"/>`;
+  }
+  if(st===3){const [p,q]=L(.55);s+=`<path d="M${p} ${q}L${e} ${f}" stroke="#e8ecf2" stroke-width="${w*.95}" stroke-dasharray="3 2"/>`;}
+  if(st>=5){const [p,q]=L(.5),[u,v]=L(.8);s+=`<path d="M${p} ${q}L${u} ${v}" stroke="#262b35" stroke-width="${w+3}"/>`
+    +(st>=6?`<path d="M${p} ${q}l${r1((u-p)/3)} ${r1((v-q)/3-6)}l${r1((u-p)/3)} ${r1((v-q)/3+6)}" stroke="#d9dde6" stroke-width="2.5" fill="none"/>`:`<circle cx="${r1((p+u)/2)}" cy="${r1((q+v)/2)}" r="1.8" fill="#aab2c0"/>`);}
+  const fr=r1(P.arm*.95+2);
+  s+=`<circle cx="${e}" cy="${f}" r="${fr}" fill="${an.dark}" stroke="${an.main}" stroke-width="1.2"/>`;
+  if(st>=3) s+=`<path d="M${r1(e-fr*.55)} ${r1(f-fr*.25)}h${r1(fr*1.1)}M${r1(e-fr*.45)} ${r1(f+fr*.2)}h${r1(fr*.9)}" stroke="${an.main}" stroke-width="1.3" stroke-linecap="round"/>`;
+  return s;
+}
+const HEAD={
+  penguin:{ears:()=>'',face:an=>`<path d="M-23 -4Q-25 -23 -10 -20Q0 -14 10 -20Q25 -23 23 -4Q21 17 0 21Q-21 17 -23 -4Z" fill="${an.light}"/>`,beak:true},
+  owl:{ears:an=>`<path d="M-21 -17L-31 -44L-7 -26ZM21 -17L31 -44L7 -26Z" fill="${an.dark}"/>`,face:an=>`<circle cx="-11" cy="-2" r="14" fill="${an.light}"/><circle cx="11" cy="-2" r="14" fill="${an.light}"/>`,beak:true},
+  wolf:{ears:an=>`<path d="M-26 -10L-29 -52L-6 -26ZM26 -10L29 -52L6 -26Z" fill="${an.dark}"/><path d="M-23 -17L-25 -42L-11 -26ZM23 -17L25 -42L11 -26Z" fill="${an.light}"/>`,face:an=>`<path d="M-29 2L-40 9L-28 13ZM29 2L40 9L28 13Z" fill="${an.main}"/><path d="M-21 4Q0 32 21 4Q10 15 0 13Q-10 15 -21 4Z" fill="${an.light}"/>`,snout:an=>`<ellipse cx="0" cy="10" rx="11" ry="8.5" fill="${an.light}"/><ellipse cx="0" cy="5" rx="4.5" ry="3" fill="#0b0d12"/>`,my:16},
+  bear:{ears:an=>`<circle cx="-21" cy="-22" r="11" fill="${an.dark}"/><circle cx="21" cy="-22" r="11" fill="${an.dark}"/><circle cx="-21" cy="-22" r="5.5" fill="${an.light}"/><circle cx="21" cy="-22" r="5.5" fill="${an.light}"/>`,face:()=>'',snout:an=>`<ellipse cx="0" cy="11" rx="13" ry="10" fill="${an.light}"/><ellipse cx="0" cy="5.5" rx="5.5" ry="3.8" fill="#0b0d12"/>`,my:17},
+  gorilla:{ears:an=>`<path d="M-16 -24Q0 -44 16 -24Z" fill="${an.main}"/>`,face:()=>`<path d="M-24 -8Q-24 -24 0 -22Q24 -24 24 -8Q26 22 0 25Q-26 22 -24 -8Z" fill="#5b5b6a"/>`,snout:()=>`<ellipse cx="0" cy="8" rx="9" ry="5.5" fill="#6e6e7e"/><ellipse cx="-3.5" cy="8" rx="2.2" ry="1.7" fill="#0b0d12"/><ellipse cx="3.5" cy="8" rx="2.2" ry="1.7" fill="#0b0d12"/>`,my:16},
+  dragon:{ears:(an,st)=>{const k=.6+st*.12;return `<path d="M-16 -20Q-30 ${r1(-36*k)} -20 ${r1(-54*k)}Q-15 ${r1(-35*k)} -6 -26ZM16 -20Q30 ${r1(-36*k)} 20 ${r1(-54*k)}Q15 ${r1(-35*k)} 6 -26Z" fill="#e0b400"/><path d="M-9 -27L-5 -39L0 -29L5 -39L9 -27Z" fill="#ffd21f"/>`;},face:()=>`<path d="M-26 8l5 -3M-27 13l5 -2M26 8l-5 -3M27 13l-5 -2" stroke="#16304f" stroke-width="2"/>`,snout:()=>`<path d="M-13 3Q0 -1 13 3Q15 16 0 18Q-15 16 -13 3Z" fill="#2c5282"/><circle cx="-4.5" cy="6" r="1.6" fill="#0b0d12"/><circle cx="4.5" cy="6" r="1.6" fill="#0b0d12"/>`,my:17},
+};
+function mouthSVG(st,my){
+  if(st===1) return `<path d="M-4 ${my}q2 3 4 0q2 3 4 0" stroke="#0b0d12" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+  if(st===2) return `<path d="M-6 ${my}Q0 ${my+9} 6 ${my}Z" fill="#0b0d12"/><ellipse cx="0" cy="${my+4.5}" rx="3" ry="2.2" fill="#ff8fa3"/>`;
+  if(st===3) return `<path d="M-5 ${my+1}Q2 ${my+5} 7 ${my-1}" stroke="#0b0d12" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  if(st===4) return `<path d="M-8 ${my}L8 ${my}L7 ${my+5}L-7 ${my+5}Z" fill="#f2f2f2" stroke="#0b0d12" stroke-width="1.5"/><path d="M-3 ${my}v5M1 ${my}v5M5 ${my}v5M-7 ${my+2.5}h14" stroke="#0b0d12" stroke-width="1"/>`;
+  if(st===5) return `<path d="M-9 ${my}Q0 ${my+8} 9 ${my}Z" fill="#3a0a10"/><path d="M-6 ${my}l1.5 4.5 1.5-4.5M3 ${my}l1.5 4.5 1.5-4.5" fill="#fff"/>`;
+  return `<path d="M-11 ${my-1}Q0 ${my+16} 11 ${my-1}Q0 ${my+3} -11 ${my-1}Z" fill="#5a0f16"/><ellipse cx="0" cy="${my+8}" rx="4" ry="2.5" fill="#ff5d7a"/><path d="M-8 ${my}l1.8 5 1.8-5M4.4 ${my}l1.8 5 1.8-5M-5 ${my+11}l1.5-4 1.5 4M2 ${my+11}l1.5-4 1.5 4" fill="#fff"/>`;
+}
+function beakSVG(st,owl){
+  if(owl) return st>=6?`<path d="M-5 4L5 4L0 11Z" fill="#ffac4d"/><path d="M-5 13L5 13L0 19Z" fill="#e08a2a"/><path d="M-4 11L4 11L4 13L-4 13Z" fill="#5a0f16"/>`:`<path d="M-4 4L4 4L0 ${st>=4?11:13}Z" fill="#ffac4d"/>`;
+  if(st>=6) return `<path d="M-7 5L7 5L0 12Z" fill="#ffac4d"/><path d="M-6 15L6 15L0 22Z" fill="#e08a2a"/><path d="M-6 12L6 12L6 15L-6 15Z" fill="#5a0f16"/>`;
+  if(st>=4) return `<path d="M-7 5L7 5L0 14Z" fill="#ffac4d"/><path d="M-5 13L5 13" stroke="#0b0d12" stroke-width="1.4"/>`;
+  return `<path d="M-6 5L6 5L0 15Z" fill="#ffac4d"/>`;
+}
 function noxSVG({size=84,mood,tier,g,cls='',species,stage}={}){
   species=species??S.game.species; stage=stage??stageIdx(); mood=mood??noxMood().key;
   const an=ANIMALS.find(a=>a.id===species);
   if(!an||stage===0) return eggSVG(size,mood,cls,an?.spot);
   tier=tier??tierOf(levelOf(xpInfo().xp).L); g=g??gear();
-  const sp=SPC[species], cute=stage<=2, iris=stage>=6?'#ff4d3d':(sp.iris||'#ffd21f'), er=cute?11.5:9.5, pr=cute?6:5, Y='#ffd21f';
-  const scarf=(GEAR.scarf.find(x=>x.id===g.scarf)||GEAR.scarf[0]).col, [sx,sy]=STAGE_TF[stage];
-  let s=`<svg class="nox ${cls}" viewBox="0 0 120 124" width="${size}" height="${Math.round(size*124/120)}" aria-hidden="true"><defs><radialGradient id="noxAura"><stop offset=".45" stop-color="${Y}" stop-opacity=".32"/><stop offset="1" stop-color="${Y}" stop-opacity="0"/></radialGradient></defs>
-    <ellipse cx="60" cy="116" rx="${26*sx}" ry="4" fill="#000" opacity=".35"/><g class="bob"><g transform="translate(60 116) scale(${sx} ${sy}) translate(-60 -116)">`;
-  if(tier>=5) s+=`<circle cx="60" cy="68" r="58" fill="url(#noxAura)"/>`;
-  if(tier>=6) s+=[[14,34],[104,22],[108,84]].map(([x,y])=>`<path class="spark" d="M${x} ${y-6}l1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6z" fill="${Y}"/>`).join('');
-  if(tier>=3&&!sp.noCape) s+=`<path d="M36 64L14 116Q60 106 106 116L84 64Z" fill="#23407a" stroke="${Y}" stroke-opacity=".45" stroke-width="1.5"/>`;
-  s+=sp.back+sp.body;
-  if(stage>=4) s+=`<path d="M30 62Q10 66 11 86Q13 99 27 97Q37 84 35 67Z M90 62Q110 66 109 86Q107 99 93 97Q83 84 85 67Z" fill="${an.main}"/><path d="M16 80Q20 72 28 72M104 80Q100 72 92 72" stroke="#fff" stroke-opacity=".22" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="21" cy="99" r="8" fill="${an.dark}"/><circle cx="99" cy="99" r="8" fill="${an.dark}"/>`
-    +`<path d="M54 84v15M66 84v15M48 88.5h24M48 94.5h24" stroke="${an.dark}" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>`;
-  if(stage>=5) s+=`<path d="M42 79Q51 87 60 80Q69 87 78 79" stroke="${an.dark}" stroke-opacity=".7" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M13 84q4 3 3 8M107 84q-4 3-3 8" stroke="#ff8fa3" stroke-opacity=".35" stroke-width="1.5" fill="none"/>`;
-  if(stage>=6) s+=`<path d="M28 60L16 44L34 55ZM92 60L104 44L86 55ZM18 88L6 84L16 94ZM102 88L114 84L104 94Z" fill="#d9dde6"/>`;
-  if(tier>=4) s+=`<path d="M25 66Q28 55 41 59L37 71ZM95 66Q92 55 79 59L83 71Z" fill="${Y}"/>`;
-  if(tier>=2) s+=`<polygon points="52,84 57,84 60,93 63,84 68,84 62.5,98 57.5,98" fill="${Y}"/>`;
-  s+=`<path d="M33 70Q60 83 87 70L87 77Q60 90 33 77Z" fill="${scarf}"/><path d="M72 81L83 99L75 101L66 84Z" fill="${scarf}"/>`;
-  if(g.head==='band') s+=`<path d="M31 41Q60 27 89 41L88 47Q60 34 32 47Z" fill="#ff5d5d"/><path d="M32 43L19 49L22 40Z" fill="#ff5d5d"/>`;
-  s+=`<path d="M25 50Q40 38 60 46Q80 38 95 50L93 60Q78 67 60 58Q42 67 27 60Z" fill="#101318"/>`;
-  if(mood==='happy') s+=`<path d="M40 56Q48 44 56 56M64 56Q72 44 80 56" stroke="${iris}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
-  else if(mood==='sleep') s+=`<path d="M40 53Q48 58 56 53M64 53Q72 58 80 53" stroke="${iris}" stroke-width="3.5" fill="none" stroke-linecap="round"/><text class="zz" x="94" y="32" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="15" fill="#a9c4ff">Z</text>`;
+  const st=stage, P=STAGE_P[st], HD=HEAD[species], k=r1(P.hr/30), Y='#ffd21f';
+  const iris=st>=6?'#ff3b3b':(species==='dragon'?'#ff7b3d':Y), er=r1(P.er/k);
+  const scarf=(GEAR.scarf.find(x=>x.id===g.scarf)||GEAR.scarf[0]).col;
+  const foot=species==='penguin'||species==='owl'?'#ffac4d':an.dark;
+  const cy=r1((P.top+P.bot)/2+4), brx=r1(Math.min(P.sh,P.wa)*.72), bry=r1((P.bot-P.top)*.4);
+  let s=`<svg class="nox ${cls}" viewBox="0 0 160 170" width="${size}" height="${Math.round(size*170/160)}" aria-hidden="true" overflow="visible"><defs><radialGradient id="noxAura"><stop offset=".45" stop-color="${Y}" stop-opacity=".32"/><stop offset="1" stop-color="${Y}" stop-opacity="0"/></radialGradient><filter id="noxGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter></defs>`;
+  s+=`<ellipse cx="80" cy="161" rx="${r1(P.wa+P.sh*.6+8)}" ry="4.5" fill="#000" opacity=".4"/>`;
+  if(st>=6) s+=`<path d="M52 161l-8 5M60 161l-4 7M100 161l6 6M108 161l9 3M80 162l2 7" stroke="#3a3f4b" stroke-width="1.6" stroke-linecap="round"/>`;
+  s+=`<g class="bob">`;
+  if(st>=6) s+=`<path d="M22 160Q8 116 30 100Q20 76 42 64Q38 36 60 22Q66 36 70 30Q76 6 88 20Q94 30 100 22Q124 38 118 64Q140 76 130 100Q152 116 138 160Z" fill="#ff7b3d" opacity=".28"/><path d="M36 160Q28 124 44 110Q38 90 56 80Q54 58 72 46Q78 58 82 50Q90 38 96 52Q110 62 104 80Q122 92 116 110Q132 124 124 160Z" fill="#ffd21f" opacity=".2"/>`;
+  if(tier>=5) s+=`<circle cx="80" cy="${r1((P.hy+160)/2)}" r="76" fill="url(#noxAura)"/>`;
+  if(tier>=6) s+=[[18,40],[144,30],[150,110]].map(([x,y])=>`<path class="spark" d="M${x} ${y-6}l1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6z" fill="${Y}"/>`).join('');
+  if(tier>=3&&species!=='dragon') s+=`<path d="M${r1(80-P.sh*.8)} ${P.top+4}L${r1(80-P.sh-18)} 160Q80 150 ${r1(80+P.sh+18)} 160L${r1(80+P.sh*.8)} ${P.top+4}Z" fill="#23407a" stroke="${Y}" stroke-opacity=".45" stroke-width="1.5"/>`;
+  if(species==='wolf') s+=`<path d="M${80+P.wa-2} ${P.bot-12}Q${80+P.wa+32} ${P.bot-2} ${80+P.wa+28} ${P.bot-44}" stroke="${an.dark}" stroke-width="${r1(11+st*1.8)}" stroke-linecap="round" fill="none"/><circle cx="${80+P.wa+28}" cy="${P.bot-44}" r="${r1(5+st)}" fill="#c9cfd9"/>`;
+  if(species==='dragon'){const f=.55+st*.13,Lx=r1(80-P.sh*.6),Rx=r1(80+P.sh*.6),y=P.top+4,W=(x,d)=>`M${x} ${y}L${r1(x+d*44*f)} ${r1(y-40*f)}L${r1(x+d*32*f)} ${r1(y-12*f)}L${r1(x+d*52*f)} ${r1(y-5*f)}L${r1(x+d*34*f)} ${r1(y+8*f)}L${r1(x+d*42*f)} ${r1(y+28*f)}L${r1(x+d*8)} ${y+22}Z`;
+    s+=`<path d="${W(Lx,-1)}${W(Rx,1)}" fill="${an.dark}" stroke="${Y}" stroke-opacity=".45" stroke-width="1.3" stroke-linejoin="round"/><path d="M${80+P.wa-4} ${P.bot-6}Q${80+P.wa+34} ${P.bot+6} ${80+P.wa+36} ${P.bot-22}l6 2-4-10" stroke="${an.main}" stroke-width="${r1(8+st*1.5)}" stroke-linecap="round" fill="none"/>`;}
+  const lw=r1(5+st*2.6);
+  for(const d of [-1,1]){const x=r1(80+d*P.wa*.5);s+=`<rect x="${r1(x-lw/2)}" y="${P.bot-8}" width="${lw}" height="${r1(158-P.bot+8)}" rx="${r1(lw/2)}" fill="${an.dark}"/><ellipse cx="${r1(x+d*2)}" cy="159" rx="${r1(lw*.8+2)}" ry="3.6" fill="${foot}"/>`;
+    if(species==='dragon'||species==='bear') s+=`<path d="M${r1(x-lw*.5)} 160l-1 3M${x} 160.5v3M${r1(x+lw*.5)} 160l1 3" stroke="${species==='dragon'?Y:'#e8ecf2'}" stroke-width="1.6" stroke-linecap="round"/>`;}
+  if(st>=5) s+=`<path d="M${r1(80-P.hr*.8)} ${r1(P.hy+P.hr*.55)}Q${r1(80-P.sh*.7)} ${P.top-5} ${80-P.sh} ${P.top+8}L${80+P.sh} ${P.top+8}Q${r1(80+P.sh*.7)} ${P.top-5} ${r1(80+P.hr*.8)} ${r1(P.hy+P.hr*.55)}Z" fill="${an.main}" stroke="${an.dark}" stroke-width="1.5"/>`;
+  s+=`<path d="M${80-P.sh} ${P.top+8}Q${80-P.sh} ${P.top-4} ${r1(80-P.sh*.5)} ${P.top-2}L${r1(80+P.sh*.5)} ${P.top-2}Q${80+P.sh} ${P.top-4} ${80+P.sh} ${P.top+8}Q${80+P.wa+6} ${r1((P.top+P.bot)/2)} ${80+P.wa} ${P.bot}Q80 ${P.bot+6} ${80-P.wa} ${P.bot}Q${80-P.wa-6} ${r1((P.top+P.bot)/2)} ${80-P.sh} ${P.top+8}Z" fill="${an.main}" stroke="${an.dark}" stroke-width="2"/>`;
+  s+=species==='gorilla'?`<path d="M${80-brx} ${r1(cy-bry*.7)}Q80 ${r1(cy-bry*1.05)} ${80+brx} ${r1(cy-bry*.7)}Q${80+brx} ${r1(cy+bry*.9)} 80 ${r1(cy+bry)}Q${80-brx} ${r1(cy+bry*.9)} ${80-brx} ${r1(cy-bry*.7)}Z" fill="#45454f"/>`:`<ellipse cx="80" cy="${cy}" rx="${brx}" ry="${bry}" fill="${an.light}"/>`;
+  if(species==='dragon') s+=[.45,.1,-.25,-.6].map(t=>`<path d="M${r1(80-brx*.8)} ${r1(cy+bry*t)}Q80 ${r1(cy+bry*t+3)} ${r1(80+brx*.8)} ${r1(cy+bry*t)}" stroke="#a8872d" stroke-width="2" fill="none"/>`).join('');
+  if(st>=4){const d=an.dark;s+=`<path d="M80 ${r1(cy-bry*.25)}V${r1(cy+bry*.85)}${[0,.3,.6].map(t=>`M${r1(80-brx*.5)} ${r1(cy+bry*t)}Q80 ${r1(cy+bry*t+3)} ${r1(80+brx*.5)} ${r1(cy+bry*t)}`).join('')}" stroke="${d}" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/>`
+    +`<path d="M${r1(80-P.sh*.72)} ${P.top+9}Q${r1(80-P.sh*.35)} ${P.top+23} 80 ${P.top+14}Q${r1(80+P.sh*.35)} ${P.top+23} ${r1(80+P.sh*.72)} ${P.top+9}" stroke="${d}" stroke-opacity=".75" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;}
+  if(st>=5) s+=`<path d="M${r1(80-P.wa-2)} ${r1(cy)}q4 8 3 16M${r1(80+P.wa+2)} ${r1(cy)}q-4 8 -3 16" stroke="${an.dark}" stroke-opacity=".6" stroke-width="2" fill="none"/><path d="M${r1(80+brx*.15)} ${r1(cy-bry*.95)}l11 15" stroke="#e7b6a0" stroke-width="2.2" stroke-linecap="round"/>`;
+  if(st===4) s+=`<path d="M${r1(80-P.sh*.85)} ${P.top+3}L${80+P.wa} ${P.bot-10}" stroke="#262b35" stroke-width="5.5" stroke-linecap="round"/><circle cx="${r1(80+P.sh*.05)}" cy="${r1((P.top+P.bot)/2-3)}" r="3.5" fill="none" stroke="#aab2c0" stroke-width="2"/>`;
+  if(st>=5) s+=`<rect x="${80-P.wa-5}" y="${P.bot-13}" width="${2*P.wa+10}" height="9" rx="2" fill="#262b35"/><rect x="72" y="${P.bot-15}" width="16" height="13" rx="2" fill="${Y}"/><path d="M75 ${P.bot-12}l5 7 5-7" stroke="#101318" stroke-width="2" fill="none"/>`;
+  if(tier>=2){const ey=r1(P.top+(P.bot-P.top)*.33),u=r1(P.sh*.12+2.5);s+=`<path d="M${r1(80-u*1.4)} ${ey}h${u}l${r1(u*.4)} ${r1(u*1.6)}l${r1(u*.4)} ${r1(-u*1.6)}h${u}l${r1(-u*1.2)} ${r1(u*2.8)}h${r1(-u*.8)}z" fill="${Y}"/>`;}
+  const sy=r1(Math.max(P.top+1,P.hy+P.hr*.92)), sw=r1(Math.max(P.hr*.85,P.sh*.5));
+  s+=`<path d="M${r1(80-sw)} ${sy-3}Q80 ${sy+7} ${r1(80+sw)} ${sy-3}L${r1(80+sw)} ${sy+4}Q80 ${sy+14} ${r1(80-sw)} ${sy+4}Z" fill="${scarf}"/><path d="M${r1(80+sw*.45)} ${sy+6}l${r1(6+st)} ${r1(12+st*2)}l-7 2l-5 -12Z" fill="${scarf}"/>`;
+  // head (local coords, radius 30)
+  s+=`<g transform="translate(80 ${P.hy}) scale(${k})">${HD.ears(an,st)}`;
+  s+=species==='gorilla'?`<ellipse cx="0" cy="0" rx="31" ry="29" fill="${an.main}" stroke="${an.dark}" stroke-width="1.5"/>`:`<circle r="30" fill="${an.main}" stroke="${an.dark}" stroke-width="1.5"/>`;
+  s+=HD.face(an);
+  if(st===1) s+=`<path d="M-27 -12Q-25 -35 0 -36Q25 -35 27 -12L20 -18L14 -10L7 -19L0 -11L-7 -19L-14 -10L-20 -18Z" fill="#ebe5d6" stroke="#cfc7b3" stroke-width="1.2"/><circle cx="9" cy="-27" r="2" fill="${an.spot}" opacity=".7"/>`;
+  if(st===2) s+=`<path d="M-2 -29Q0 -41 7 -37Q2 -35 3 -29Z" fill="${an.dark}"/>`;
+  if(g.head==='band') s+=`<path d="M-29 -16Q0 -30 29 -16L28 -10Q0 -24 -28 -10Z" fill="#ff5d5d"/><path d="M-28 -13L-41 -7L-38 -17Z" fill="#ff5d5d"/>`;
+  if(st>=2) s+=`<path d="M-29 -6Q-15 -17 0 -9Q15 -17 29 -6L27 6Q15 12 0 4Q-15 12 -27 6Z" fill="#101318"/>`;
+  if(st>=6&&mood!=='sleep') s+=`<circle cx="-11" cy="-1" r="${r1(er+5)}" fill="#ff3b3b" opacity=".75" filter="url(#noxGlow)"/><circle cx="11" cy="-1" r="${r1(er+5)}" fill="#ff3b3b" opacity=".75" filter="url(#noxGlow)"/>`;
+  if(mood==='happy') s+=`<path d="M${r1(-11-er*.8)} 1Q-11 ${r1(-er*1.1)} ${r1(-11+er*.8)} 1M${r1(11-er*.8)} 1Q11 ${r1(-er*1.1)} ${r1(11+er*.8)} 1" stroke="${iris}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  else if(mood==='sleep') s+=`<path d="M-18 -1Q-11 4 -4 -1M4 -1Q11 4 18 -1" stroke="${iris}" stroke-width="3" fill="none" stroke-linecap="round"/><text class="zz" x="30" y="-26" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="16" fill="#a9c4ff">Z</text>`;
   else {
-    s+=`<g class="${mood==='ready'?'eyes':''}"><circle cx="48" cy="53" r="${er}" fill="${iris}"/><circle cx="72" cy="53" r="${er}" fill="${iris}"/><circle cx="48" cy="54" r="${pr}" fill="#0b0d12"/><circle cx="72" cy="54" r="${pr}" fill="#0b0d12"/><circle cx="45.5" cy="51" r="${cute?2.6:1.8}" fill="#fff"/><circle cx="69.5" cy="51" r="${cute?2.6:1.8}" fill="#fff"/>${cute?'<circle cx="50.5" cy="57" r="1.2" fill="#fff"/><circle cx="74.5" cy="57" r="1.2" fill="#fff"/>':''}</g>`;
-    if(mood==='tired') s+=`<path d="M38 54a10 10 0 0 1 20 0ZM62 54a10 10 0 0 1 20 0Z" fill="#101318"/>`;
-    if(stage>=3) s+=`<path d="M36 ${stage>=5?40:42}L56 47M84 ${stage>=5?40:42}L64 47" stroke="#0b0d12" stroke-width="${stage>=5?5:3.5}" stroke-linecap="round"/>`;
+    const pup=st<=2?`<circle cx="-11" cy="-1" r="${r1(er*.55)}" fill="#0b0d12"/><circle cx="11" cy="-1" r="${r1(er*.55)}" fill="#0b0d12"/>`:st<=4?`<circle cx="-11" cy="-1" r="${r1(er*.45)}" fill="#0b0d12"/><circle cx="11" cy="-1" r="${r1(er*.45)}" fill="#0b0d12"/>`:`<ellipse cx="-11" cy="-1" rx="${r1(er*.18)}" ry="${r1(er*.78)}" fill="#0b0d12"/><ellipse cx="11" cy="-1" rx="${r1(er*.18)}" ry="${r1(er*.78)}" fill="#0b0d12"/>`;
+    s+=`<g class="${mood==='ready'?'eyes':''}"><circle cx="-11" cy="-1" r="${er}" fill="${iris}"/><circle cx="11" cy="-1" r="${er}" fill="${iris}"/>${pup}<circle cx="${r1(-11-er*.3)}" cy="${r1(-1-er*.35)}" r="${r1(st<=2?er*.26:er*.18)}" fill="#fff"/><circle cx="${r1(11-er*.3)}" cy="${r1(-1-er*.35)}" r="${r1(st<=2?er*.26:er*.18)}" fill="#fff"/>${st<=2?`<circle cx="${r1(-11+er*.35)}" cy="${r1(-1+er*.4)}" r="${r1(er*.12)}" fill="#fff"/><circle cx="${r1(11+er*.35)}" cy="${r1(-1+er*.4)}" r="${r1(er*.12)}" fill="#fff"/>`:''}</g>`;
+    if(mood==='tired') s+=`<path d="M${r1(-11-er)} -1a${er} ${er} 0 0 1 ${r1(er*2)} 0ZM${r1(11-er)} -1a${er} ${er} 0 0 1 ${r1(er*2)} 0Z" fill="${st>=2?'#101318':an.main}"/>`;
+    if(st>=3){const b=st===3?[-13,-9,3.5]:st===4?[-16,-8,4.5]:[-18,-6,5.5];s+=`<path d="M-22 ${b[0]}L-4 ${b[1]}M22 ${b[0]}L4 ${b[1]}" stroke="#0b0d12" stroke-width="${b[2]}" stroke-linecap="round"/>`;}
   }
-  if(cute) s+=`<ellipse cx="37" cy="65" rx="5.5" ry="3.2" fill="#ff8fa3" opacity=".55"/><ellipse cx="83" cy="65" rx="5.5" ry="3.2" fill="#ff8fa3" opacity=".55"/>`;
-  if(g.head==='visor') s+=`<path d="M26 47Q60 39 94 47L92 61Q60 53 28 61Z" fill="#5b8def" fill-opacity=".35" stroke="#a9c4ff" stroke-width="1.5"/>`;
-  if(g.head==='goggles') s+=`<circle cx="48" cy="53" r="12" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><circle cx="72" cy="53" r="12" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><path d="M36 52L27 49M84 52L93 49" stroke="#43d17a" stroke-width="3" stroke-linecap="round"/>`;
-  s+=sp.snout;
-  if(stage>=5) s+=`<path d="M78 38l7 13M82 36l5 9" stroke="#e7b6a0" stroke-width="2" stroke-linecap="round"/>`;
-  if(g.hand==='dumbbell') s+=`<g transform="translate(90 96) rotate(-20)"><rect x="-2" y="-1.5" width="20" height="3" fill="#8d95a5"/><rect x="-6" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/><rect x="16" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/></g>`;
-  if(g.hand==='glove') s+=`<g transform="translate(97 94)"><ellipse rx="10" ry="9" fill="#ff5d5d"/><ellipse cx="-6" cy="-2" rx="4" ry="5" fill="#e04848"/><rect x="-8" y="6" width="16" height="6" rx="2" fill="#eceef2"/></g>`;
-  if(g.hand==='shoe') s+=`<g transform="translate(86 96)"><path d="M0 0h9l2-6h5v8q11 1 13 7H0z" fill="#5b8def"/><path d="M0 9h29" stroke="#eceef2" stroke-width="2.5"/></g>`;
-  return s+`</g></g></svg>`;
+  if(st<=2) s+=`<ellipse cx="-20" cy="11" rx="5.5" ry="3.2" fill="#ff8fa3" opacity=".6"/><ellipse cx="20" cy="11" rx="5.5" ry="3.2" fill="#ff8fa3" opacity=".6"/>`;
+  if(g.head==='visor') s+=`<path d="M-30 -8Q0 -16 30 -8L28 7Q0 1 -28 7Z" fill="#5b8def" fill-opacity=".35" stroke="#a9c4ff" stroke-width="1.5"/>`;
+  if(g.head==='goggles') s+=`<circle cx="-11" cy="-1" r="${r1(er+3)}" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><circle cx="11" cy="-1" r="${r1(er+3)}" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><path d="M-24 -2L-31 -5M24 -2L31 -5" stroke="#43d17a" stroke-width="3" stroke-linecap="round"/>`;
+  if(HD.beak) s+=beakSVG(st,species==='owl'); else s+=HD.snout(an)+mouthSVG(st,HD.my);
+  if(st>=5&&species==='dragon') s+=`<circle cx="-7" cy="-2" r="3" fill="#8d95a5" opacity=".5"/><circle cx="-10" cy="-7" r="2" fill="#8d95a5" opacity=".35"/>`;
+  if(st>=5) s+=`<path d="M9 -24L18 4M11 -14l5 -2M13 -8l5 -2" stroke="#e7b6a0" stroke-width="2.2" stroke-linecap="round"/>`;
+  s+=`</g>`;
+  // arms (Titan flexes one, Legend flexes both)
+  const R=armPts(1,P,st,st>=6), Lp=armPts(-1,P,st,st>=5);
+  s+=armSVG(Lp,P,st,an)+armSVG(R,P,st,an);
+  if(st>=6) s+=[Lp[2],R[2]].map(([x,y],i)=>`<path d="M${r1(x+(i?10:-10))} ${r1(y-16)}l${i?5:-5} 6l${i?-4:4} 1l${i?6:-6} 8" stroke="${Y}" stroke-width="2" fill="none" stroke-linejoin="round"/>`).join('');
+  if(st>=6) for(const d of [-1,1]){const x=r1(80+d*P.sh*.9),y=P.top+2;s+=`<path d="M${r1(x-d*14)} ${y+10}Q${x} ${y-14} ${r1(x+d*16)} ${y+8}Z" fill="#8d95a5" stroke="#d9dde6" stroke-width="1.5"/><path d="M${r1(x-d*4)} ${y-6}l${d*4} -14l${d*3} 13ZM${r1(x+d*6)} ${y-3}l${d*7} -10l${d*1} 12Z" fill="#d9dde6"/>`;}
+  else if(tier>=4) for(const d of [-1,1]) s+=`<ellipse cx="${r1(80+d*P.sh*.9)}" cy="${P.top+3}" rx="${r1(P.arm+3)}" ry="${r1(P.arm*.7+1)}" fill="${Y}" stroke="#b38f00" stroke-width="1.2"/>`;
+  if(st>=5&&st<6) for(const d of [-1,1]) s+=`<path d="M${r1(80+d*P.sh*.7)} ${P.top}l${d*4} -8l${d*2} 7l${d*5} -6l${d*1} 8" fill="${an.main}" stroke="${an.dark}" stroke-width="1.2"/>`;
+  const [hx,hy]=R[2].map(r1), hs=r1(P.arm/9+.4);
+  if(g.hand==='dumbbell') s+=`<g transform="translate(${hx} ${hy}) scale(${hs}) rotate(-20)"><rect x="-12" y="-1.5" width="24" height="3" fill="#8d95a5"/><rect x="-16" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/><rect x="10" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/></g>`;
+  if(g.hand==='glove') s+=`<g transform="translate(${hx} ${hy}) scale(${hs})"><ellipse rx="11" ry="10" fill="#ff5d5d"/><ellipse cx="-7" cy="-2" rx="4" ry="5" fill="#e04848"/><rect x="-8" y="7" width="16" height="6" rx="2" fill="#eceef2"/></g>`;
+  if(g.hand==='shoe') s+=`<g transform="translate(${hx+4} ${hy}) scale(${hs})"><path d="M0 0h9l2-6h5v8q11 1 13 7H0z" fill="#5b8def"/><path d="M0 9h29" stroke="#eceef2" stroke-width="2.5"/></g>`;
+  return s+`</g></svg>`;
 }
 function animalPickerHTML(){
   return `<div class="grid3">${ANIMALS.map(a=>`<button class="gear ${S.game.species===a.id?'on':''}" data-a="pick-animal" data-id="${a.id}" style="align-items:center;text-align:center;padding:8px 4px">${noxSVG({size:70,species:a.id,stage:2,mood:'ready',tier:1,g:{scarf:'y'}})}<b>${a.name}</b></button>`).join('')}</div>`;
@@ -943,8 +1041,8 @@ function noxLines(){
     if(r.type==='up'){L.push(`Bei ${r.text.replace(': nächstes Mal',' ist mehr drin – nächstes Mal')}.`);n++;}
     else if(r.type==='deload'){L.push(`${exById(it.exId).name} stagniert. Ein Deload jetzt macht dich danach stärker.`);n++;} }
   if(ws.prs) L.push(`${ws.prs} ${ws.prs===1?'Rekord':'Rekorde'} diese Woche. Hab ich alle notiert!`);
-  const sc=strengthScore(), si=stageIdx(), nx=STAGES[si+1];
-  if(sc!=null&&nx) L.push(`Noch ${fmt(Math.max(1,nx.min-sc),0)} Kraft-Punkte bis zur nächsten Stufe: ${nx.name}. Dann werde ich größer und stärker!`);
+  const gi=growthInfo(), si=stageIdx(), nx=STAGES[si+1];
+  if(si>0&&nx) L.push(`Noch ${Math.max(1,nx.min-gi.pts)} Wachstumspunkte bis „${nx.name}“. Jedes Training und jede volle Woche lässt mich wachsen!`);
   const best=MAIN.map(liftInfo).filter(Boolean).sort((a,b)=>b.pct-a.pct)[0];
   if(best) L.push(`Dein ${best.name} ist stärker als bei ${fmt(best.pct,0)} % der Trainierenden deines Alters und Gewichts.`);
   const lost=num(S.profile.startWeight)-currentBW();
@@ -1389,7 +1487,7 @@ function statsStrength(){
   const score=infos.reduce((a,l)=>a+l.pct,0)/infos.length, si=stageIdx(), nx=STAGES[si+1];
   h+=`<section class="hero chamfer"><div class="eyebrow">Kraft-Score</div><div class="bigval">${fmt(score,0)}<small>/ 100</small></div>
     <p class="muted" style="margin:6px 0 12px">Im Schnitt stärker als <b style="color:var(--text)">${fmt(score,0)} %</b> der trainierenden ${grp} in deinem Alter${age?` (${age})`:''} und mit deinem Gewicht (${fmt(bw,1)} kg).</p>
-    <div class="nox-row">${noxSVG({size:56})}<p class="sm" style="margin:0">${esc(petName())}: <b>${esc(petTitle())}</b>.${nx?` Ab Score <b style="color:var(--y)">${nx.min}</b> wächst er zur Stufe „${nx.name}“.`:' Höchste Stufe!'}</p></div></section>`;
+    <div class="nox-row">${noxSVG({size:56})}<p class="sm" style="margin:0">${esc(petName())}: <b>${esc(petTitle())}</b>.${nx?` Er wächst durch regelmäßiges Training und deinen Kraftzuwachs – nicht durch den Score.`:' Höchste Stufe!'}</p></div></section>`;
   h+=`<h2>Perzentil pro Übung</h2>`;
   for(const l of infos){
     h+=`<div class="card"><div class="between"><h3>${esc(l.name)}</h3><span class="pill y">${l.level}</span></div>
@@ -1515,12 +1613,13 @@ function viewProgress(){
         <p class="muted sm" style="margin:4px 0 10px">${esc(m.desc)}</p>
         <div class="between sm muted" style="margin-bottom:4px"><span>Energie</span><span class="num">${m.energy} %</span></div><div class="bar b"><i style="width:${m.energy}%"></i></div></div></div>
     <div class="divider"></div>
-    ${(()=>{const si=stageIdx(),nx=STAGES[si+1],sc=strengthScore(),prev=STAGES[si].min??0,an=animal();
+    ${(()=>{const si=stageIdx(),nx=STAGES[si+1],gi=growthInfo(),prev=STAGES[si].min??0,an=animal();
       if(!an) return `<div class="eyebrow">Wähle dein Tier</div>${animalPickerHTML()}`;
-      return `<div class="between"><div class="eyebrow">Wachstum · nach Kraft</div><button class="btn ghost sm" style="min-height:36px;padding:0 6px" data-a="animal-change">Tier wechseln</button></div>
-      <p class="sm" style="margin:0 0 8px">${si===0?'Das Ei schlüpft nach deinem ersten abgeschlossenen Training.':nx?(sc==null?`Trainiere Kniebeuge, Bankdrücken, Kreuzheben oder Schulterdrücken – dein Kraft-Score lässt ${esc(petName())} wachsen.`:`Kraft-Score <b>${fmt(sc,0)}</b> – ab <b>${nx.min}</b> wächst ${esc(petName())} zur Stufe <b style="color:var(--y)">${nx.name}</b>.`):'Höchste Stufe erreicht – eine Legende!'}</p>
-      ${si>0&&nx&&sc!=null?`<div class="bar"><i style="width:${clamp((sc-prev)/(nx.min-prev),0,1)*100}%"></i></div>`:''}
-      <div class="chain">${STAGES.map((st,i)=>`<div class="${i>si?'lk':''} ${i===si?'cur':''}">${noxSVG({size:44,species:an.id,stage:i,mood:'ready',tier:1,g:{scarf:'y'}})}${st.name}${st.min!=null&&i>si?`<br>ab ${st.min}`:''}</div>`).join('')}</div>`;})()}
+      return `<div class="between"><div class="eyebrow">Wachstum · durch Dranbleiben</div><button class="btn ghost sm" style="min-height:36px;padding:0 6px" data-a="animal-change">Tier wechseln</button></div>
+      <p class="sm" style="margin:0 0 8px">${si===0?'Das Ei schlüpft nach deinem ersten abgeschlossenen Training.':nx?`<b>${gi.pts}</b> Wachstumspunkte – ab <b>${nx.min}</b> wächst ${esc(petName())} zur Stufe <b style="color:var(--y)">${nx.name}</b>.`:'Höchste Stufe erreicht – eine Legende!'}</p>
+      ${si>0?`<div class="srow sm"><span>${gi.sessions} Trainings</span><b class="num" style="color:var(--y)">+${gi.sessions}</b></div><div class="srow sm"><span>${gi.fullWeeks} volle Wochen (×3)</span><b class="num" style="color:var(--y)">+${gi.fullWeeks*3}</b></div><div class="srow sm" style="margin-bottom:8px"><span>Kraftzuwachs +${fmt(gi.gainPct,1)} % (je 2 % = 1)</span><b class="num" style="color:var(--y)">+${gi.gainPts}</b></div>`:''}
+      ${si>0&&nx?`<div class="bar"><i style="width:${clamp((gi.pts-prev)/(nx.min-prev),0,1)*100}%"></i></div>`:''}
+      <div class="chain">${STAGES.map((st,i)=>`<div class="${i>si?'lk':''} ${i===si?'cur':''}">${noxSVG({size:44,species:an.id,stage:i,mood:'ready',tier:1,g:{scarf:'y'}})}${st.name}${st.min&&i>si?`<br>${st.min} Pkt.`:''}</div>`).join('')}</div>`;})()}
     <div class="divider"></div>
     <p class="sm" style="margin:0 0 10px">${tier<6?`Nächste Form ab <b>Level ${RANKS[tier].min}</b>: <b style="color:var(--y)">${EVO[tier]}</b>`:'Höchste Form erreicht.'}</p>
     <label class="fld" style="margin:0"><span>Name deines Sidekicks</span><input class="inp" data-pet value="${esc(petName())}" maxlength="16"></label></div>
