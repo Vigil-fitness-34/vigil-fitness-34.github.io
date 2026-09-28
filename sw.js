@@ -1,6 +1,6 @@
-/* VIGIL Service Worker – macht die App offline-fähig.
-   Version erhöhen, wenn index.html geändert wurde, damit Handys das Update laden. */
-const CACHE = 'vigil-v4';
+﻿/* VIGIL Service Worker â€“ macht die App offline-fÃ¤hig.
+   Version erhÃ¶hen, wenn index.html geÃ¤ndert wurde, damit Handys das Update laden. */
+const CACHE = 'vigil-v5';
 const FONTS = 'vigil-fonts';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
 
