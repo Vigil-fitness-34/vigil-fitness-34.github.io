@@ -512,6 +512,69 @@ h2::before{width:18px;height:2px;clip-path:none;background:var(--y)}
 .stepper>button{color:var(--y)}.stepper input:focus{color:var(--y)}
 .lvlup,.toast.pr{background:var(--gold);color:#1a1409}
 .hh-pet .pet-vb,.hh-pet .pet-spark,.hh-pet .pet-slots{display:none}
+
+/* ===== mockup polish ===== */
+.hh{min-height:470px;padding:26px 16px 22px}
+.hh-bg{background:linear-gradient(180deg,#0a0a0c 0%,#0e0e11 50%,#060608 100%)}
+.hh-bg::before{display:none}
+.hh-wall{position:absolute;inset:0 0 30% 0;background:
+  radial-gradient(ellipse 30% 40% at 80% 18%,rgba(255,196,110,.20),transparent 70%),
+  radial-gradient(ellipse 45% 55% at 72% 58%,color-mix(in srgb,var(--el) 20%,transparent),transparent 72%),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.55) 0 3px,transparent 3px 56px),
+  linear-gradient(90deg,#08080a 0%,#141417 35%,#1a1917 70%,#0e0e10 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.hh-wall::after{content:'';position:absolute;right:6%;top:6%;width:44%;height:74%;border-radius:6px;background:linear-gradient(180deg,rgba(255,214,150,.05),rgba(255,214,150,0)),repeating-linear-gradient(0deg,rgba(255,220,160,.05) 0 2px,transparent 2px 22px);border:1px solid rgba(255,220,160,.06)}
+.hh-beam{top:-20%;right:12%;width:150px;background:linear-gradient(180deg,rgba(255,226,170,.16),transparent 75%);filter:blur(10px)}
+.hh-bokeh{position:absolute;inset:0;background:
+  radial-gradient(circle at 88% 22%,rgba(255,200,120,.35) 0 2px,transparent 3px),radial-gradient(circle at 70% 12%,rgba(255,200,120,.25) 0 1.5px,transparent 2.5px),
+  radial-gradient(circle at 94% 40%,rgba(255,200,120,.2) 0 2px,transparent 3px),radial-gradient(circle at 60% 30%,rgba(255,200,120,.15) 0 1.5px,transparent 2.5px);filter:blur(.6px)}
+.hh-floor{height:36%;background:
+  radial-gradient(ellipse 45% 55% at 68% 8%,rgba(255,214,150,.12),transparent 70%),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.6) 0 2px,transparent 2px 70px),
+  repeating-linear-gradient(0deg,rgba(0,0,0,.6) 0 2px,transparent 2px 46px),
+  linear-gradient(180deg,#1a1a1d,#0b0b0d);transform:perspective(380px) rotateX(58deg)}
+.hh-fog{position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(180deg,transparent,#050506)}
+.hh-pet{right:-26px;bottom:44px}
+.hh-pet .pet-img{-webkit-box-reflect:below -10px linear-gradient(transparent 55%,rgba(255,255,255,.22))}
+.hh-tx{max-width:56%}
+.hh-id{border-left:2px solid var(--y);padding:2px 0 2px 14px;margin-left:-2px;box-shadow:-8px 0 18px -10px rgba(227,179,65,.5)}
+.hh-eb{font-size:12px}
+.hh-name{font-size:58px;margin:10px 0 6px}
+.hh-sub{font-size:16px;color:#c7c2b7}
+.hh-lv{font-size:24px}
+.hh-bar{max-width:200px}.hh-xp{max-width:200px}
+.btn-gold{white-space:nowrap;margin-top:22px;min-height:54px;padding:0 22px;font-size:15px;letter-spacing:.12em;position:relative;z-index:3;background:linear-gradient(180deg,rgba(38,30,12,.92),rgba(14,11,6,.92))}
+.btn-gold .ic{fill:#f2cf73;stroke:#f2cf73}
+.hh-q{margin-top:26px}
+.hh-side{top:26px}
+.hh-side button{width:64px;height:68px;border-radius:16px;background:rgba(12,12,15,.72);border-color:#2c2b2f}
+@media (max-width:380px){.hh-name{font-size:46px}}
+.dk{border-radius:18px}
+.dk-c{background:none;border:0;padding:0}
+.chev{color:#bdb8ad;font-size:22px;line-height:1;margin-left:4px}
+.wk-nav{display:flex;align-items:center;gap:2px;margin-top:6px}
+.wk-nav .wkd{flex:1;margin-top:8px}
+.wk-arr{flex:none;width:24px;height:44px;color:#9e998f;font-size:26px;line-height:1}
+.wk-arr:disabled{opacity:.25}
+.wkd i{width:32px;height:32px}
+.st-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:430px){.st-row{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.st-t{display:flex;align-items:center;gap:10px;padding:12px}
+.st-ic{flex:none;color:var(--y)}
+.st-body{min-width:0}
+.st-l{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#a9a59c}
+.st-t b{font-size:22px;margin-top:2px}
+.goal-in{padding:0;overflow:hidden;background:linear-gradient(90deg,#141418,#0c0d10)}
+.goal-img{width:108px;height:96px;border-radius:0;background:radial-gradient(circle at 40% 60%,#26262b,#0a0a0c 75%)}
+.goal-in .grow{padding:12px 0}
+.goal-side{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:space-between;align-self:stretch;padding:10px 10px 12px 0}
+.goal-ck.on{box-shadow:0 0 14px rgba(227,179,65,.4)}
+.dk-sel{white-space:nowrap;font-size:11px;color:#d6d2c8;border:1px solid #2c2d33;border-radius:8px;padding:4px 8px;background:#0d0e11}
+.bo img{box-shadow:0 0 16px rgba(227,179,65,.15)}
+.mbars i.on{box-shadow:0 0 10px rgba(227,179,65,.3)}
+.avatar img.own{width:100%;height:100%;object-position:50% 50%}
+.nav button{font-size:10px}
+.nav .ic{width:26px;height:26px}
 </style>
 </head>
 <body>
@@ -1620,6 +1683,76 @@ function gearSVG(a,g,tier){
   return s;
 }
 const EL_COL={penguin:'#5bc8ff',owl:'#9a6bff',wolf:'#8fb8ff',bear:'#8fd35a',gorilla:'#ffd21f',dragon:'#ff6a2a'};
+/* ---------- 3D render pass: own drawings, lit like a render + worn add-ons ---------- */
+const SKIN_T={sk_ice:'#5bc8ff',sk_shadow:'#6a3dff',sk_moon:'#dfe7ff',sk_earth:'#7fae42',sk_thunder:'#ffd21f',sk_fire:'#ff4a1f'};
+function volDefs(el,skin){
+  // height map = soft silhouette (overall roundness) + luminance (every drawn part gets its own bevel, outlines become grooves)
+  let d=`<filter id="vol" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="7" result="sil"/>
+<feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .3 .34 .2 .55 -.28" result="lumA"/>
+<feGaussianBlur in="lumA" stdDeviation="1.6" result="lum"/>
+<feComposite in="sil" in2="lum" operator="arithmetic" k2=".55" k3=".6" result="h"/>
+<feDiffuseLighting in="h" surfaceScale="7" diffuseConstant="1.3" lighting-color="#fff" result="dif"><feDistantLight azimuth="235" elevation="52"/></feDiffuseLighting>
+<feBlend in="SourceGraphic" in2="dif" mode="multiply" result="shade"/>
+<feSpecularLighting in="h" surfaceScale="7" specularConstant=".85" specularExponent="22" lighting-color="#fff6e0" result="spc"><feDistantLight azimuth="235" elevation="40"/></feSpecularLighting>
+<feComposite in="spc" in2="SourceAlpha" operator="in" result="spec"/>
+<feComposite in="shade" in2="spec" operator="arithmetic" k2="1" k3=".55" result="lit"/>
+<feOffset in="SourceAlpha" dx="-3.5" dy="2.5" result="off"/>
+<feComposite in="SourceAlpha" in2="off" operator="out" result="edge"/>
+<feGaussianBlur in="edge" stdDeviation="1.1" result="edgeB"/>
+<feFlood flood-color="${el}"/><feComposite in2="edgeB" operator="in" result="rim"/>
+<feComposite in="lit" in2="rim" operator="arithmetic" k2="1" k3=".95" result="lit2"/>
+<feComposite in="lit2" in2="SourceAlpha" operator="in"/>
+</filter>
+<filter id="glowOut" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/><feFlood flood-color="${el}" flood-opacity=".45"/><feComposite in2="b" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  const t=SKIN_T[skin];
+  if(t) d+=`<filter id="skin" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values=".25" result="g"/><feFlood flood-color="${t}"/><feBlend in2="g" mode="color" result="c"/><feComposite in="c" in2="SourceGraphic" operator="arithmetic" k2=".72" k3=".28" result="m"/><feComposite in="m" in2="SourceAlpha" operator="in"/></filter>`;
+  return d;
+}
+const HEADW=()=>({band:BAND,cap:HAT.cap.replace(/#23407a/g,'#17181d').replace(/#1a3160/g,'#0d0e11'),beanie:HAT.beanie.replace(/#c62f3a/g,'#2f55a8').replace(/#9c1f2a/g,'#223f80'),crown:HAT.crown,
+  phones:`<path d="M-27 -6Q-30 -47 0 -47Q30 -47 27 -6" fill="none" stroke="${OUT}" stroke-width="7"/><path d="M-27 -6Q-30 -47 0 -47Q30 -47 27 -6" fill="none" stroke="#2a2c33" stroke-width="4.5"/><path d="M-20 -36Q0 -48 20 -36" fill="none" stroke="#e3b341" stroke-width="1.4"/>${[-1,1].map(d=>`<rect x="${d<0?-36:24}" y="-19" width="12" height="21" rx="5" fill="#1b1d24" stroke="${OUT}" stroke-width="1.4"/><rect x="${d<0?-33:27}" y="-15" width="6" height="13" rx="3" fill="#e3b341"/>`).join('')}`,
+  helm:`<path d="M-28 -8Q-30 -42 0 -49Q30 -42 28 -8Q0 -19 -28 -8Z" fill="#8fe8ff" fill-opacity=".62" stroke="#e8fbff" stroke-width="1.6"/><path d="M-18 -13L-10 -40M0 -16V-47M18 -13L10 -40" stroke="#e8fbff" stroke-opacity=".7" stroke-width="1.2"/><path d="M-8 -46l8 -20 8 20Z" fill="#bff2ff" stroke="#e8fbff" stroke-width="1.2"/><path d="M-22 -34l-8 -14 13 6Z M22 -34l8 -14 -13 6Z" fill="#bff2ff" stroke="#e8fbff" stroke-width="1.1"/><path d="M-18 -30q4 -10 12 -13" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".8"/>`});
+const OUTFIT_C={tank:['#1b1d24','#e3b341'],hoodie:['#727887','#4d5260'],vest:['#c6ff3d','#6d8f12'],prohoodie:['#16171b','#e3b341'],street:['#d63a3a','#f2f2f2'],champ:['#7a1414','#e3b341']};
+function wearBack(a,g){
+  if(!a.neck||!g.outfit) return '';
+  const [nx,ny,nw]=a.neck,[c,c2]=OUTFIT_C[g.outfit]||OUTFIT_C.tank;
+  if(g.outfit==='champ') return `<path d="M${nx-nw} ${ny}Q${r1(nx-nw*2.3)} ${r1(ny+40)} ${r1(nx-nw*1.8)} 158Q${nx} 150 ${r1(nx+nw*1.8)} 158Q${r1(nx+nw*2.3)} ${r1(ny+40)} ${nx+nw} ${ny}Z" fill="${c}" stroke="${OUT}" stroke-width="1.6"/><path d="M${r1(nx-nw*1.8)} 158Q${nx} 150 ${r1(nx+nw*1.8)} 158" fill="none" stroke="${c2}" stroke-width="2.4"/>`;
+  if(g.outfit==='hoodie'||g.outfit==='prohoodie') return `<ellipse cx="${nx}" cy="${ny-4}" rx="${r1(nw*1.25)}" ry="11" fill="${c}" stroke="${OUT}" stroke-width="1.6"/>`;
+  return '';
+}
+function wearFront(a,g){
+  let s='';
+  if(a.neck&&g.outfit){const [nx,ny,nw]=a.neck,[c,c2]=OUTFIT_C[g.outfit]||OUTFIT_C.tank;
+    s+=`<path d="M${nx-nw} ${ny-3}Q${nx} ${ny+7} ${nx+nw} ${ny-3}L${nx+nw} ${ny+5}Q${nx} ${ny+15} ${nx-nw} ${ny+5}Z" fill="${c}" stroke="${OUT}" stroke-width="1.4"/><path d="M${nx-nw} ${ny+1}Q${nx} ${ny+11} ${nx+nw} ${ny+1}" fill="none" stroke="${c2}" stroke-width="1.5"/>`;
+    if(g.outfit==='hoodie'||g.outfit==='prohoodie') s+=`<path d="M${nx-5} ${ny+9}v11M${nx+5} ${ny+9}v11" stroke="${c2==='#e3b341'?c2:'#eef1f6'}" stroke-width="1.6" stroke-linecap="round"/><circle cx="${nx-5}" cy="${ny+21}" r="1.6" fill="${c2}"/><circle cx="${nx+5}" cy="${ny+21}" r="1.6" fill="${c2}"/>`;
+    if(g.outfit==='tank'||g.outfit==='vest') s+=`<path d="M${nx-4} ${ny+10}l4 6 4-6" fill="none" stroke="${c2}" stroke-width="2"/>`;
+    if(g.outfit==='street') s+=`<path d="M${r1(nx-nw*.8)} ${ny+4}Q${nx} ${ny+22} ${r1(nx+nw*.8)} ${ny+4}" stroke="${OUT}" stroke-width="4.5" fill="none"/><path d="M${r1(nx-nw*.8)} ${ny+4}Q${nx} ${ny+22} ${r1(nx+nw*.8)} ${ny+4}" stroke="url(#goldG)" stroke-width="2.8" stroke-dasharray="3.5 1.2" fill="none"/><circle cx="${nx}" cy="${ny+14}" r="4.5" fill="url(#goldG)" stroke="${OUT}"/>`;
+    if(g.outfit==='champ') s+=[-1,1].map(d=>`<circle cx="${r1(nx+d*nw*.9)}" cy="${ny+2}" r="4.2" fill="url(#goldG)" stroke="${OUT}"/>`).join('');}
+  if(a.head&&g.head){const [x,y,sc]=a.head,h=HEADW()[g.head];if(h) s+=`<g transform="translate(${x} ${y}) scale(${sc})">${h}</g>`;}
+  if(g.acc==='towel'&&a.neck){const [nx,ny,nw]=a.neck;s+=`<path d="M${r1(nx-nw*.9)} ${ny-4}Q${nx} ${ny+4} ${r1(nx+nw*.9)} ${ny-4}l3 7Q${nx} ${ny+14} ${r1(nx-nw*.9+2)} ${ny+4}Z" fill="#f4f4f2" stroke="${OUT}" stroke-width="1.3"/><path d="M${r1(nx+nw*.6)} ${ny}l5 22 7-2-4-21Z" fill="#f4f4f2" stroke="${OUT}" stroke-width="1.3"/><path d="M${r1(nx+nw*.6+2)} ${ny+15}l7-1.5" stroke="#e3b341" stroke-width="2"/>`;}
+  if(a.hand&&g.acc&&g.acc!=='towel'){const [hx,hy,k]=a.hand,T=`translate(${hx} ${hy}) scale(${k})`;
+    s+=({bottle:()=>HANDI.shaker(hx,hy,k),
+      bag:()=>`<g transform="${T}"><path d="M-9 -4Q-9 -16 0 -16Q9 -16 9 -4" fill="none" stroke="${OUT}" stroke-width="4"/><path d="M-9 -4Q-9 -16 0 -16Q9 -16 9 -4" fill="none" stroke="#3a3d46" stroke-width="2.4"/><rect x="-18" y="-4" width="36" height="20" rx="7" fill="#1d1f25" stroke="${OUT}" stroke-width="1.5"/><path d="M-18 4h36" stroke="#e3b341" stroke-width="1.6"/><path d="M-4 -1h8" stroke="#e3b341" stroke-width="2"/></g>`,
+      cuffs:()=>`<g transform="${T}"><rect x="-10" y="-7" width="20" height="14" rx="4" fill="#2a2c33" stroke="${OUT}" stroke-width="1.4"/><rect x="-10" y="-2" width="20" height="4" fill="#e3b341"/><rect x="-3" y="-4" width="6" height="8" rx="1" fill="#16171b" stroke="#e3b341" stroke-width=".8"/></g>`,
+      watch:()=>`<g transform="${T}"><rect x="-10" y="-4" width="20" height="8" rx="3" fill="#1b1d24" stroke="${OUT}" stroke-width="1.2"/><rect x="-6" y="-7" width="12" height="14" rx="3.5" fill="#0b0d12" stroke="#e3b341" stroke-width="1.4"/><path d="M-3 1l2-3 2 4 2-3" stroke="#43d17a" stroke-width="1.2" fill="none"/></g>`,
+      belt:()=>`<g transform="${T} rotate(-12)"><rect x="-24" y="-7" width="48" height="14" rx="3" fill="#2a1a10" stroke="${OUT}" stroke-width="1.4"/><path d="M-13 -12h26l5 12-5 12h-26l-5-12Z" fill="url(#goldG)" stroke="${OUT}" stroke-width="1.4"/><circle r="5.5" fill="#b38f00" stroke="#fff1a8"/><path d="M0 -3.5l1 2.3 2.5.3-1.8 1.7.5 2.5-2.2-1.2-2.2 1.2.5-2.5-1.8-1.7 2.5-.3z" fill="#fff1a8"/></g>`,
+    }[g.acc]||(()=>''))();}
+  return s;
+}
+const wornIds=(a,g)=>[a.head&&HEADW()[g.head]?g.head:null,a.neck&&g.outfit?g.outfit:null,(g.acc==='towel'?a.neck:a.hand)&&g.acc?g.acc:null].filter(Boolean);
+function petSVG({species,stage,mood='ready',g={},tier=1,box=true}){
+  const st=clamp(stage,0,6),k=species.slice(0,2)+st+'_',r=NOX.D[species][st](mood,k),a=r.a,el=EL_COL[species];
+  const soft=x=>x.replace(/stroke="#05060a"/g,'stroke="#05060a" stroke-opacity=".62"');
+  const body=soft(wearBack(a,g))+`<g${SKIN_T[g.skin]?' filter="url(#skin)"':''}>${soft(r.s)}</g>`+soft(wearFront(a,g));
+  const vb=box?'-20 -30 200 200':'0 0 160 170';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}"><defs>${NOX_DEFS}${r.d||''}${volDefs(el,g.skin)}</defs><g filter="url(#glowOut)"><g filter="url(#vol)">${body}</g></g></svg>`;
+}
+const PET_URL={};
+function petSrc(species,stage,mood='ready',g={},tier=1){
+  const key=[species,stage,mood,g.head,g.outfit,g.acc,g.skin].join('|');
+  if(!PET_URL[key]){const s=petSVG({species,stage,mood,g,tier});PET_URL[key]=typeof Blob!=='undefined'&&typeof URL!=='undefined'&&URL.createObjectURL?URL.createObjectURL(new Blob([s],{type:'image/svg+xml'})):'data:image/svg+xml,'+encodeURIComponent(s);}
+  return PET_URL[key];
+}
 function petHTML({size,species,stage,mood,g,cls,bg,tier}){
   const it=(slot)=>{const id=g[slot];return id?GEAR[slot].find(x=>x.id===id):null;};
   const loc=it('loc'), aura=it('aura');
@@ -1628,12 +1761,12 @@ function petHTML({size,species,stage,mood,g,cls,bg,tier}){
   if(bg&&loc) s+=`<span class="pet-bg" style="background-image:url(img/${loc.img}.jpg)"></span>`;
   s+='<span class="pet-floor"></span>';
   if(aura) s+=`<span class="pet-aura"><img src="img/${aura.img}.jpg" alt=""></span>`;
-  s+=`<span class="bob"><img class="pet-img" src="img/${species}${stage}.webp" alt="" draggable="false"></span>`;
+  s+=`<span class="bob"><img class="pet-img" src="${petSrc(species,stage,mood,g,tier)}" alt="" draggable="false"></span>`;
   if(stage>=4) s+='<i class="pt"></i><i class="pt"></i><i class="pt"></i><i class="pt"></i><i class="pt"></i>';
   if(mood==='sleep') s+='<span class="pet-z">Z<small>z</small></span>';
   if(mood==='happy'||tier>=6) s+='<i class="pet-spark">✦</i><i class="pet-spark">✦</i>';
   if(tier>=2&&size>=90) s+='<span class="pet-vb">V</span>';
-  if(size>=90){const b=['head','outfit','acc','skin'].map(it).filter(x=>x&&x.id!=='sk_std');if(b.length) s+=`<span class="pet-slots">${b.map(x=>`<img src="img/${x.img}.jpg" alt="${esc(x.name)}" title="${esc(x.name)}">`).join('')}</span>`;}
+  if(size>=90){const w=wornIds(NOX.D[species][stage]('ready','x_').a,g),b=['head','outfit','acc'].map(it).filter(x=>x&&!w.includes(x.id));if(b.length) s+=`<span class="pet-slots">${b.map(x=>`<img src="img/${x.img}.jpg" alt="${esc(x.name)}" title="${esc(x.name)}">`).join('')}</span>`;}
   return s+'</span>';
 }
 function noxSVG({size=84,mood,tier,g,cls='',species,stage,bg}={}){
@@ -1938,7 +2071,7 @@ function renderNav(){
   $('#nav').innerHTML=T.map(([k,i,l])=>`<button class="${ui.tab===k?'on':''}" data-a="tab" data-t="${k}" ${ui.tab===k?'aria-current="page"':''}>${icon(i,24)}<span>${l}</span>${k==='train'&&S.active&&ui.tab!=='train'?'<i class="dot"></i>':''}</button>`).join('');
 }
 function renderChip(){const lv=levelOf(xpInfo().xp);$('#lvl-chip').innerHTML=`<span class="lc-top"><span>LV <b>${lv.L}</b></span><span class="lc-r">${rankFor(lv.L).name}</span></span><span class="mini"><i style="width:${lv.cur/lv.need*100}%"></i></span><span class="lc-xp">${fmt(lv.cur,0)} / ${fmt(lv.need,0)} XP</span>`;
-  const an=animal(),st=stageIdx();$('#avatar').innerHTML=an&&st>0?`<img src="img/${an.id}${st}.webp" alt="">`:`<span>${esc((S.profile.name||'V').trim().charAt(0).toUpperCase()||'V')}</span>`;}
+  const an=animal(),st=stageIdx();$('#avatar').innerHTML=S.profile.avatar?`<img class="own" src="${S.profile.avatar}" alt="">`:an&&st>0?`<img src="${petSrc(an.id,st,'ready',gear())}" alt="">`:`<span>${esc((S.profile.name||'V').trim().charAt(0).toUpperCase()||'V')}</span>`;}
 
 /* ----- Training tab ----- */
 function tplDesc(t){
@@ -1953,42 +2086,45 @@ function homeHero(){
   const lines=noxLines(), line=lines[(ui.noxIdx||0)%lines.length];
   const sub=an?(st?`${formName(an.id,st)} · ${FORMS[an.id].el}`:`${an.name}-Ei · ${FORMS[an.id].el}`):'Noch kein Begleiter';
   return `<section class="hh ${an?'el-'+an.id:''}" style="--el:${an?EL_COL[an.id]:'#e3b341'}">
-    <div class="hh-bg"><i class="hh-beam"></i><i class="hh-beam b2"></i><i class="hh-floor"></i></div>
-    <button class="hh-pet" data-a="nox-tap" aria-label="Begleiter antippen">${an?noxSVG({size:250,bg:false}):eggSVG(170,'ready','')}</button>
+    <div class="hh-bg"><i class="hh-wall"></i><i class="hh-beam"></i><i class="hh-beam b2"></i><i class="hh-bokeh"></i><i class="hh-floor"></i><i class="hh-fog"></i></div>
+    <button class="hh-pet" data-a="nox-tap" aria-label="Begleiter antippen">${an?noxSVG({size:272,bg:false}):eggSVG(180,'ready','')}</button>
     <div class="hh-side">${an?`<button data-a="tab" data-t="pet">${icon(EL_ICON[an.id],22)}<span>${FORMS[an.id].el}</span></button>`:''}<button data-a="tab" data-t="shop">${icon('bag',22)}<span>Skins</span></button><button data-a="tab" data-t="pet">${icon('chart',22)}<span>Entwicklung</span></button></div>
     <div class="hh-tx">
-      <div class="hh-eb">Dein Begleiter</div>
+      <div class="hh-id"><div class="hh-eb">Dein Begleiter</div>
       <div class="hh-name">${esc(petName())}</div>
       <div class="hh-sub">${esc(sub)}</div>
-      <div class="hh-lv">LV. ${lv.L}</div><div class="hh-bar"><i style="width:${lv.cur/lv.need*100}%"></i></div><div class="hh-xp">${fmt(lv.cur,0)} / ${fmt(lv.need,0)} XP</div>
+      <div class="hh-lv">LV. ${lv.L}</div><div class="hh-bar"><i style="width:${lv.cur/lv.need*100}%"></i></div><div class="hh-xp">${fmt(lv.cur,0)} / ${fmt(lv.need,0)} XP</div></div>
       ${next?`<button class="btn-gold" data-a="start" data-id="${next.id}">${icon('play',18)} ${isToday?'Training starten':esc(next.name)+' starten'}</button>`:''}
       <div class="hh-q"><i></i><p id="nox-bubble">„${esc(line)}“</p><span>— ${esc(petName())}</span></div>
     </div></section>`;
 }
 function homeWeek(){
-  const st=streakInfo(), mon=mondayOf(new Date()), ws=weekStats(mon), todayIdx=(new Date().getDay()+6)%7;
-  return `<div class="card dk"><div class="between"><span class="dk-t">Diese Woche</span><span class="dk-c">${icon('flame',18)}<b>${st.cur} / ${st.target}</b> Einheiten</span></div>
-    <div class="wkd">${['MO','DI','MI','DO','FR','SA','SO'].map((d,i)=>`<div class="${ws.days.has(i)?'on':''} ${i===todayIdx?'today':''}"><span>${d}</span><i>${ws.days.has(i)?icon('check',16,3):''}</i></div>`).join('')}</div></div>`;
+  const off=Math.min(0,ui.wkOff||0), st=streakInfo(), mon=addDays(mondayOf(new Date()),7*off), ws=weekStats(mon), todayIdx=off?-1:(new Date().getDay()+6)%7;
+  const title=off===0?'Diese Woche':off===-1?'Letzte Woche':`${fmtDate(mon)}–${fmtDate(addDays(mon,6))}`;
+  return `<div class="card dk"><div class="between"><span class="dk-t">${title}</span><button class="dk-c" data-a="tab" data-t="stats">${icon('flame',18)}<b>${ws.count} / ${st.target}</b> Einheiten <span class="chev">›</span></button></div>
+    <div class="wk-nav"><button class="wk-arr" data-a="wk" data-d="-1" aria-label="Vorherige Woche">‹</button>
+    <div class="wkd">${['MO','DI','MI','DO','FR','SA','SO'].map((d,i)=>`<div class="${ws.days.has(i)?'on':''} ${i===todayIdx?'today':''}"><span>${d}</span><i>${ws.days.has(i)?icon('check',16,3):''}</i></div>`).join('')}</div>
+    <button class="wk-arr" data-a="wk" data-d="1" aria-label="Nächste Woche" ${off>=0?'disabled':''}>›</button></div></div>`;
 }
 function homeTiles(){
   const mon=mondayOf(new Date()), a=weekStats(mon), b=weekStats(addDays(mon,-7),Date.now()-7*864e5);
   const dur=w0=>{const a0=w0.getTime(),b0=addDays(w0,7).getTime();return S.sessions.filter(s=>s.start>=a0&&s.start<b0).reduce((m,s)=>m+(s.kind==='strength'?Math.max(0,(s.end||s.start)-s.start)/60000:num(s.cardio?.min)),0);};
   const durA=dur(mon), durB=(()=>{const a0=addDays(mon,-7).getTime(),c0=Date.now()-7*864e5;return S.sessions.filter(s=>s.start>=a0&&s.start<c0).reduce((m,s)=>m+(s.kind==='strength'?Math.max(0,(s.end||s.start)-s.start)/60000:num(s.cardio?.min)),0);})();
   const dl=(x,y)=>{if(!y) return x?'<span class="up-c">neu</span>':'<span class="eq-c">–</span>';const p=(x/y-1)*100;return `<span class="${p>=0?'up-c':'down-c'}">${p>=0?'▲':'▼'} ${fmt(Math.abs(p),0)} %</span>`;};
-  const T=(ic,l,v,d)=>`<div class="st-t"><div class="st-h">${icon(ic,18)}<span>${l}</span></div><b>${v}</b><small>${d}</small></div>`;
+  const T=(ic,l,v,d)=>`<div class="st-t"><span class="st-ic">${icon(ic,22)}</span><span class="st-body"><span class="st-l">${l}</span><b>${v}</b><small>${d}</small></span></div>`;
   return `<div class="st-row">${T('dumbbell','Volumen',fmtT(a.vol),dl(a.vol,b.vol))}${T('chart','Sätze',a.sets,dl(a.sets,b.sets))}${T('timer','Dauer',durA>=60?`${Math.floor(durA/60)}:${pad(Math.round(durA%60))} h`:`${Math.round(durA)} min`,dl(durA,durB))}${T('run','Cardio',fmt(a.runKm,1)+' km',dl(a.runKm,b.runKm))}</div>`;
 }
 function homeGoal(){
   const an=animal(), st=stageIdx(), gi=growthInfo(), nx=STAGES[st+1];
   let img='',txt='',cur=0,max=1,done=false;
   if(!an){txt='Wähle deinen Begleiter – er startet als Ei.';img='';}
-  else if(st===0){txt=`Schließe dein erstes Training ab, um ${esc(petName())} zum Schlüpfen zu bringen.`;cur=0;max=1;img=`img/${an.id}1.webp`;}
-  else if(nx){txt=`Noch ${Math.max(0,nx.min-gi.pts)} Wachstumspunkte bis zur nächsten Evolution (${nx.name}).`;cur=gi.pts-(STAGES[st].min||0);max=nx.min-(STAGES[st].min||0);img=`img/${an.id}${st+1}.webp`;}
-  else {txt='Legende erreicht – halte die Form mit jeder Woche!';cur=max=1;done=true;img=`img/${an.id}6.webp`;}
+  else if(st===0){txt=`Schließe dein erstes Training ab, um ${esc(petName())} zum Schlüpfen zu bringen.`;cur=0;max=1;img=petSrc(an.id,1);}
+  else if(nx){txt=`Noch ${Math.max(0,nx.min-gi.pts)} Wachstumspunkte bis zur nächsten Evolution (${nx.name}).`;cur=gi.pts-(STAGES[st].min||0);max=nx.min-(STAGES[st].min||0);img=petSrc(an.id,st+1);}
+  else {txt='Legende erreicht – halte die Form mit jeder Woche!';cur=max=1;done=true;img=petSrc(an.id,6);}
   return `<div class="card dk goal"><div class="dk-t" style="margin-bottom:10px">Nächstes Ziel</div><button class="goal-in" data-a="tab" data-t="${an?'pet':'pet'}">
     <span class="goal-img">${img?`<img src="${img}" alt="" class="${done?'':'mys'}">`:icon('paw',30)}</span>
     <span class="grow"><span class="goal-tx">${txt}</span><span class="goal-bar"><i style="width:${clamp(cur/max,0,1)*100}%"></i></span><span class="goal-n">${Math.max(0,Math.round(cur))} / ${Math.round(max)}</span></span>
-    <span class="goal-ck ${done?'on':''}">${icon(done?'check':'up',18,3)}</span></button></div>`;
+    <span class="goal-side"><span class="chev">›</span><span class="goal-ck ${done?'on':''}">${icon(done?'check':'up',18,3)}</span></span></button></div>`;
 }
 function homeBoosts(){
   const inv=S.game.inv||{}, gi=growthInfo(), wk=weekKey(new Date());
@@ -1999,9 +2135,10 @@ function homeBoosts(){
 function homeStats(){
   const mon=mondayOf(new Date()), a0=mon.getTime(), days=[0,1,2,3,4,5,6].map(i=>{const d0=addDays(mon,i).getTime(),d1=addDays(mon,i+1).getTime();return S.sessions.filter(s=>s.start>=d0&&s.start<d1).reduce((m,s)=>m+(s.kind==='strength'?sessionVolume(s)/100:num(s.cardio?.min)),0);});
   const mx=Math.max(1,...days), ws=weekStats(mon);
-  return `<div class="card dk half"><div class="between"><span class="dk-t">Statistik</span><button class="dk-link" data-a="tab" data-t="stats">Woche ${icon('upr',14)}</button></div>
+  const kcal=S.sessions.filter(s=>s.start>=a0&&s.start<addDays(mon,7).getTime()).reduce((m,s)=>m+(s.kind==='strength'?Math.max(0,(s.end||s.start)-s.start)/60000*6:num(s.cardio?.min)*(s.kind==='run'?11:9)),0);
+  return `<div class="card dk half"><div class="between"><span class="dk-t">Statistik</span><button class="dk-sel" data-a="tab" data-t="stats">Diese Woche ⌄</button></div>
     <div class="mbars">${days.map((v,i)=>`<div><i style="height:${Math.max(4,v/mx*100)}%" class="${v?'on':''}"></i><span>${['MO','DI','MI','DO','FR','SA','SO'][i]}</span></div>`).join('')}</div>
-    <div class="mtot"><span>${icon('dumbbell',14)}${fmtT(ws.vol)}</span><span>${icon('run',14)}${fmt(ws.runKm,1)} km</span><span>${icon('flag',14)}${ws.count} Einh.</span></div></div>`;
+    <div class="mtot"><span>${icon('dumbbell',14)}${fmtT(ws.vol)}</span><span>${icon('run',14)}${fmt(ws.runKm,1)} km</span><span title="geschätzt">${icon('flame',14)}${fmt(kcal,0)} kcal</span></div></div>`;
 }
 function viewTrain(){
   const c=campaign(), today=new Date().getDay();
@@ -2367,6 +2504,15 @@ function emblem(L){
     <text x="46" y="50" text-anchor="middle" font-family="Chakra Petch, sans-serif" font-size="11" font-weight="700" fill="${col}" letter-spacing="2">LEVEL</text>
     <text x="46" y="78" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="32" font-weight="700" fill="#eceef2">${L}</text></svg>`;
 }
+function pickAvatar(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async()=>{const f=inp.files?.[0];if(!f)return;try{
+    const b=await createImageBitmap(f),s=Math.min(b.width,b.height),c=document.createElement('canvas');c.width=c.height=160;
+    c.getContext('2d').drawImage(b,(b.width-s)/2,(b.height-s)/2,s,s,0,0,160,160);
+    S.profile.avatar=c.toDataURL('image/jpeg',.82);save(true);render();toast('Profilfoto gespeichert.','go');
+  }catch(e){toast('Foto konnte nicht geladen werden.','err');}};
+  inp.click();
+}
 function viewShop(){const lv=levelOf(xpInfo().xp);return `<div class="page-h"><span>VIGIL SHOP</span><h1>Ausrüstung</h1></div>${shopHTML(gear(),lv.L)}`;}
 function viewProgress(){
   const xi=xpInfo(), lv=levelOf(xi.xp), rank=rankFor(lv.L), next=RANKS.find(r=>r.min>lv.L), st=streakInfo(), c=campaign();
@@ -2421,7 +2567,8 @@ function viewProfile(){
   const tg=(k,l,d)=>`<label class="tgl"><span><b style="font-weight:600">${l}</b>${d?`<span class="muted sm" style="display:block">${d}</span>`:''}</span><input type="checkbox" data-p="${k}" ${p[k]?'checked':''}></label>`;
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   let h=`<section class="hero chamfer"><div class="row" style="gap:14px"><div style="width:60px;height:60px;flex:none">${LOGO}</div><div class="grow"><div class="eyebrow">Profil</div>
-    <input class="inp" data-p="name" value="${esc(p.name)}" placeholder="Dein Name" style="min-height:48px;font-family:var(--head);font-weight:700;text-transform:uppercase"></div></div></section>`;
+    <input class="inp" data-p="name" value="${esc(p.name)}" placeholder="Dein Name" style="min-height:48px;font-family:var(--head);font-weight:700;text-transform:uppercase"></div></div>
+    <div class="row" style="margin-top:12px;gap:8px"><button class="btn sm" data-a="avatar-pick">${icon('user',18)} Profilfoto wählen</button>${p.avatar?`<button class="btn sm ghost" data-a="avatar-del">Entfernen</button>`:''}</div></section>`;
   h+=`<h2>Ziele</h2><div class="card"><div class="grid2">
     <label class="fld"><span>Startgewicht (kg)</span><input class="inp num" data-p="startWeight" data-num inputmode="decimal" value="${fmtInput(p.startWeight)}"></label>
     <label class="fld"><span>Zielgewicht (kg)</span><input class="inp num" data-p="goalWeight" data-num inputmode="decimal" value="${fmtInput(p.goalWeight)}"></label></div>
@@ -2535,6 +2682,9 @@ const A={
     S.game.owned={...(S.game.owned||{}),[it.id]:Date.now()};S.game.gear={...gear(),[slot]:it.id};save(true);closeSheet();const y=scrollY;render();scrollTo(0,y);
     toast(`${it.name} gekauft & angelegt!`,'go');confetti(70);fanfare();buzz([40,30,80]);},
   boost:el=>openBoost(el.dataset.id),
+  wk:el=>{ui.wkOff=Math.min(0,(ui.wkOff||0)+ +el.dataset.d);const y=scrollY;render();scrollTo(0,y);},
+  'avatar-pick':()=>pickAvatar(),
+  'avatar-del':()=>{S.profile.avatar='';save(true);render();},
   'buy-boost':el=>{const b=BOOSTS.find(x=>x.id===el.dataset.id);if(!b)return;const w=wallet(),wk=weekKey(new Date());
     if(w.bal<b.price){toast('Nicht genug Marken – ab ins Training!','err');return;}
     if(boostState(b)&&(b.id==='protein'||b.id==='mission')){toast('Diese Woche schon genutzt.','err');return;}
