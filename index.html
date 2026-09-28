@@ -338,6 +338,43 @@ table.rt tr:last-child td{border-bottom:0}
 @keyframes zz{0%{opacity:0;transform:translate(0,6px)}50%{opacity:1}100%{opacity:0;transform:translate(6px,-8px)}}
 @keyframes spark{50%{opacity:.2}}
 .nox-btn{flex:none;display:block;border-radius:16px}
+.pet{position:relative;display:inline-block;flex:none;vertical-align:middle}
+.pet .bob{position:absolute;inset:0;animation:breathe 3.4s ease-in-out infinite;transform-origin:50% 88%}
+.pet-img{width:100%;height:100%;object-fit:contain;display:block;-webkit-mask-image:radial-gradient(ellipse 60% 62% at 50% 52%,#000 46%,transparent 100%);mask-image:radial-gradient(ellipse 60% 62% at 50% 52%,#000 46%,transparent 100%);transition:filter .4s}
+.pet::before{content:'';position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,var(--el) 0%,transparent 66%);opacity:.18;animation:glowp 3s ease-in-out infinite}
+.pet.st4::before,.pet.st5::before{opacity:.3}.pet.st6::before{opacity:.45;inset:-4%}
+.pet-bg{position:absolute;inset:-14%;border-radius:26px;background-size:cover;background-position:center;opacity:.8;-webkit-mask-image:radial-gradient(ellipse 66% 66% at 50% 52%,#000 52%,transparent 100%);mask-image:radial-gradient(ellipse 66% 66% at 50% 52%,#000 52%,transparent 100%)}
+.chain .lk .pet-img{filter:brightness(0) opacity(.55)!important}.chain .pet .pt,.chain .pet-slots,.chain .pet-ring,.chain .pet-vb{display:none}
+.pet-ring{position:absolute;left:12%;right:12%;bottom:-3%;height:14%;border-radius:50%;border:2px solid var(--ring);box-shadow:0 0 10px var(--ring);opacity:.8;animation:auraP 2.4s ease-in-out infinite}
+.pet-vb{position:absolute;left:-4px;top:-4px;width:24px;height:24px;border-radius:7px;background:linear-gradient(#fff1a8,#ffd21f 50%,#b38f00);border:1.5px solid #05060a;display:grid;place-items:center;font:700 13px var(--head);color:#3a2c00}
+.pet.tier5::after{content:'';position:absolute;inset:-10%;border-radius:50%;background:radial-gradient(circle,rgba(255,210,31,.28),transparent 65%);pointer-events:none;animation:glowp 3s ease-in-out infinite}
+.pet-aura{position:absolute;left:4%;right:4%;bottom:-8%;height:42%;animation:auraP 2.4s ease-in-out infinite;pointer-events:none}
+.pet-aura img{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;border-radius:50%;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 60%,transparent 100%)}
+.pet .pt{position:absolute;bottom:18%;width:5px;height:5px;border-radius:50%;background:var(--el);box-shadow:0 0 8px var(--el);opacity:0;animation:rise 2.8s ease-in infinite}
+.pet .pt:nth-of-type(1){left:14%;animation-delay:0s}.pet .pt:nth-of-type(2){left:34%;animation-delay:.6s}.pet .pt:nth-of-type(3){left:56%;animation-delay:1.2s}.pet .pt:nth-of-type(4){left:76%;animation-delay:1.8s}.pet .pt:nth-of-type(5){left:88%;animation-delay:2.3s}
+.pet.st1 .bob,.pet.st2 .bob{animation:wiggle 2.6s ease-in-out infinite}
+.pet.st6 .bob{animation:power 2.4s ease-in-out infinite}
+.pet.m-happy .bob{animation:happyB 1.3s ease-in-out infinite}
+.pet.m-tired .pet-img{filter:saturate(.65) brightness(.82)}.pet.m-tired .bob{animation-duration:5s}
+.pet.m-sleep .pet-img{filter:grayscale(.55) brightness(.62)}.pet.m-sleep .bob{animation:breathe 6s ease-in-out infinite}
+.pet-z{position:absolute;top:2%;right:6%;font-family:var(--head);font-weight:700;font-size:22px;color:#a9c4ff;animation:zz 2.6s ease-in-out infinite}.pet-z small{font-size:14px}
+.pet-spark{position:absolute;color:#ffd21f;font-style:normal;font-size:16px;animation:spark 1.4s ease-in-out infinite;text-shadow:0 0 8px #ffd21f}
+.pet-spark:nth-of-type(1){top:8%;left:8%}.pet-spark:nth-of-type(2){top:20%;right:6%;animation-delay:.7s}
+.pet-slots{position:absolute;right:-6px;bottom:-6px;display:flex;gap:3px}
+.pet-slots img{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--y);object-fit:cover;background:#12151c;box-shadow:0 2px 6px rgba(0,0,0,.6)}
+.nox.hop .bob{animation:hop .7s cubic-bezier(.3,1.5,.5,1)!important}
+@keyframes breathe{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-2%) scale(1.015,1.035)}}
+@keyframes wiggle{0%,100%{transform:rotate(0) translateY(0)}25%{transform:rotate(-3deg) translateY(-2%)}75%{transform:rotate(3deg) translateY(-2%)}}
+@keyframes power{0%,100%{transform:scale(1)}45%{transform:scale(1.035) translateY(-2%)}50%{transform:scale(1.04) translateY(-2%) translateX(.6%)}55%{transform:scale(1.04) translateY(-2%) translateX(-.6%)}}
+@keyframes happyB{0%,100%{transform:translateY(0)}40%{transform:translateY(-6%) scale(1.02,.98)}60%{transform:translateY(0) scale(1.03,.97)}}
+@keyframes glowp{50%{transform:scale(1.08);opacity:.45}}
+@keyframes auraP{0%,100%{transform:scale(1,1);opacity:.85}50%{transform:scale(1.08,1.12);opacity:1}}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translateY(-260%) scale(1.2);opacity:0}}
+.shop-it{flex-direction:row!important;align-items:center;gap:10px}
+.shop-it img,.shop-none{flex:none;width:46px;height:46px;border-radius:10px;object-fit:cover;border:1px solid var(--line);display:grid;place-items:center;background:var(--bg2);color:var(--dim)}
+.shop-it b{display:block;font-size:14px;line-height:1.2;overflow-wrap:anywhere;hyphens:auto}
+.gear-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gear{min-width:0}.shop-it .grow{min-width:0}.shop-it .sm{flex-wrap:wrap}
+.shop-it .sm{display:flex;align-items:center;gap:4px;margin-top:2px}
 .nox-row{display:flex;align-items:center;gap:14px}
 .nox-card{padding:12px 14px}
 .bubble{position:relative;flex:1;min-width:0;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600;font-size:15px;line-height:1.35}
@@ -481,7 +518,7 @@ function defaultState(){
   return {version:VERSION,created:Date.now(),
     profile:{name:'',startWeight:100,goalWeight:85,campaignStart:dayKey(mondayOf(new Date())),restSec:120,autoTimer:true,bigStep5:false,vibrate:true,sound:true,wakeLock:true,weeklyTarget:4,sex:'m',birthYear:'',height:''},
     exercises:defaultExercises(),templates:defaultTemplates(),sessions:[],bodyweight:[],
-    game:{unlocked:{},seenMissions:{},lastLevel:1,gear:{scarf:'y',head:null,face:null,hand:null},owned:{},petName:'Nox',species:null,lastStage:null,growthV:3},active:null};
+    game:{unlocked:{},seenMissions:{},lastLevel:1,gear:{scarf:'y',head:null,face:null,hand:null},owned:{},petName:'Nox',species:null,lastStage:null,growthV:3,inv:{},buys:[],fx:{},friendLeft:0,specials:[]},active:null};
 }
 function migrate(d){
   const def=defaultState();
@@ -702,7 +739,9 @@ function missionsFor(wk){
   const rnd=()=>{h=(Math.imul(h,1103515245)+12345)>>>0;return h/4294967296;};
   const idx=[...MISSION_POOL.keys()];
   for(let i=idx.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
-  return [MISSION_FIXED,...idx.slice(0,2).map(i=>MISSION_POOL[i])];
+  const out=[MISSION_FIXED,...idx.slice(0,2).map(i=>MISSION_POOL[i])];
+  if((S.game.specials||[]).includes(wk)) out.push({id:'special',icon:'star',title:'Spezial-Mission',desc:'Schaffe 5 Einheiten diese Woche',goal:5,calc:w=>w.count});
+  return out;
 }
 const goalOf=m=>typeof m.goal==='function'?m.goal():m.goal;
 const descOf=m=>typeof m.desc==='function'?m.desc():m.desc;
@@ -719,8 +758,8 @@ const lvlAt=L=>75*(L-1)*L;
 function levelOf(xp){let L=1;while(xp>=lvlAt(L+1))L++;return {L,cur:xp-lvlAt(L),need:lvlAt(L+1)-lvlAt(L)};}
 const rankFor=L=>[...RANKS].reverse().find(r=>L>=r.min);
 function sessionXP(s,d){
-  if(s.kind==='strength') return XP.session+doneSets(s)*XP.set+(d.sessionPRs[s.id]||0)*XP.pr;
-  return XP.session+Math.min(60,Math.round(num(s.cardio?.min)));
+  const base=s.kind==='strength'?XP.session+doneSets(s)*XP.set+(d.sessionPRs[s.id]||0)*XP.pr:XP.session+Math.min(60,Math.round(num(s.cardio?.min)));
+  return Math.round(base*((S.game.fx||{})[s.id]?.x||1));
 }
 function xpInfo(){
   if(xpCache) return xpCache;
@@ -804,25 +843,36 @@ function checkMissions(){
 
 /* ---------- Nox: sidekick (reacts only to real training data) ---------- */
 const GEAR={
-  head:[{id:null,name:'Nichts'},{id:'party',name:'Partyhut',price:2},{id:'cap',name:'Cap',price:3},{id:'band',name:'Stirnband',req:{ach:'first'}},{id:'beanie',name:'Mütze',price:5},{id:'cowboy',name:'Cowboyhut',price:8},{id:'viking',name:'Wikingerhelm',price:12},{id:'crown',name:'Krone',price:25}],
-  face:[{id:null,name:'Nichts'},{id:'shades',name:'Sonnenbrille',price:4},{id:'pixel',name:'Pixel-Brille',price:10},{id:'visor',name:'Visier',req:{ach:'squat100'}},{id:'goggles',name:'Nachtsicht-Brille',req:{ach:'night'}}],
-  scarf:[{id:'y',name:'Gelber Schal',col:'#ffd21f'},{id:'b',name:'Blauer Schal',col:'#5b8def',req:{ach:'streak4'}},{id:'r',name:'Roter Schal',col:'#ff5d5d',req:{ach:'pr10'}},{id:'w',name:'Weißer Schal',col:'#eceef2',req:{lvl:12}},{id:'chain',name:'Goldkette',col:'#ffd21f',price:16}],
-  hand:[{id:null,name:'Nichts'},{id:'shaker',name:'Protein-Shaker',price:4},{id:'dumbbell',name:'Mini-Hantel',req:{ach:'s10'}},{id:'kettle',name:'Kettlebell',price:6},{id:'glove',name:'Boxhandschuh',req:{ach:'box10'}},{id:'shoe',name:'Laufschuh',req:{ach:'run50'}},{id:'bigdb',name:'Riesen-Hantel',price:14},{id:'golddb',name:'Goldene Hantel',price:30}],
+  head:[{id:null,name:'Nichts'},{id:'band',name:'Stirnband',img:'i_band',req:{ach:'first'}},{id:'cap',name:'Snapback',img:'i_cap',price:3},{id:'beanie',name:'Beanie',img:'i_beanie',price:5},{id:'phones',name:'Kopfhörer',img:'i_phones',price:8},{id:'helm',name:'Kristall-Helm',img:'i_helm',price:18},{id:'crown',name:'Krone',img:'i_crown',price:25}],
+  outfit:[{id:null,name:'Nichts'},{id:'tank',name:'Tanktop',img:'i_tank',price:3},{id:'hoodie',name:'Basic Hoodie',img:'i_hoodie',price:4},{id:'vest',name:'Laufweste',img:'i_vest',req:{ach:'run50'}},{id:'prohoodie',name:'Pro Hoodie',img:'i_prohoodie',price:10},{id:'street',name:'Streetwear',img:'i_street',price:12},{id:'champ',name:'Champion-Mantel',img:'i_champ',price:40}],
+  acc:[{id:null,name:'Nichts'},{id:'bottle',name:'Trinkflasche',img:'i_bottle',price:2},{id:'towel',name:'Handtuch',img:'i_towel',price:2},{id:'bag',name:'Sporttasche',img:'i_bag',price:6},{id:'cuffs',name:'Gewichtsmanschetten',img:'i_cuffs',price:8},{id:'watch',name:'Smartwatch',img:'i_watch',price:12},{id:'belt',name:'Fitnessgürtel',img:'i_belt',req:{ach:'squat100'}}],
+  skin:[{id:'sk_std',name:'Standard',img:'i_skin_std'},{id:'sk_ice',name:'Eis-Skin',img:'i_skin_ice',price:10},{id:'sk_shadow',name:'Schatten-Skin',img:'i_skin_shadow',price:10},{id:'sk_moon',name:'Mond-Skin',img:'i_skin_moon',price:10},{id:'sk_earth',name:'Erd-Skin',img:'i_skin_earth',price:10},{id:'sk_thunder',name:'Donner-Skin',img:'i_skin_thunder',price:10},{id:'sk_fire',name:'Feuer-Skin',img:'i_skin_fire',price:10}],
+  aura:[{id:null,name:'Keine'},{id:'au_motiv',name:'Motivationsaura',img:'i_aura_motiv',req:{ach:'streak4'}},{id:'au_focus',name:'Fokusaura',img:'i_aura_focus',price:15},{id:'au_shadow',name:'Schattenaura',img:'i_aura_shadow',price:15},{id:'au_nature',name:'Natur-Aura',img:'i_aura_nature',price:15},{id:'au_storm',name:'Gewitteraura',img:'i_aura_storm',price:15},{id:'au_fire',name:'Feueraura',img:'i_aura_fire',price:20}],
+  loc:[{id:'lo_studio',name:'Fitnessstudio',img:'bg_studio'},{id:'lo_park',name:'Outdoor-Park',img:'bg_park',price:5},{id:'lo_track',name:'Laufstrecke',img:'bg_track',price:6},{id:'lo_mountain',name:'Berg-Spot',img:'bg_mountain',price:10},{id:'lo_beach',name:'Strand',img:'bg_beach',price:10},{id:'lo_rooftop',name:'Urban Rooftop',img:'bg_rooftop',price:15}],
 };
-const SLOTS=[['head','Kopf'],['face','Gesicht'],['scarf','Hals'],['hand','In der Hand']];
+const SLOTS=[['head','Kopfbedeckung'],['outfit','Trainings-Outfit'],['acc','Accessoire'],['skin','Equipment-Skin'],['aura','Aura & Effekt'],['loc','Gym-Location']];
+const SLOT_DEF={skin:'sk_std',loc:'lo_studio'};
+const BOOSTS=[
+  {id:'xp',name:'EP-Boost',img:'i_xp',price:5,desc:'Dein nächstes Training bringt doppelte XP.'},
+  {id:'motiv',name:'Motivations-Boost',img:'i_motiv',price:5,desc:'Dein nächstes Training bringt doppelte Marken.'},
+  {id:'friend',name:'Freundes-Boost',img:'i_friend',price:6,desc:'Deine nächsten 3 Trainings bringen +50 % XP.'},
+  {id:'protein',name:'Protein-Snack',img:'i_protein',price:4,desc:'Sofort +2 Wachstumspunkte für deinen Begleiter. Maximal einmal pro Woche.'},
+  {id:'regen',name:'Regenerations-Item',img:'i_regen',price:8,desc:'Schützt die nächste verpasste Woche vor Punktverlust – z. B. wenn du krank bist.'},
+  {id:'mission',name:'Spezial-Mission',img:'i_mission',price:6,desc:'Schaltet für diese Woche eine Zusatzmission frei: 5 Einheiten = +150 XP.'},
+];
 const itemById=id=>SLOTS.flatMap(([k])=>GEAR[k]).find(x=>x.id===id);
-const EVO=['','Brust-Emblem','Umhang','Schulterpanzer','Goldene Aura','Sternenstaub'];
+const EVO=['','V-Abzeichen','Blauer Ring','Goldener Ring','Goldene Aura','Sternenstaub'];
 const gearUnlocked=(it,L)=>{if(it.price)return !!(S.game.owned||{})[it.id];return !it.req||(it.req.ach?!!S.game.unlocked[it.req.ach]:(L??levelOf(xpInfo().xp).L)>=it.req.lvl);};
 const reqText=it=>it.price?it.price+' Marken':it.req.ach?'Erfolg „'+(ACH.find(a=>a.id===it.req.ach)?.name||'?')+'“':'Level '+it.req.lvl;
 function gear(){
-  const g={...(S.game.gear||{})}, out={};
-  if(g.face===undefined&&['visor','goggles'].includes(g.head)){g.face=g.head;g.head=null;}
-  for(const [slot] of SLOTS){const it=GEAR[slot].find(x=>x.id===(g[slot]??null));out[slot]=it&&gearUnlocked(it)?it.id:(slot==='scarf'?'y':null);}
+  const g=S.game.gear||{}, out={};
+  for(const [slot] of SLOTS){const it=GEAR[slot].find(x=>x.id===(g[slot]??null));out[slot]=it&&gearUnlocked(it)?it.id:(SLOT_DEF[slot]||null);}
   return out;
 }
 function wallet(){
-  const t=Math.max(1,num(S.profile.weeklyTarget)||4), earned=S.sessions.length+2*Object.values(weekCounts()).filter(v=>v>=t).length;
-  const spent=Object.keys(S.game.owned||{}).reduce((a,id)=>a+(itemById(id)?.price||0),0);
+  const t=Math.max(1,num(S.profile.weeklyTarget)||4), fx=S.game.fx||{}, bonus=S.sessions.filter(s=>fx[s.id]?.m).length;
+  const earned=S.sessions.length+bonus+2*Object.values(weekCounts()).filter(v=>v>=t).length;
+  const spent=Object.keys(S.game.owned||{}).reduce((a,id)=>a+(itemById(id)?.price||0),0)+(S.game.buys||[]).reduce((a,b)=>a+(BOOSTS.find(x=>x.id===b.id)?.price||0),0);
   return {earned,spent,bal:Math.max(0,earned-spent)};
 }
 const COIN=(s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="#ffd21f" stroke="#8a6d00" stroke-width="1.5"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#b38f00" stroke-width="1"/><path d="M8 8h2.6l1.4 4.4 1.4-4.4H16l-2.8 8h-2.4z" fill="#5c4700"/></svg>`;
@@ -877,14 +927,15 @@ const STAGES=[{name:'Ei'},{name:'Baby',min:0},{name:'Jungtier',min:8},{name:'Kä
 /* growth = consistency + own strength gain; missed sessions cost points (pet can shrink) */
 function growthInfo(){
   const t=Math.max(1,num(S.profile.weeklyTarget)||4), wc=weekCounts(), sessions=S.sessions.length, cur=mondayOf(new Date());
-  let fullWeeks=0,missed=0,zeroWeeks=0;
+  let fullWeeks=0,missed=0,zeroWeeks=0,shielded=0;
+  const buys=S.game.buys||[], shields=buys.filter(b=>b.id==='regen').map(b=>b.t).sort((a,b)=>a-b), snacks=buys.filter(b=>b.id==='protein').length;
   if(sessions){let w=mondayOf(new Date(Math.min(...S.sessions.map(s=>s.start)))),first=true,n=0;
-    while(w<cur&&n++<520){const c=wc[dayKey(w)]||0;if(c>=t)fullWeeks++;if(!first){missed+=Math.max(0,t-c);if(!c)zeroWeeks++;}first=false;w=addDays(w,7);}
+    while(w<cur&&n++<520){const c=wc[dayKey(w)]||0;if(c>=t)fullWeeks++;if(!first&&c<t){if(shields.length&&shields[0]<addDays(w,7).getTime()){shields.shift();shielded++;}else{missed+=t-c;if(!c)zeroWeeks++;}}first=false;w=addDays(w,7);}
     if((wc[dayKey(cur)]||0)>=t)fullWeeks++;}
   const lifts=MAIN.map(liftInfo).filter(l=>l&&l.ser.length>=2), gainPct=lifts.length?lifts.reduce((a,l)=>a+Math.max(0,l.gainPct),0)/lifts.length:0;
-  const gainPts=Math.floor(gainPct/3), plus=sessions+fullWeeks*3+gainPts, minus=missed*2+zeroWeeks*4;
+  const gainPts=Math.floor(gainPct/3), plus=sessions+fullWeeks*3+gainPts+snacks*2, minus=missed*2+zeroWeeks*4;
   const curCount=wc[dayKey(cur)]||0, atRisk=Math.max(0,t-curCount);
-  return {sessions,fullWeeks,gainPct,gainPts,missed,zeroWeeks,plus,minus,pts:Math.max(0,plus-minus),atRisk,riskPts:atRisk*2+(curCount?0:4)};
+  return {sessions,fullWeeks,gainPct,gainPts,missed,zeroWeeks,plus,minus,snacks,shielded,shieldsLeft:shields.length,pts:Math.max(0,plus-minus),atRisk,riskPts:shields.length?0:atRisk*2+(curCount?0:4)};
 }
 const STAGE_TF=[null,[.6,.6],[.72,.72],[.84,.84],[.95,.93],[1.05,.97],[1.12,1]];
 const animal=()=>ANIMALS.find(a=>a.id===S.game.species)||null;
@@ -1454,10 +1505,27 @@ function gearSVG(a,g,tier){
     if(g.hand==='shoe') s+=`<g transform="translate(${hx+4} ${hy}) scale(${hs})"><path d="M0 0h9l2-6h5v8q11 1 13 7H0z" fill="#5b8def" stroke="${OUT}"/><path d="M0 9h29" stroke="#eceef2" stroke-width="2.5"/></g>`;}
   return s;
 }
-function noxSVG({size=84,mood,tier,g,cls='',species,stage}={}){
+const EL_COL={penguin:'#5bc8ff',owl:'#9a6bff',wolf:'#8fb8ff',bear:'#8fd35a',gorilla:'#ffd21f',dragon:'#ff6a2a'};
+function petHTML({size,species,stage,mood,g,cls,bg,tier}){
+  const it=(slot)=>{const id=g[slot];return id?GEAR[slot].find(x=>x.id===id):null;};
+  const loc=it('loc'), aura=it('aura');
+  let s=`<span class="nox pet st${stage} m-${mood} ${tier>=5?'tier5':''} ${cls}" style="--el:${EL_COL[species]};--ring:${tier>=4?'#ffd21f':'#5b8def'};width:${size}px;height:${size}px">`;
+  if(tier>=3) s+='<span class="pet-ring"></span>';
+  if(bg&&loc) s+=`<span class="pet-bg" style="background-image:url(img/${loc.img}.jpg)"></span>`;
+  if(aura) s+=`<span class="pet-aura"><img src="img/${aura.img}.jpg" alt=""></span>`;
+  s+=`<span class="bob"><img class="pet-img" src="img/${species}${stage}.jpg" alt="" draggable="false"></span>`;
+  if(stage>=4) s+='<i class="pt"></i><i class="pt"></i><i class="pt"></i><i class="pt"></i><i class="pt"></i>';
+  if(mood==='sleep') s+='<span class="pet-z">Z<small>z</small></span>';
+  if(mood==='happy'||tier>=6) s+='<i class="pet-spark">✦</i><i class="pet-spark">✦</i>';
+  if(tier>=2&&size>=90) s+='<span class="pet-vb">V</span>';
+  if(size>=90){const b=['head','outfit','acc','skin'].map(it).filter(x=>x&&x.id!=='sk_std');if(b.length) s+=`<span class="pet-slots">${b.map(x=>`<img src="img/${x.img}.jpg" alt="${esc(x.name)}" title="${esc(x.name)}">`).join('')}</span>`;}
+  return s+'</span>';
+}
+function noxSVG({size=84,mood,tier,g,cls='',species,stage,bg}={}){
   species=species??S.game.species; stage=stage??stageIdx(); mood=mood??noxMood().key;
   const line=NOX.D[species];
   if(!line) return eggSVG(size,mood,cls);
+  if(clamp(stage,0,6)>0) return petHTML({size,species,stage:clamp(stage,1,6),mood,g:g??gear(),cls,bg,tier:tier??tierOf(levelOf(xpInfo().xp).L)});
   const st=clamp(stage,0,6), k=species.slice(0,2)+st+'_', r=line[st](mood,k), a=r.a, egg=st===0;
   if(!egg){tier=tier??tierOf(levelOf(xpInfo().xp).L);g=g??gear();}
   let s=`<svg class="nox ${egg?'egg':''} ${cls}" viewBox="0 0 160 170" width="${size}" height="${Math.round(size*170/160)}" aria-hidden="true" overflow="visible"><defs>${NOX_DEFS}${r.d||''}</defs>`;
@@ -1678,6 +1746,9 @@ async function finishWorkout(){
   delete s.timerEnd; delete s.timerTotal; delete s.editing;
   if(!editing) s.end=Date.now(); else s.end=s.end||Date.now();
   (s.entries||[]).forEach(e=>{delete e.prShown;});
+  const used=[];
+  if(!editing){const inv={...(S.game.inv||{})},f={};if(inv.xp>0){inv.xp--;f.x=2;used.push('EP-Boost: doppelte XP');}else if(S.game.friendLeft>0){S.game.friendLeft--;f.x=1.5;used.push('Freundes-Boost: +50 % XP');}
+    if(inv.motiv>0){inv.motiv--;f.m=1;used.push('Motivations-Boost: doppelte Marken');}S.game.inv=inv;if(f.x||f.m)S.game.fx={...(S.game.fx||{}),[s.id]:f};}
   if(editing){const i=S.sessions.findIndex(x=>x.id===s.id);if(i>=0)S.sessions[i]=s;else S.sessions.push(s);} else S.sessions.push(s);
   S.active=null; stopTimer(); releaseWake(); save(true);
   const prs=derivedPR().prList.filter(p=>p.sid===s.id);
@@ -1691,6 +1762,7 @@ async function finishWorkout(){
   render(); scrollTo(0,0);
   openSheet(summaryHTML({s,prs,newAch,newMis,gained:xi.xp-xpBefore,levelUp,lv,editing,evo,newGear,hatch:hatch?formName(S.game.species,spAfter):null,evolved,marks:wallet().earned-marksBefore}));
   if(S.game.species){S.game.lastStage=spAfter;save(true);}
+  used.forEach((u,i)=>setTimeout(()=>toast(u,'go',3200),600+i*700));
   if(prs.length||newAch.length||levelUp||newMis.length||hatch||evolved){confetti();buzz([80,50,80,50,260]);fanfare();}
 }
 
@@ -1773,7 +1845,7 @@ function viewTrain(){
   </section>`;
   const lines=noxLines(), line=lines[(ui.noxIdx||0)%lines.length];
   if(!animal()) h+=`<div class="card"><div class="eyebrow">Wähle deinen Sidekick</div><p class="sm muted" style="margin:0 0 10px">Er startet als Ei, schlüpft nach deinem ersten Training – und wird mit jeder Steigerung größer, brutaler und muskulöser.</p>${animalPickerHTML()}</div>`;
-  else h+=`<div class="card nox-card"><div class="nox-row"><button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:84})}</button>
+  else h+=`<div class="card nox-card"><div class="nox-row"><button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:104,bg:true})}</button>
     <div class="bubble"><span class="who">${esc(petName())} · ${esc(petTitle())}</span><span id="nox-bubble">${esc(line)}</span></div></div></div>`;
   h+=`<h2>Workouts</h2>`;
   for(const t of tpls){
@@ -2066,22 +2138,41 @@ function statsBody(){
 function shopBtn(it,slot,g,w,L){
   const un=gearUnlocked(it,L),on=g[slot]===it.id;
   const st=on?icon('check',14,3)+' angelegt':un?(it.id==null?'ablegen':'im Besitz'):it.price?`<span style="color:${w.bal>=it.price?'var(--y)':'var(--muted)'};display:inline-flex;align-items:center;gap:4px">${COIN(15)} ${it.price}</span>`:icon('lock',14)+' '+esc(reqText(it));
-  return `<button class="gear ${on?'on':''} ${un?'':'locked'}" data-a="gear" data-slot="${slot}" data-id="${it.id??''}"><b>${esc(it.name)}</b><span class="muted sm">${st}</span></button>`;
+  return `<button class="gear shop-it ${on?'on':''} ${un?'':'locked'}" data-a="gear" data-slot="${slot}" data-id="${it.id??''}">${it.img?`<img src="img/${it.img}.jpg" alt="">`:`<span class="shop-none">${icon('x',20)}</span>`}<span class="grow"><b>${esc(it.name)}</b><span class="muted sm">${st}</span></span></button>`;
+}
+function boostState(b){
+  const inv=S.game.inv||{}, wk=weekKey(new Date()), gi=growthInfo();
+  if(b.id==='xp'||b.id==='motiv') return inv[b.id]?`${inv[b.id]}× bereit`:'';
+  if(b.id==='friend') return S.game.friendLeft?`aktiv · noch ${S.game.friendLeft} Trainings`:'';
+  if(b.id==='regen') return gi.shieldsLeft?`${gi.shieldsLeft}× Schutz aktiv`:'';
+  if(b.id==='protein') return (S.game.buys||[]).some(x=>x.id==='protein'&&weekKey(new Date(x.t))===wk)?'diese Woche gegessen':'';
+  if(b.id==='mission') return (S.game.specials||[]).includes(wk)?'diese Woche aktiv':'';
+  return '';
 }
 function shopHTML(g,L){
   const w=wallet();
   return `<div class="card"><div class="between"><div><div class="eyebrow">Deine Marken</div><div class="bigval">${w.bal}<small>${w.bal===1?'Marke':'Marken'}</small></div></div>${COIN(58)}</div>
-    <p class="muted sm" style="margin:8px 0 0">1 Marke pro Training · +2 für jede volle Woche. Tippe ein Teil an, um es anzuprobieren. Gekauftes gehört dir für immer.</p></div>
+    <p class="muted sm" style="margin:8px 0 0">1 Marke pro Training · +2 für jede volle Woche. Tippe ein Teil an, um es an deinem Begleiter anzuprobieren.</p></div>
     <div class="card">${SLOTS.map(([slot,label])=>`<div class="eyebrow">${label}</div><div class="gear-grid">${GEAR[slot].map(it=>shopBtn(it,slot,g,w,L)).join('')}</div>`).join('')}
+    <div class="eyebrow">Besondere Items</div><div class="gear-grid">${BOOSTS.map(b=>{const st=boostState(b);return `<button class="gear shop-it ${st?'on':''}" data-a="boost" data-id="${b.id}"><img src="img/${b.img}.jpg" alt=""><span class="grow"><b>${esc(b.name)}</b><span class="muted sm">${st?icon('check',14,3)+' '+st:`<span style="color:${w.bal>=b.price?'var(--y)':'var(--muted)'};display:inline-flex;align-items:center;gap:4px">${COIN(15)} ${b.price}</span>`}</span></span></button>`;}).join('')}</div>
     <p class="muted sm" style="margin:0">Teile mit Schloss gibt's nicht zu kaufen – nur für echte Erfolge.</p></div>`;
 }
 function openItem(slot,it){
   const w=wallet(), prev={...gear(),[slot]:it.id}, can=it.price&&w.bal>=it.price;
-  openSheet(`<div style="text-align:center"><div style="display:flex;justify-content:center;margin:6px 0">${noxSVG({size:190,mood:'happy',g:prev})}</div>
-    <div class="eyebrow">Anprobieren</div><h2 style="margin:4px 0 6px;justify-content:center">${esc(it.name)}</h2>
-    ${it.price?`<p class="row" style="justify-content:center;gap:6px;margin:0 0 14px">${COIN(20)}<b class="num" style="font-size:20px">${it.price}</b><span class="muted sm">· du hast ${w.bal}</span></p>
+  openSheet(`<div style="text-align:center"><div style="display:flex;justify-content:center;margin:6px 0 10px">${noxSVG({size:210,mood:'happy',g:prev,bg:true})}</div>
+    <div class="row" style="justify-content:center;gap:10px"><img src="img/${it.img}.jpg" alt="" style="width:52px;height:52px;border-radius:10px;border:1px solid var(--line)"><div style="text-align:left"><div class="eyebrow" style="margin:0">Anprobieren</div><h2 style="margin:2px 0 0">${esc(it.name)}</h2></div></div>
+    ${it.price?`<p class="row" style="justify-content:center;gap:6px;margin:12px 0 14px">${COIN(20)}<b class="num" style="font-size:20px">${it.price}</b><span class="muted sm">· du hast ${w.bal}</span></p>
       <button class="btn primary block xl" data-a="buy" data-slot="${slot}" data-id="${it.id}" ${can?'':'disabled'}>${can?'Kaufen & anlegen':`Noch ${it.price-w.bal} Trainings nötig`}</button>`
-    :`<p class="muted" style="margin:0 0 14px">${icon('lock',16)} Freischalten durch ${esc(reqText(it))}</p>`}
+    :`<p class="muted" style="margin:12px 0 14px">${icon('lock',16)} Freischalten durch ${esc(reqText(it))}</p>`}
+    <button class="btn ghost block" data-a="close" style="margin-top:6px">Schließen</button></div>`);
+}
+function openBoost(id){
+  const b=BOOSTS.find(x=>x.id===id); if(!b) return; const w=wallet(), st=boostState(b), wk=weekKey(new Date());
+  const blocked=(b.id==='protein'&&st)||(b.id==='mission'&&st), can=w.bal>=b.price&&!blocked;
+  openSheet(`<div style="text-align:center"><img src="img/${b.img}.jpg" alt="" style="width:120px;height:120px;border-radius:18px;border:1px solid var(--line);margin:8px auto 10px;display:block"><div class="eyebrow">Besonderes Item</div><h2 style="margin:4px 0 8px;justify-content:center">${esc(b.name)}</h2>
+    <p class="muted" style="margin:0 0 10px">${esc(b.desc)}</p>${st?`<p class="pill g" style="margin:0 0 12px">${esc(st)}</p>`:''}
+    <p class="row" style="justify-content:center;gap:6px;margin:0 0 14px">${COIN(20)}<b class="num" style="font-size:20px">${b.price}</b><span class="muted sm">· du hast ${w.bal}</span></p>
+    <button class="btn primary block xl" data-a="buy-boost" data-id="${b.id}" ${can?'':'disabled'}>${blocked?'Diese Woche schon genutzt':w.bal>=b.price?'Kaufen & aktivieren':`Noch ${b.price-w.bal} Trainings nötig`}</button>
     <button class="btn ghost block" data-a="close" style="margin-top:6px">Schließen</button></div>`);
 }
 function achCard(a){const t=S.game.unlocked[a.id];return `<div class="ach ${t?'':'locked'}"><div class="ai">${icon(t?a.icon:'lock',20)}</div><b>${esc(a.name)}</b><span>${esc(a.desc)}</span>${t?`<span style="color:var(--y)">${fmtDate(t)}${new Date(t).getFullYear()}</span>`:''}</div>`;}
@@ -2100,7 +2191,7 @@ function viewProgress(){
     <div class="bar"><i style="width:${lv.cur/lv.need*100}%"></i></div><p class="muted sm" style="margin:6px 0 0">${fmt(lv.need-lv.cur,0)} XP bis Level ${lv.L+1}${next?` · <b style="color:var(--text)">${next.name}</b> ab Level ${next.min}`:''}</p></div></div></section>`;
   const m=noxMood(), g=gear(), tier=tierOf(lv.L);
   h+=`<h2>Dein Sidekick</h2><div class="card"><div class="nox-row" style="align-items:flex-start">
-      <button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:112})}</button>
+      <button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:136,bg:true})}</button>
       <div class="grow"><div class="eyebrow">${esc(petName())} · ${esc(petTitle())}</div><h3 style="font-size:21px">${m.label}</h3>
         <p class="muted sm" style="margin:4px 0 10px">${esc(m.desc)}</p>
         <div class="between sm muted" style="margin-bottom:4px"><span>Energie</span><span class="num">${m.energy} %</span></div><div class="bar b"><i style="width:${m.energy}%"></i></div></div></div>
@@ -2252,11 +2343,21 @@ const A={
   'animal-change':()=>openSheet(`<h2 style="margin-top:0">Tier wechseln</h2><p class="muted sm">Punkte, Stufe und gekaufte Teile bleiben erhalten – nur das Tier ändert sich.</p>${animalPickerHTML()}<button class="btn ghost block" data-a="close" style="margin-top:10px">Abbrechen</button>`),
   gear:el=>{const slot=el.dataset.slot,id=el.dataset.id||null,it=GEAR[slot].find(x=>x.id===id);if(!it)return;
     if(!gearUnlocked(it)){openItem(slot,it);return;}
-    const cur=gear(),nid=(cur[slot]===id&&slot!=='scarf')?null:id;S.game.gear={...cur,[slot]:nid};save(true);const y=scrollY;render();scrollTo(0,y);hop($('.nox-btn .nox'));buzz(20);},
+    const cur=gear(),nid=(cur[slot]===id&&!SLOT_DEF[slot])?null:id;S.game.gear={...cur,[slot]:nid};save(true);const y=scrollY;render();scrollTo(0,y);hop($('.nox-btn .nox'));buzz(20);},
   buy:el=>{const slot=el.dataset.slot,it=GEAR[slot].find(x=>x.id===el.dataset.id);if(!it||!it.price)return;const w=wallet();
     if(w.bal<it.price){toast('Nicht genug Marken – ab ins Training!','err');return;}
     S.game.owned={...(S.game.owned||{}),[it.id]:Date.now()};S.game.gear={...gear(),[slot]:it.id};save(true);closeSheet();const y=scrollY;render();scrollTo(0,y);
     toast(`${it.name} gekauft & angelegt!`,'go');confetti(70);fanfare();buzz([40,30,80]);},
+  boost:el=>openBoost(el.dataset.id),
+  'buy-boost':el=>{const b=BOOSTS.find(x=>x.id===el.dataset.id);if(!b)return;const w=wallet(),wk=weekKey(new Date());
+    if(w.bal<b.price){toast('Nicht genug Marken – ab ins Training!','err');return;}
+    if(boostState(b)&&(b.id==='protein'||b.id==='mission')){toast('Diese Woche schon genutzt.','err');return;}
+    S.game.buys=[...(S.game.buys||[]),{id:b.id,t:Date.now()}];
+    if(b.id==='xp'||b.id==='motiv') S.game.inv={...(S.game.inv||{}),[b.id]:((S.game.inv||{})[b.id]||0)+1};
+    if(b.id==='friend') S.game.friendLeft=(S.game.friendLeft||0)+3;
+    if(b.id==='mission') S.game.specials=[...(S.game.specials||[]),wk];
+    save(true);closeSheet();const y=scrollY;render();scrollTo(0,y);checkStageDrop();
+    toast(`${b.name} aktiviert!`,'go');confetti(60);fanfare();buzz([40,30,80]);},
   'nox-tap':el=>{ui.noxIdx=(ui.noxIdx||0)+1;const lines=noxLines(),b=$('#nox-bubble');if(b)b.textContent=lines[ui.noxIdx%lines.length];hop(el.querySelector('.nox'));buzz(15);},
   uncheck:el=>{const e=getEntry(el.dataset.e);if(!e)return;e.sets[+el.dataset.s].done=false;save();updateCard(e.id);updateProgress();},
   inc:el=>stepSet(el,1), dec:el=>stepSet(el,-1),
