@@ -311,6 +311,37 @@ table.rt{width:100%;border-collapse:collapse;font-size:15px}
 table.rt td{padding:10px 4px;border-bottom:1px solid var(--line)}
 table.rt td.n{text-align:right;font-family:var(--num);font-size:18px;font-weight:700;white-space:nowrap}
 table.rt tr:last-child td{border-bottom:0}
+/* Nox – sidekick */
+.nox{display:block;overflow:visible;flex:none}
+.nox .bob{animation:bob 3.2s ease-in-out infinite}
+.nox .eyes{animation:blink 5s infinite;transform-origin:60px 53px}
+.nox .zz{animation:zz 2.6s ease-in-out infinite}
+.nox .spark{animation:spark 1.8s ease-in-out infinite}
+.nox .spark:nth-of-type(2){animation-delay:.6s}.nox .spark:nth-of-type(3){animation-delay:1.2s}
+.nox.hop .bob{animation:hop .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bob{50%{transform:translateY(-3px)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+@keyframes hop{30%{transform:translateY(-16px) rotate(-5deg)}60%{transform:translateY(0)}80%{transform:translateY(-5px)}}
+@keyframes zz{0%{opacity:0;transform:translate(0,6px)}50%{opacity:1}100%{opacity:0;transform:translate(6px,-8px)}}
+@keyframes spark{50%{opacity:.2}}
+.nox-btn{flex:none;display:block;border-radius:16px}
+.nox-row{display:flex;align-items:center;gap:14px}
+.nox-card{padding:12px 14px}
+.bubble{position:relative;flex:1;min-width:0;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600;font-size:15px;line-height:1.35}
+.bubble::before{content:'';position:absolute;left:-7px;top:50%;width:12px;height:12px;background:var(--surface2);border-left:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateY(-50%) rotate(45deg)}
+.bubble .who{display:block;font-family:var(--head);font-size:11px;letter-spacing:.14em;color:var(--y);text-transform:uppercase;margin-bottom:2px}
+.nox-w{margin:-2px 0 14px}
+.nox-w .bubble{font-size:14px;padding:10px 12px}
+.float-xp{position:fixed;z-index:85;pointer-events:none;font-family:var(--head);font-weight:700;color:var(--y);font-size:20px;text-shadow:0 2px 12px rgba(0,0,0,.9);animation:floatxp 1.1s ease-out forwards;transform:translateX(-50%)}
+.float-xp.big{font-size:26px}
+@keyframes floatxp{to{transform:translate(-50%,-70px);opacity:0}}
+.gear-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.gear{min-height:64px;padding:10px 12px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);text-align:left;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.gear b{font-weight:600;font-size:15px}
+.gear.on{border-color:var(--y);background:var(--y-soft)}
+.gear.on b{color:var(--y)}
+.gear.locked{opacity:.5}
+.gear .sm{display:flex;align-items:center;gap:4px}
 @media (max-width:370px){
   .stepper>button{width:42px;font-size:26px}
   .stepper input{font-size:25px}
@@ -437,7 +468,7 @@ function defaultState(){
   return {version:VERSION,created:Date.now(),
     profile:{name:'',startWeight:100,goalWeight:85,campaignStart:dayKey(mondayOf(new Date())),restSec:120,autoTimer:true,bigStep5:false,vibrate:true,sound:true,wakeLock:true,weeklyTarget:4},
     exercises:defaultExercises(),templates:defaultTemplates(),sessions:[],bodyweight:[],
-    game:{unlocked:{},seenMissions:{},lastLevel:1},active:null};
+    game:{unlocked:{},seenMissions:{},lastLevel:1,gear:{scarf:'y',head:null,hand:null}},active:null};
 }
 function migrate(d){
   const def=defaultState();
@@ -756,6 +787,95 @@ function checkMissions(){
   return neu;
 }
 
+/* ---------- Nox: sidekick (reacts only to real training data) ---------- */
+const GEAR={
+  scarf:[{id:'y',name:'Gelber Schal',col:'#ffd21f'},{id:'b',name:'Blauer Schal',col:'#5b8def',req:{ach:'streak4'}},{id:'r',name:'Roter Schal',col:'#ff5d5d',req:{ach:'pr10'}},{id:'w',name:'Weißer Schal',col:'#eceef2',req:{lvl:12}}],
+  head:[{id:null,name:'Nichts'},{id:'band',name:'Stirnband',req:{ach:'first'}},{id:'visor',name:'Visier',req:{ach:'squat100'}},{id:'goggles',name:'Nachtsicht-Brille',req:{ach:'night'}}],
+  hand:[{id:null,name:'Nichts'},{id:'dumbbell',name:'Mini-Hantel',req:{ach:'s10'}},{id:'glove',name:'Boxhandschuh',req:{ach:'box10'}},{id:'shoe',name:'Laufschuh',req:{ach:'run50'}}],
+};
+const SLOTS=[['scarf','Schal'],['head','Kopf'],['hand','In der Hand']];
+const EVO=['','Brust-Emblem','Umhang','Schulterpanzer','Goldene Aura','Sternenstaub'];
+const gearUnlocked=(it,L)=>!it.req||(it.req.ach?!!S.game.unlocked[it.req.ach]:(L??levelOf(xpInfo().xp).L)>=it.req.lvl);
+const reqText=it=>it.req.ach?'Erfolg „'+(ACH.find(a=>a.id===it.req.ach)?.name||'?')+'“':'Level '+it.req.lvl;
+function gear(){
+  const g=S.game.gear||{}, out={};
+  for(const [slot] of SLOTS){const it=GEAR[slot].find(x=>x.id===(g[slot]??null));out[slot]=it&&gearUnlocked(it)?it.id:(slot==='scarf'?'y':null);}
+  return out;
+}
+const tierOf=L=>RANKS.filter(r=>L>=r.min).length;
+function noxMood(){
+  const last=S.sessions.reduce((m,s)=>Math.max(m,s.start),0);
+  if(!last) return {key:'ready',label:'Einsatzbereit',energy:70,days:null,desc:'Nox wartet auf deinen ersten Einsatz.'};
+  const d=daysBetween(new Date(last),new Date()), energy=clamp(100-d*15,5,100);
+  if(d<=1) return {key:'happy',label:'Top in Form',energy,days:d,desc:'Du hast gerade trainiert – Nox ist voller Energie.'};
+  if(d<=3) return {key:'ready',label:'Einsatzbereit',energy,days:d,desc:'Ausgeruht und bereit für den nächsten Einsatz.'};
+  if(d<=6) return {key:'tired',label:'Wird müde',energy,days:d,desc:`${d} Tage ohne Training – Nox wird müde. Ein Einsatz weckt ihn auf.`};
+  return {key:'sleep',label:'Schläft',energy,days:d,desc:`${d} Tage Pause – Nox ist eingeschlafen. Ein Training weckt ihn sofort.`};
+}
+function noxSVG({size=84,mood,tier,g,cls=''}={}){
+  mood=mood??noxMood().key; tier=tier??tierOf(levelOf(xpInfo().xp).L); g=g??gear();
+  const scarf=(GEAR.scarf.find(x=>x.id===g.scarf)||GEAR.scarf[0]).col, body='#3b4456', dark='#2a3140', belly='#56617a', Y='#ffd21f';
+  let s=`<svg class="nox ${cls}" viewBox="0 0 120 124" width="${size}" height="${Math.round(size*124/120)}" aria-hidden="true"><defs><radialGradient id="noxAura"><stop offset=".45" stop-color="${Y}" stop-opacity=".32"/><stop offset="1" stop-color="${Y}" stop-opacity="0"/></radialGradient></defs><g class="bob">`;
+  if(tier>=5) s+=`<circle cx="60" cy="68" r="58" fill="url(#noxAura)"/>`;
+  if(tier>=6) s+=[[14,34],[104,22],[108,84]].map(([x,y])=>`<path class="spark" d="M${x} ${y-6}l1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6z" fill="${Y}"/>`).join('');
+  if(tier>=3) s+=`<path d="M36 64 L14 116 Q60 106 106 116 L84 64 Z" fill="#23407a" stroke="${Y}" stroke-opacity=".45" stroke-width="1.5"/>`;
+  s+=`<path d="M34 44 L27 16 L50 35 Z M86 44 L93 16 L70 35 Z" fill="${dark}"/>
+    <ellipse cx="60" cy="72" rx="32" ry="38" fill="${body}"/>
+    <path d="M29 66 Q17 88 32 105 Q37 88 34 70 Z M91 66 Q103 88 88 105 Q83 88 86 70 Z" fill="${dark}"/>
+    <ellipse cx="60" cy="90" rx="19" ry="18" fill="${belly}"/>`;
+  if(tier>=4) s+=`<path d="M25 66 Q28 55 41 59 L37 71 Z M95 66 Q92 55 79 59 L83 71 Z" fill="${Y}"/>`;
+  if(tier>=2) s+=`<polygon points="52,84 57,84 60,93 63,84 68,84 62.5,98 57.5,98" fill="${Y}"/>`;
+  s+=`<path d="M51 108v7M55 108v7M65 108v7M69 108v7" stroke="#ffac4d" stroke-width="3" stroke-linecap="round"/>
+    <path d="M33 70 Q60 83 87 70 L87 77 Q60 90 33 77 Z" fill="${scarf}"/><path d="M72 81 L83 99 L75 101 L66 84 Z" fill="${scarf}"/>`;
+  if(g.head==='band') s+=`<path d="M31 41 Q60 27 89 41 L88 47 Q60 34 32 47 Z" fill="#ff5d5d"/><path d="M32 43 L19 49 L22 40 Z" fill="#ff5d5d"/>`;
+  s+=`<path d="M25 50 Q40 38 60 46 Q80 38 95 50 L93 60 Q78 67 60 58 Q42 67 27 60 Z" fill="#101318"/>`;
+  if(mood==='happy') s+=`<path d="M40 56 Q48 44 56 56 M64 56 Q72 44 80 56" stroke="${Y}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;
+  else if(mood==='sleep') s+=`<path d="M40 53 Q48 58 56 53 M64 53 Q72 58 80 53" stroke="${Y}" stroke-width="3.5" fill="none" stroke-linecap="round"/><text class="zz" x="94" y="32" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="15" fill="#a9c4ff">Z</text>`;
+  else {
+    s+=`<g class="${mood==='ready'?'eyes':''}"><circle cx="48" cy="53" r="9.5" fill="${Y}"/><circle cx="72" cy="53" r="9.5" fill="${Y}"/><circle cx="48" cy="54" r="5" fill="#0b0d12"/><circle cx="72" cy="54" r="5" fill="#0b0d12"/><circle cx="46" cy="51.5" r="1.8" fill="#fff"/><circle cx="70" cy="51.5" r="1.8" fill="#fff"/></g>`;
+    if(mood==='tired') s+=`<path d="M38 54 a10 10 0 0 1 20 0 Z M62 54 a10 10 0 0 1 20 0 Z" fill="#101318"/>`;
+  }
+  if(g.head==='visor') s+=`<path d="M26 47 Q60 39 94 47 L92 61 Q60 53 28 61 Z" fill="#5b8def" fill-opacity=".35" stroke="#a9c4ff" stroke-width="1.5"/>`;
+  if(g.head==='goggles') s+=`<circle cx="48" cy="53" r="12" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><circle cx="72" cy="53" r="12" fill="#43d17a" fill-opacity=".22" stroke="#43d17a" stroke-width="3"/><path d="M36 52 L27 49 M84 52 L93 49" stroke="#43d17a" stroke-width="3" stroke-linecap="round"/>`;
+  s+=`<path d="M56 60 L64 60 L60 68 Z" fill="#ffac4d"/>`;
+  if(g.hand==='dumbbell') s+=`<g transform="translate(90 96) rotate(-20)"><rect x="-2" y="-1.5" width="20" height="3" fill="#8d95a5"/><rect x="-6" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/><rect x="16" y="-7" width="6" height="14" rx="1.5" fill="#eceef2"/></g>`;
+  if(g.hand==='glove') s+=`<g transform="translate(97 94)"><ellipse rx="10" ry="9" fill="#ff5d5d"/><ellipse cx="-6" cy="-2" rx="4" ry="5" fill="#e04848"/><rect x="-8" y="6" width="16" height="6" rx="2" fill="#eceef2"/></g>`;
+  if(g.hand==='shoe') s+=`<g transform="translate(86 96)"><path d="M0 0h9l2-6h5v8q11 1 13 7H0z" fill="#5b8def"/><path d="M0 9h29" stroke="#eceef2" stroke-width="2.5"/></g>`;
+  return s+`</g></svg>`;
+}
+function noxLines(){
+  if(!S.sessions.length) return ['Hi, ich bin Nox – dein Wächter. Ich merke mir jeden Satz und jeden Rekord. Starte dein erstes Training!','Tipp: Beim ersten Mal lieber etwas leichter starten. Ich sage dir, wann du steigern sollst.'];
+  const L=[], m=noxMood(), st=streakInfo(), today=new Date().getDay(), ws=weekStats(mondayOf(new Date()));
+  const tpl=S.templates.find(t=>t.day===today), trained=S.sessions.some(s=>dayKey(new Date(s.start))===dayKey());
+  if(m.key==='sleep') L.push(`Zzz … ${m.days} Tage ohne Training. Weck mich mit einem Einsatz!`);
+  else if(m.key==='tired') L.push(`${m.days} Tage Pause – ich werde langsam müde. Heute wieder?`);
+  if(trained) L.push('Einsatz erledigt. Jetzt essen, trinken, schlafen – so wächst Kraft.');
+  else if(tpl) L.push(`Heute steht ${tpl.name} an. Ich bin bereit – du auch?`);
+  const need=st.target-st.cur;
+  if(need<=0) L.push(`Wochenziel geschafft! Dein Streak: ${st.streak} ${st.streak===1?'Woche':'Wochen'}.`);
+  else if(st.streak>0) L.push(`Noch ${need} ${need===1?'Einheit':'Einheiten'} diese Woche – dann hält dein ${st.streak}-Wochen-Streak.`);
+  else L.push(`Noch ${need} ${need===1?'Einheit':'Einheiten'} diese Woche für deine erste volle Woche.`);
+  let n=0;
+  for(const t of S.templates) for(const it of t.items){ if(n>=2) break; const r=recommend(it.exId,it);
+    if(r.type==='up'){L.push(`Bei ${r.text.replace(': nächstes Mal',' ist mehr drin – nächstes Mal')}.`);n++;}
+    else if(r.type==='deload'){L.push(`${exById(it.exId).name} stagniert. Ein Deload jetzt macht dich danach stärker.`);n++;} }
+  if(ws.prs) L.push(`${ws.prs} ${ws.prs===1?'Rekord':'Rekorde'} diese Woche. Hab ich alle notiert!`);
+  const lost=num(S.profile.startWeight)-currentBW();
+  if(S.bodyweight.length&&lost>=0.5) L.push(`Schon ${fmt(lost,1)} kg leichter – und trotzdem stärker. Genau so.`);
+  const mis=missionsFor(weekKey(new Date())).find(x=>x.calc(ws)<goalOf(x));
+  if(mis){const f=mis.f||(x=>fmt(x,0));L.push(`Mission „${mis.title}“: ${f(mis.calc(ws))} von ${f(goalOf(mis))}. Pack ma's!`);}
+  const lv=levelOf(xpInfo().xp); L.push(`Noch ${fmt(lv.need-lv.cur,0)} XP bis Level ${lv.L+1}.`);
+  return L;
+}
+function hop(el){if(!el)return;el.classList.remove('hop');void el.getBoundingClientRect();el.classList.add('hop');}
+function noxSay(text,jump=true){ui.noxWork=text;const b=$('#nox-wb');if(b)b.textContent=text;if(jump)hop($('#nox-w .nox'));}
+function floatXP(el,text,big=false,delay=0){
+  if(!el)return; const r=el.getBoundingClientRect();
+  setTimeout(()=>{const f=document.createElement('div');f.className='float-xp'+(big?' big':'');f.textContent=text;
+    f.style.left=(r.left+r.width/2)+'px';f.style.top=(r.top-6)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1200);},delay);
+}
+const NOX_SET=['Sauber!','Satz im Kasten.','Stark. Atmen, trinken, weiter.','Gute Wiederholungen!','Konzentration – nächster Satz kommt.','Genau so. Weiter!'];
+
 /* ---------- feedback: toast, sound, vibration, confetti ---------- */
 function toast(msg,type='',ms=2600){
   const box=$('#toasts'); if(!box) return;
@@ -815,7 +935,7 @@ function renderTimer(){
   $('#t-time').textContent=fmtSec(Math.ceil(left));
   $('#t-fill').style.transform=`scaleX(${clamp(left/timer.total,0,1)})`;
 }
-function restDone(){buzz([400,150,400,150,700]);beep();toast('Pause vorbei – nächster Satz!','go',3000);}
+function restDone(){buzz([400,150,400,150,700]);beep();toast('Pause vorbei – nächster Satz!','go',3000);noxSay('Pause vorbei – auf geht’s zum nächsten Satz!');}
 setInterval(()=>{
   if(timer&&Date.now()>=timer.end){timer=null;if(S.active){delete S.active.timerEnd;save();}restDone();}
   renderTimer();
@@ -842,6 +962,7 @@ function startWorkout(tplId){
   const a={id:uid(),templateId:t.id,name:t.name,kind:t.kind,start:Date.now(),end:null,notes:'',light,entries:[],
     cardio:t.kind!=='strength'?{min:t.kind==='boxing'?60:30,km:t.kind==='run'?5:'',rpe:null}:null};
   for(const it of t.items) a.entries.push(makeEntry(it.exId,{sets:light?Math.max(1,num(it.sets)-1):num(it.sets),repMin:it.repMin,repMax:it.repMax,rest:it.rest}));
+  ui.noxWork=light?'Leichte Woche: ein Satz weniger. Erholung macht stark.':(a.kind==='strength'?"Los geht's! Ich zähle mit.":a.kind==='run'?'Guten Lauf! Trag danach Dauer und Distanz ein.':'Hände hoch, Kinn runter. Viel Spaß beim Boxen!');
   S.active=a; save(true); requestWake(); ui.tab='train'; persistUI(); render(); scrollTo(0,0);
   buzz(40); toast(light?'Leichte Woche: 1 Satz weniger pro Übung.':`${t.name} gestartet – viel Kraft!`,'go');
 }
@@ -853,14 +974,23 @@ function livePR(e,s){
   if(ex.metric==='reps'&&w>0&&r>0&&e1rm(w,r)>b.e1rm+1e-6) msg=`${ex.name}: ${fmtKg(w)} kg × ${fmt(r,0)} · e1RM ${fmt(e1rm(w,r),1)} kg`;
   else if(w>0&&r>0&&w>b.w+1e-6) msg=`${ex.name}: ${fmtKg(w)} kg`;
   else if(ex.load==='bw'&&w<=0&&b.w<=0&&r>b.reps) msg=`${ex.name}: ${fmt(r,0)} ${metricUnit(ex)}`;
-  if(msg){e.prShown=true;celebratePR(msg);}
+  if(msg){e.prShown=true;celebratePR(msg);return true;}
+  return false;
 }
-function checkSet(eid,j){
+function checkSet(eid,j,el){
   const e=getEntry(eid); if(!e) return; const s=e.sets[j]; if(!s) return;
   s.done=true; s.at=Date.now(); buzz(30);
-  if(!S.active.editing) livePR(e,s);
+  floatXP(el,`+${XP.set} XP`);
+  const pr=!S.active.editing&&livePR(e,s);
+  if(pr) floatXP(el,`+${XP.pr} XP REKORD`,true,350);
   save(); updateCard(eid); updateProgress();
   const all=S.active.entries.every(x=>x.skipped||x.sets.every(y=>y.done));
+  const ex=exById(e.exId), left=activeCounts(), exDone=e.sets.every(x=>x.done);
+  if(pr) noxSay('REKORD! Das war richtig stark – hab ich notiert.');
+  else if(all) noxSay('Alles erledigt! Tippe auf „Fertig“ und hol dir deine XP.');
+  else if(exDone) noxSay(`${ex.name} erledigt! Noch ${left.total-left.done} Sätze insgesamt.`);
+  else if(num(s.rpe)>=9) noxSay('Das war schwer – gut, dass du den RPE notierst.');
+  else noxSay(Math.random()<.35?`Noch ${left.total-left.done} Sätze. Du schaffst das.`:NOX_SET[Math.floor(Math.random()*NOX_SET.length)]);
   if(all){stopTimer();toast('Alle Sätze erledigt – stark! Tippe auf „Fertig“.','go',3500);}
   else if(S.profile.autoTimer) startTimer(num(e.target?.rest)||num(S.profile.restSec)||120);
 }
@@ -887,7 +1017,7 @@ async function finishWorkout(){
     if(done===0){if(!await confirmDlg('Noch kein Satz abgehakt. Training trotzdem speichern?','Speichern'))return;}
     else if(done<total){if(!await confirmDlg(`${total-done} Sätze sind nicht abgehakt und zählen nicht. Training beenden?`,'Beenden'))return;}
   } else if(!(num(a.cardio?.min)>0)){toast('Bitte Dauer eintragen.','err');return;}
-  const xpBefore=xpInfo().xp, lvBefore=levelOf(xpBefore).L;
+  const xpBefore=xpInfo().xp, lvBefore=levelOf(xpBefore).L, gearBefore=new Set(SLOTS.flatMap(([k])=>GEAR[k].filter(it=>it.id&&gearUnlocked(it,lvBefore)).map(it=>k+it.id)));
   const s=deep(a), editing=!!s.editing;
   delete s.timerEnd; delete s.timerTotal; delete s.editing;
   if(!editing) s.end=Date.now(); else s.end=s.end||Date.now();
@@ -898,8 +1028,11 @@ async function finishWorkout(){
   const newAch=checkAchievements(), newMis=checkMissions();
   const xi=xpInfo(), lv=levelOf(xi.xp), levelUp=lv.L>lvBefore;
   if(levelUp){S.game.lastLevel=lv.L;save(true);}
+  const evo=tierOf(lv.L)>tierOf(lvBefore)?EVO[tierOf(lv.L)-1]:null;
+  const newGear=SLOTS.flatMap(([k])=>GEAR[k].filter(it=>it.id&&gearUnlocked(it,lv.L)&&!gearBefore.has(k+it.id)));
+  ui.noxWork=null;
   render(); scrollTo(0,0);
-  openSheet(summaryHTML({s,prs,newAch,newMis,gained:xi.xp-xpBefore,levelUp,lv,editing}));
+  openSheet(summaryHTML({s,prs,newAch,newMis,gained:xi.xp-xpBefore,levelUp,lv,editing,evo,newGear}));
   if(prs.length||newAch.length||levelUp||newMis.length){confetti();buzz([80,50,80,50,260]);fanfare();}
 }
 
@@ -980,6 +1113,9 @@ function viewTrain(){
     <div class="weekpips">${['MO','DI','MI','DO','FR','SA','SO'].map((d,i)=>`<div class="${ws.days.has(i)?'on':''} ${i===todayIdx?'today':''}">${d}<span></span></div>`).join('')}</div>
     <div class="between sm" style="margin-top:10px"><span class="muted">Diese Woche <b style="color:var(--text)">${st.cur}/${st.target}</b> Einheiten</span><span class="flame row" style="gap:4px">${icon('flame',16)}<b>${st.streak}</b> <span class="muted">Wochen-Streak</span></span></div>
   </section>`;
+  const lines=noxLines(), line=lines[(ui.noxIdx||0)%lines.length];
+  h+=`<div class="card nox-card"><div class="nox-row"><button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:84})}</button>
+    <div class="bubble"><span class="who">Nox</span><span id="nox-bubble">${esc(line)}</span></div></div></div>`;
   h+=`<h2>Workouts</h2>`;
   for(const t of tpls){
     const last=[...S.sessions].filter(s=>s.templateId===t.id).sort((a,b)=>b.start-a.start)[0];
@@ -1015,7 +1151,8 @@ function viewTrain(){
 function viewWorkout(){
   const a=S.active, {done,total}=activeCounts();
   let h=`<div class="wo-head"><div class="grow"><div class="eyebrow">${a.editing?'Bearbeiten':'Läuft'} · <span id="wo-clock" class="num">${fmtDur(Date.now()-a.start)}</span></div><h1>${esc(a.name)}</h1></div>
-    <button class="btn primary sm" data-a="finish" style="min-height:52px">${icon('check',20)} Fertig</button></div>`;
+    <button class="btn primary sm" data-a="finish" style="min-height:52px">${icon('check',20)} Fertig</button></div>
+    <div class="nox-row nox-w" id="nox-w">${noxSVG({size:54,mood:'ready'})}<div class="bubble" id="nox-wb">${esc(ui.noxWork||(a.editing?'Korrekturen? Kein Problem, ich rechne alles neu.':"Los geht's! Ich zähle mit."))}</div></div>`;
   if(a.kind==='strength') h+=`<div class="progress"><i id="wo-prog" style="width:${total?done/total*100:0}%"></i></div>`;
   if(a.light) h+=`<p><span class="pill warn">${icon('down',14)} Leichte Woche · 1 Satz weniger</span></p>`;
   if(a.kind==='strength'){
@@ -1075,9 +1212,13 @@ function summaryHTML(r){
   let tiles;
   if(s.kind==='strength') tiles=[['Dauer',fmtMin(dur)],['Sätze',doneSets(s)],['Volumen',fmtT(sessionVolume(s))],['XP',(r.editing?'':'+')+Math.max(0,r.gained)]];
   else tiles=[['Dauer',fmt(num(s.cardio.min),0)+' min'],s.kind==='run'?['Distanz',fmt(num(s.cardio.km),2)+' km']:['Anstrengung',s.cardio.rpe??'–'],s.kind==='run'?['Tempo',paceTxt(s.cardio)]:['Runden',Math.round(num(s.cardio.min)/3)],['XP',(r.editing?'':'+')+Math.max(0,r.gained)]];
-  let h=`<div class="sum-hero">${LOGO}<div class="eyebrow">${r.editing?'Gespeichert':'Einsatz beendet'}</div><h1>${esc(s.name)}</h1></div>
+  const say=r.editing?'Alles neu berechnet.':r.prs.length?`${r.prs.length} ${r.prs.length===1?'Rekord':'Rekorde'}! Ich bin stolz auf dich.`:r.levelUp?'Level up! Wir werden stärker.':'Starker Einsatz. Jetzt gut erholen!';
+  let h=`<div class="sum-hero"><div class="eyebrow">${r.editing?'Gespeichert':'Einsatz beendet'}</div><h1>${esc(s.name)}</h1></div>
+    <div class="nox-row" style="margin:12px 0 4px">${noxSVG({size:76,mood:'happy',cls:'hop'})}<div class="bubble"><span class="who">Nox</span>${esc(say)}</div></div>
     <div class="tiles" style="margin:14px 0">${tiles.map(([l,v])=>`<div class="tile"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>`;
   if(r.levelUp) h+=`<div class="lvlup"><b>LEVEL ${r.lv.L}</b>${rankFor(r.lv.L).name}</div>`;
+  if(r.evo) h+=`<div class="pr-row">${icon('star',20)}<span>Nox hat sich entwickelt: <b>${esc(r.evo)}</b>!</span></div>`;
+  if(r.newGear?.length) h+=`<h2>Neue Ausrüstung für Nox</h2>`+r.newGear.map(it=>`<div class="pr-row">${icon('shield',20)}<span>${esc(it.name)} – im Tab Fortschritt anlegen</span></div>`).join('');
   if(r.prs.length) h+=`<h2>Neue Rekorde</h2>`+r.prs.map(p=>`<div class="pr-row">${icon('trophy',20)}<span>${esc(prText(p))}</span></div>`).join('');
   if(r.newAch.length) h+=`<h2>Erfolge freigeschaltet</h2><div class="achs">${r.newAch.map(achCard).join('')}</div>`;
   if(r.newMis.length) h+=`<h2>Mission erfüllt</h2>`+r.newMis.map(m=>`<div class="pr-row">${icon(m.icon,20)}<span>${esc(m.title)} · +${XP.mission} XP</span></div>`).join('');
@@ -1238,6 +1379,17 @@ function viewProgress(){
   let h=`<section class="hero chamfer"><div class="lvl">${emblem(lv.L)}<div class="grow"><div class="eyebrow">Rang</div><div class="rank">${rank.name}</div>
     <p class="muted sm" style="margin:6px 0 8px"><span class="num" style="font-size:16px;color:var(--text)">${fmt(xi.xp,0)}</span> XP gesamt</p>
     <div class="bar"><i style="width:${lv.cur/lv.need*100}%"></i></div><p class="muted sm" style="margin:6px 0 0">${fmt(lv.need-lv.cur,0)} XP bis Level ${lv.L+1}${next?` · <b style="color:var(--text)">${next.name}</b> ab Level ${next.min}`:''}</p></div></div></section>`;
+  const m=noxMood(), g=gear(), tier=tierOf(lv.L);
+  h+=`<h2>Dein Sidekick</h2><div class="card"><div class="nox-row" style="align-items:flex-start">
+      <button class="nox-btn" data-a="nox-tap" aria-label="Nox antippen">${noxSVG({size:112})}</button>
+      <div class="grow"><div class="eyebrow">Nox · ${rank.name}-Form</div><h3 style="font-size:21px">${m.label}</h3>
+        <p class="muted sm" style="margin:4px 0 10px">${esc(m.desc)}</p>
+        <div class="between sm muted" style="margin-bottom:4px"><span>Energie</span><span class="num">${m.energy} %</span></div><div class="bar b"><i style="width:${m.energy}%"></i></div></div></div>
+    <div class="divider"></div>
+    <p class="sm" style="margin:0">${tier<6?`Nächste Entwicklung ab <b>Level ${RANKS[tier].min}</b>: <b style="color:var(--y)">${EVO[tier]}</b>`:'Nox hat seine höchste Form erreicht.'}</p></div>
+    <div class="card">${SLOTS.map(([slot,label])=>`<div class="eyebrow">${label}</div><div class="gear-grid">${GEAR[slot].map(it=>{const un=gearUnlocked(it,lv.L),on=g[slot]===it.id;
+      return `<button class="gear ${on?'on':''} ${un?'':'locked'}" data-a="gear" data-slot="${slot}" data-id="${it.id??''}"><b>${esc(it.name)}</b><span class="muted sm">${un?(on?icon('check',14,3)+' angelegt':'freigeschaltet'):icon('lock',14)+' '+esc(reqText(it))}</span></button>`;}).join('')}</div>`).join('')}
+      <p class="muted sm" style="margin:0">Ausrüstung schaltest du durch echte Erfolge frei – Training, Rekorde, Streaks.</p></div>`;
   h+=`<div class="card"><div class="between"><div><div class="eyebrow" style="color:var(--orange)">Wochen-Streak</div><div class="bigval flame">${st.streak}<small>${st.streak===1?'Woche':'Wochen'}</small></div></div>
     <div style="text-align:right"><div class="muted sm">Diese Woche</div><div class="num" style="font-size:26px;font-weight:700">${st.cur}/${st.target}</div><div class="muted sm">Rekord: ${st.best}</div></div></div>
     <div class="weekpips" style="grid-template-columns:repeat(${st.target},1fr)">${Array.from({length:st.target},(_,i)=>`<div class="${i<st.cur?'on':''}"><span></span></div>`).join('')}</div>
@@ -1365,7 +1517,11 @@ const A={
   start:el=>startWorkout(el.dataset.id),
   finish:()=>finishWorkout(),
   discard:async()=>{if(await confirmDlg(S.active.editing?'Änderungen verwerfen?':'Training abbrechen? Alle Eingaben gehen verloren.','Verwerfen',true)){S.active=null;stopTimer();releaseWake();save(true);render();}},
-  check:el=>checkSet(el.dataset.e,+el.dataset.s),
+  check:el=>checkSet(el.dataset.e,+el.dataset.s,el),
+  'nox-tap':el=>{ui.noxIdx=(ui.noxIdx||0)+1;const lines=noxLines(),b=$('#nox-bubble');if(b)b.textContent=lines[ui.noxIdx%lines.length];hop(el.querySelector('.nox'));buzz(15);},
+  gear:el=>{const slot=el.dataset.slot,id=el.dataset.id||null,it=GEAR[slot].find(x=>x.id===id);if(!it)return;
+    if(!gearUnlocked(it)){toast('Noch gesperrt – freischalten durch '+reqText(it)+'.');return;}
+    S.game.gear={...gear(),[slot]:id};save(true);const y=scrollY;render();scrollTo(0,y);hop($('.nox-btn .nox'));},
   uncheck:el=>{const e=getEntry(el.dataset.e);if(!e)return;e.sets[+el.dataset.s].done=false;save();updateCard(e.id);updateProgress();},
   inc:el=>stepSet(el,1), dec:el=>stepSet(el,-1),
   rpe:el=>openRPE(el.dataset.e,+el.dataset.s),
