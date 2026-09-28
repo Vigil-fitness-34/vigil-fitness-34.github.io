@@ -1,9 +1,8 @@
 /* VIGIL Service Worker – macht die App offline-fähig.
    Version erhöhen, wenn index.html geändert wurde, damit Handys das Update laden. */
-const CACHE = 'vigil-v10';
+const CACHE = 'vigil-v11';
 const FONTS = 'vigil-fonts';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png',
-  './img/bg_beach.jpg', './img/bg_mountain.jpg', './img/bg_park.jpg', './img/bg_rooftop.jpg', './img/bg_studio.jpg', './img/bg_track.jpg', './img/i_aura_fire.jpg', './img/i_aura_focus.jpg', './img/i_aura_motiv.jpg', './img/i_aura_nature.jpg', './img/i_aura_shadow.jpg', './img/i_aura_storm.jpg', './img/i_bag.jpg', './img/i_band.jpg', './img/i_beanie.jpg', './img/i_belt.jpg', './img/i_bottle.jpg', './img/i_cap.jpg', './img/i_champ.jpg', './img/i_crown.jpg', './img/i_cuffs.jpg', './img/i_friend.jpg', './img/i_helm.jpg', './img/i_hoodie.jpg', './img/i_mission.jpg', './img/i_motiv.jpg', './img/i_phones.jpg', './img/i_prohoodie.jpg', './img/i_protein.jpg', './img/i_regen.jpg', './img/i_skin_earth.jpg', './img/i_skin_fire.jpg', './img/i_skin_ice.jpg', './img/i_skin_moon.jpg', './img/i_skin_shadow.jpg', './img/i_skin_std.jpg', './img/i_skin_thunder.jpg', './img/i_street.jpg', './img/i_tank.jpg', './img/i_towel.jpg', './img/i_vest.jpg', './img/i_watch.jpg', './img/i_xp.jpg', './img/wolf6.webp'];
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
