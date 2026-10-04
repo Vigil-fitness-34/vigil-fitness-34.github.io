@@ -263,7 +263,6 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:linear-gradi
 .form .grow{display:flex;flex-direction:column;gap:6px}.form small{font-size:13px;color:var(--muted)}.form .risk{color:var(--warn);display:flex;align-items:center;gap:5px}.form>.ic{color:var(--dim)}
 .fname{font-size:22px;font-weight:700;letter-spacing:-.02em}
 .stick{color:var(--text);flex:none;overflow:visible}.stick .fig{transform-origin:60px 150px;animation:breathe 3.6s ease-in-out infinite}
-.stick.s3 .arms,.stick.s4 .arms,.stick.s5 .arms{transform-origin:60px 45px;animation:flex 2.8s ease-in-out infinite}
 .stick .tw{animation:tw 1.8s ease-in-out infinite}.stick .t2{animation-delay:.9s}
 @keyframes breathe{50%{transform:scaleY(1.018)}}@keyframes flex{50%{transform:translateY(-1.5px)}}@keyframes tw{50%{opacity:.2}}
 .stages{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:14px;text-align:center}
@@ -282,6 +281,18 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:linear-gradi
 .feel{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);font-weight:500}.feel i{width:14px;height:5px;border-radius:99px;background:var(--s3)}.feel i.on{background:var(--acc)}.feel i:last-of-type{margin-right:6px}
 .feelrow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px}
 .feelrow button{height:42px;border-radius:12px;background:var(--s2);font-size:13px;font-weight:600;color:var(--muted)}.feelrow button.on{background:var(--acc);color:#1a1408}
+.mts{display:flex;gap:10px;margin-top:2px}.mt{flex:1;display:flex;flex-direction:column;gap:4px;font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
+.mt i{display:block;height:3px;border-radius:99px;background:var(--s3);overflow:hidden}.mt u{display:block;height:100%;background:var(--text);border-radius:99px}
+.fac{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.fac:last-child{border-bottom:0}.fac>.ic{color:var(--acc);margin-top:2px}
+.fac b{display:block;font-size:14.5px;font-weight:600}.fac small{display:block;font-size:13px;color:var(--muted);margin:2px 0 8px;line-height:1.4}
+.fac .bar{display:block;height:4px}.fac .bar u{display:block;height:100%;background:var(--acc);border-radius:99px}
+.poses{flex-wrap:wrap;overflow:visible}.poses button{height:auto;min-height:36px;padding:6px 14px;display:inline-flex;align-items:center;gap:5px}
+.poses .lk{opacity:.5;flex-wrap:wrap;font-weight:500}.poses .lk small{font-size:10.5px;font-weight:400;width:100%;text-align:left}
+.stick.p-flex1 .arms,.stick.p-flex2 .arms{transform-origin:60px 45px;animation:flex 2.6s ease-in-out infinite}
+.stick.p-lift .arms{animation:press 2.6s ease-in-out infinite}.stick.p-run .fig{animation:runb .62s ease-in-out infinite}
+.stick.p-box .arms{animation:jab 1.5s ease-in-out infinite}.stick .zz{animation:tw 2.4s ease-in-out infinite}
+.stick.m-sleep .fig,.stick.m-tired .fig{animation-duration:5.5s}.stick.m-sleep{opacity:.7}
+@keyframes press{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}@keyframes runb{50%{transform:translateY(-3.5px)}}@keyframes jab{0%,60%,100%{transform:translateX(0)}75%{transform:translateX(-4px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -630,26 +641,77 @@ function formInfo(){
   pts+=gp;
   let stage=0; FORM.forEach((f,k)=>{if(pts>=f.min)stage=k;});
   const cw=m[curK]||0, left=Math.max(0,t-cw), dow=(new Date().getDay()+6)%7;
-  return {pts,stage,form:FORM[stage],next:FORM[stage+1],sessions,full,missed,zero,gain,gp,thisWeek:cw,target:t,left,risk:left&&dow>=3&&keys.length?(cw===0?3:left):0};
+  const fig=figNow(pts,stage,t);
+  return {fig,pts,stage,form:FORM[stage],next:FORM[stage+1],sessions,full,missed,zero,gain,gp,thisWeek:cw,target:t,left,risk:left&&dow>=3&&keys.length?(cw===0?3:left):0};
 }
-function stickSVG(st,size=100,cls=''){
-  const sw=[3.6,3.8,4.2,4.6,5,5.4][st], A='var(--acc)';
-  const L=(d,w=sw,c='currentColor',o='')=>`<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" ${o}/>`;
-  const head=(x,y)=>`<circle cx="${x}" cy="${y}" r="11" fill="var(--hd,#131315)" stroke="currentColor" stroke-width="${sw}"/>`;
-  const fist=(x,y,r=3.6)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="currentColor"/>`;
-  const band=L('M49.5 20.5Q60 15.5 70.5 20.5',3.4,A);
-  let b='',a='';
-  if(st===0) b=L('M62 42Q81 68 60 96')+L('M61 46Q54 67 50 90')+L('M64 46Q71 68 70 90')+L('M60 96L54 148M60 96L67 148M54 148h-6M67 148h6')+head(66,30);
-  else if(st===1) b=L('M61 39Q73 67 60 94')+L('M60 45Q52 68 48 90')+L('M62 45Q69 68 71 90')+L('M60 94L53 148M60 94L67 148M53 148h-6M67 148h6')+head(63,27);
-  else if(st===2) b=L('M60 36V92M49 45H71')+L('M49 45L40 68L55 88M71 45L80 68L65 88')+L('M60 92L52 148M60 92L68 148M52 148h-6M68 148h6')+head(60,24);
-  else if(st===3){b=L('M47 44L73 44L65 92L55 92Z')+L('M47 45Q39 66 44 88')+L('M55 92L50 148M65 92L70 148M50 148h-6M70 148h6')+head(60,24);
-    a=L('M73 45L91 50L89 31')+L('M75 43Q83 35 90 46',sw*.75)+fist(89,28);}
-  else {const w=st===4?0:3;
-    b=L(`M${44-w} 44L${76+w} 44L66 92L54 92Z`)+L('M50 54Q55 59 60 55Q65 59 70 54',2.2)+(st===5?L('M56 64h8M56 72h8M57 80h6',2,'currentColor','opacity=".65"'):'')
-      +L(`M54 92Q${46-w} 120 ${50-w/2} 148M66 92Q${74+w} 120 ${70+w/2} 148M${50-w/2} 148h-6M${70+w/2} 148h6`)+head(60,24)+band;
-    a=L(`M${76+w} 45L${94+w} 50L${92+w} ${29-w/2}M${44-w} 45L${26-w} 50L${28-w} ${29-w/2}`)+L(`M${78+w} 43Q${87+w} ${34-w} ${93+w} 45M${42-w} 43Q${33-w} ${34-w} ${27-w} 45`,sw*.75)+fist(92+w,26-w/2,3.6+w/3)+fist(28-w,26-w/2,3.6+w/3);}
-  const fx=st>=5?`<ellipse cx="60" cy="151" rx="42" ry="6" fill="none" stroke="${A}" stroke-width="1.4" opacity=".7"/><path class="tw" d="M16 30l1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6z" fill="${A}"/><path class="tw t2" d="M104 60l1.3 3.4 3.4 1.3-3.4 1.3-1.3 3.4-1.3-3.4-3.4-1.3 3.4-1.3z" fill="${A}"/>`:'';
-  return `<svg class="stick s${st} ${cls}" viewBox="0 0 120 160" width="${size}" height="${Math.round(size*160/120)}" aria-hidden="true"><ellipse cx="60" cy="151" rx="${22+st*3}" ry="3.5" fill="currentColor" opacity=".1"/>${fx}<g class="fig">${b}<g class="arms">${a}</g></g></svg>`;
+/* the figure is drawn from real data: f = body mass (weight), m = muscle (form points, strength, how often you train),
+   mood = days since the last session, pose = what you trained last */
+const FIG_PRESET=[{f:.85,m:0,pose:'stand',mood:'tired'},{f:.65,m:.2,pose:'stand',mood:'ready'},{f:.45,m:.4,pose:'hips',mood:'ready'},{f:.3,m:.6,pose:'flex1',mood:'happy'},{f:.15,m:.82,pose:'flex2',mood:'happy'},{f:.05,m:1,pose:'lift',mood:'happy'}].map((p,i)=>({...p,stage:i,streak:i>=5?8:0}));
+const POSES=[['stand','Locker',()=>true,''],['hips','Bereit',c=>c.n>0,'nach dem 1. Training'],['flex1','Bizeps',c=>c.stage>=2,'ab Stufe „Aktiv“'],['lift','Überkopf',c=>c.stage>=3,'ab Stufe „Fit“'],['flex2','Doppelbizeps',c=>c.stage>=4,'ab Stufe „Athlet“'],['run','Laufen',c=>c.run,'nach dem 1. Lauf'],['box','Boxen',c=>c.box,'nach dem 1. Boxtraining']];
+function figNow(pts,stage,t){
+  const bw=currentBW(), ht=num(S.profile.height), st0=num(S.profile.startWeight), gl=num(S.profile.goalWeight);
+  const bmi=ht?bw/Math.pow(ht/100,2):null;
+  const f=bmi?clamp((bmi-21)/13,0,1):(st0>gl?clamp(.15+.7*(bw-gl)/(st0-gl),0,1):.4);
+  const c28=S.sessions.filter(s=>s.start>=Date.now()-28*864e5).length, cons=clamp(c28/(4*t),0,1), sc=strengthScore();
+  const m=clamp(.5*Math.min(1,pts/95)+.25*(sc??0)/100+.25*cons,0,1);
+  const ss=sortedSessions(), last=ss[ss.length-1], days=last?daysBetween(new Date(last.start),new Date()):null;
+  const mood=days==null?'ready':days<=1?'happy':days<=3?'ready':days<=6?'tired':'sleep';
+  const ctx={n:ss.length,stage,run:ss.some(s=>s.kind==='run'),box:ss.some(s=>s.kind==='boxing')}, open=POSES.filter(p=>p[2](ctx)).map(p=>p[0]);
+  let pose='stand';
+  if(mood==='happy'||mood==='ready'){
+    const str=open.filter(p=>['hips','flex1','lift','flex2'].includes(p)).slice(-2);
+    pose=last&&last.kind==='run'?'run':last&&last.kind==='boxing'?'box':str.length?str[new Date().getDate()%str.length]:'stand';
+    if(ui.pose&&open.includes(ui.pose)) pose=ui.pose;
+  }
+  return {f,m,pose,mood,stage,streak:streakInfo().streak,open,cons,c28,days,bmi,bw,score:sc,last:last?last.kind:null,
+    wProg:st0>gl?clamp((st0-bw)/(st0-gl),0,1):null};
+}
+function stickSVG(o,size=100,cls=''){
+  if(typeof o==='number') o=FIG_PRESET[o];
+  const {f,m,pose,mood,stage=0,streak=0}=o, A='var(--acc)', r=v=>Math.round(v*10)/10;
+  const slump=mood==='sleep'?1:mood==='tired'?.6:(m<.12&&f>.5?.4:0), sw=r(3.4+1.5*m+.5*f);
+  const sh=r(9+9*m+2*f), wa=r(Math.max(4,4.5+8*f-1.5*m)), bel=r(f*11), sy=r(45+slump*3), hx=r(60+slump*3), hy=r(24+slump*5);
+  const L=(d,w=sw,c='currentColor',x='')=>`<path d="${d}" fill="none" stroke="${c}" stroke-width="${r(w)}" stroke-linecap="round" stroke-linejoin="round" ${x}/>`;
+  // torso: shoulders grow with muscle, waist and belly with body weight
+  let b=`<path d="M${60-sh} ${sy}L${60+sh} ${sy}Q${r(60+wa+bel+2)} ${r(sy+27)} ${60+wa} 92L${60-wa} 92Q${r(60-wa-bel-2)} ${r(sy+27)} ${60-sh} ${sy}Z" fill="var(--hd,#131315)" stroke="currentColor" stroke-width="${sw}" stroke-linejoin="round"/>`;
+  if(m>.45) b+=L(`M${r(60-sh*.62)} ${sy+10}Q${r(60-sh*.3)} ${r(sy+14+m*2)} 60 ${sy+11}Q${r(60+sh*.3)} ${r(sy+14+m*2)} ${r(60+sh*.62)} ${sy+10}`,1.6+m*.6);
+  if(m>.7&&f<.4) b+=L(`M56 ${sy+22}h8M56 ${sy+29}h8M57 ${sy+36}h6`,1.8,'currentColor','opacity=".6"');
+  if(f>.55) b+=L(`M${r(60-wa*.6)} 79Q60 ${r(84+f*4)} ${r(60+wa*.6)} 79`,1.6,'currentColor','opacity=".45"');
+  // legs
+  const hp=r(wa*.55+1.5), q=r(m*7+f*4), lw=sw+f*1.2, ft=r(8+2*m+3*f);
+  let legs;
+  if(pose==='run') legs=L(`M${60-hp} 92L43 113L50 138l-8 3M${60+hp} 92L75 115L93 122l3 -7`,lw);
+  else if(pose==='box') legs=L(`M${60-hp} 92Q${r(42-q*.4)} 118 44 148h-7M${60+hp} 92Q${r(80+q*.4)} 118 79 148h7`,lw);
+  else legs=L(`M${60-hp} 92Q${r(60-hp-q)} 119 ${60-ft} 148h-6M${60+hp} 92Q${r(60+hp+q)} 119 ${60+ft} 148h6`,lw);
+  // arms: points relative to the shoulder, mirrored for the left side
+  const P=(s,dx,dy)=>`${r(60+s*(sh+dx))} ${r(sy+dy)}`, fr=r(3.2+m*1.2);
+  const fist=(s,dx,dy,rr=fr)=>`<circle cx="${r(60+s*(sh+dx))}" cy="${r(sy+dy)}" r="${rr}" fill="currentColor"/>`;
+  const glove=(s,dx,dy)=>`<circle cx="${r(60+s*(sh+dx))}" cy="${r(sy+dy)}" r="6.5" fill="${A}" stroke="var(--hd,#131315)" stroke-width="1.5"/>`;
+  const hang=s=>L(`M${P(s,0,1)}Q${P(s,4+f*4-slump*3,22)} ${P(s,2+f*4-slump*5,44)}`);
+  const hips=s=>L(`M${P(s,0,1)}L${P(s,11,22)}L${P(s,wa+bel*.5+3-sh,40)}`);
+  const flex=s=>L(`M${P(s,0,1)}L${P(s,17,5)}L${P(s,15,-15-m*3)}`)+(m>.2?L(`M${P(s,3,-2)}Q${P(s,9,-8-m*6)} ${P(s,15,2)}`,sw*.75):'')+fist(s,15,-18-m*3);
+  let a='',fx='';
+  if(pose==='hips') a=hips(1)+hips(-1);
+  else if(pose==='flex1') a=flex(1)+hips(-1);
+  else if(pose==='flex2') a=flex(1)+flex(-1);
+  else if(pose==='lift'){const by=r(sy-43), ph=r(13+m*7);
+    a=L(`M${P(1,0,1)}L${P(1,12,-17)}L${P(1,8,-41)}M${P(-1,0,1)}L${P(-1,12,-17)}L${P(-1,8,-41)}`)+L(`M16 ${by}H104`,3.2)
+      +[14,98].map(x=>`<rect x="${x}" y="${r(by-ph/2)}" width="8" height="${ph}" rx="2.5" fill="currentColor"/>`).join('')+[6,106].map(x=>`<rect x="${x}" y="${r(by-ph/2+3)}" width="6" height="${r(ph-6)}" rx="2" fill="${A}"/>`).join('');}
+  else if(pose==='box') a=L(`M${P(1,0,1)}L${P(1,10,19)}L${P(1,5,6)}M${P(-1,0,1)}L${P(-1,10,7)}L${P(-1,25,-3)}`)+glove(1,5,3)+glove(-1,27,-4);
+  else if(pose==='run'){a=L(`M${P(1,0,1)}L${P(1,8,18)}L${P(1,18,11)}M${P(-1,0,1)}L${P(-1,6,17)}L${P(-1,15,3)}`)+fist(1,19,10)+fist(-1,16,1);
+    fx+=L('M4 66h13M0 80h11M5 94h9',2,'currentColor','opacity=".3"');}
+  else a=hang(1)+hang(-1);
+  // head, face, headband
+  let hd=`<circle cx="${hx}" cy="${hy}" r="11" fill="var(--hd,#131315)" stroke="currentColor" stroke-width="${sw}"/>`;
+  if(size>=60){const e=(x,y)=>mood==='happy'?`M${x-2.2} ${y+.6}Q${x} ${y-2.6} ${x+2.2} ${y+.6}`:mood==='ready'?`M${x} ${y-.4}v.8`:mood==='tired'?`M${x-2.2} ${y}h4.4`:`M${x-2.2} ${y-.6}Q${x} ${y+2} ${x+2.2} ${y-.6}`;
+    const mo=mood==='happy'?`M${hx-3.6} ${hy+3.6}Q${hx} ${hy+7.6} ${hx+3.6} ${hy+3.6}`:mood==='ready'?`M${hx-2.6} ${hy+5}Q${hx} ${hy+6.4} ${hx+2.6} ${hy+5}`:mood==='tired'?`M${hx-2.8} ${hy+6}Q${hx} ${hy+4.2} ${hx+2.8} ${hy+6}`:`M${hx-1.4} ${hy+5.4}h2.8`;
+    hd+=L(e(hx-4,hy-1.5)+e(hx+4,hy-1.5),mood==='ready'?2.6:1.7)+L(mo,1.7);
+    if(mood==='sleep') hd+=`<text class="zz" x="${hx+15}" y="${hy-9}" font-size="12" font-weight="700" fill="currentColor" opacity=".55" font-family="Inter,sans-serif">z<tspan dx="1" dy="-6" font-size="9">z</tspan></text>`;
+    if(mood==='tired') hd+=`<path d="M${hx+13} ${hy-6}q-3 5 0 7q3 -2 0 -7z" fill="#7aa2ff" opacity=".8"/>`;}
+  if(stage>=4) hd+=L(`M${hx-10.6} ${hy-4}Q${hx} ${hy-9} ${hx+10.6} ${hy-4}`,3.2,A)+L(`M${hx+10.4} ${hy-4.4}l7.5 2.6M${hx+10.2} ${hy-3.4}l5.6 7`,2,A);
+  if(streak>=2) fx+=`<ellipse cx="60" cy="151" rx="${r(34+Math.min(streak,10))}" ry="6" fill="none" stroke="${A}" stroke-width="1.4" opacity="${r(Math.min(.9,.3+streak*.08))}"/>`;
+  if(streak>=8||stage>=5) fx+=`<path class="tw" d="M12 34l1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6z" fill="${A}"/><path class="tw t2" d="M108 62l1.3 3.4 3.4 1.3-3.4 1.3-1.3 3.4-1.3-3.4-3.4-1.3 3.4-1.3z" fill="${A}"/>`;
+  return `<svg class="stick p-${pose} m-${mood} ${cls}" viewBox="0 -14 120 174" width="${size}" height="${Math.round(size*174/120)}" aria-hidden="true"><ellipse cx="60" cy="151" rx="${r(22+m*12+f*6)}" ry="3.5" fill="currentColor" opacity=".1"/>${fx}<g class="fig">${legs}${b}<g class="arms">${a}</g>${hd}</g></svg>`;
 }
 
 /* ---------- feedback ---------- */
@@ -899,25 +961,41 @@ function historyHTML(){
 
 /* ----- form companion ----- */
 function formCard(){
-  const f=formInfo(), nx=f.next, pct=nx?clamp((f.pts-f.form.min)/(nx.min-f.form.min),0,1):1;
-  return `<button class="card form" data-a="form">${stickSVG(f.stage,92)}<span class="grow">
+  const f=formInfo(), g=f.fig, nx=f.next, pct=nx?clamp((f.pts-f.form.min)/(nx.min-f.form.min),0,1):1;
+  const M=(l,v)=>`<span class="mt"><i><u style="width:${Math.round(clamp(v,0,1)*100)}%"></u></i>${l}</span>`;
+  return `<button class="card form" data-a="form">${stickSVG(g,104)}<span class="grow">
     <span class="kicker">Deine Form · ${f.stage+1}/6</span><b class="fname">${f.form.name}</b>
     <span class="bar"><i style="width:${pct*100}%"></i></span>
     <small>${nx?`Noch ${Math.max(1,nx.min-f.pts)} Punkte bis „${nx.name}“`:'Höchste Form – halte sie jede Woche.'}</small>
-    ${f.risk?`<small class="risk">${icon('info',13)} Noch ${f.left} ${f.left===1?'Einheit':'Einheiten'} bis Sonntag, sonst −${f.risk} Punkte</small>`:''}</span>${icon('chev',16)}</button>`;
+    <span class="mts">${M('Gewicht',g.wProg??1-g.f)}${M('Muskeln',g.m)}${M('Konstanz',g.cons)}</span>
+    ${f.risk?`<small class="risk">${icon('info',13)} Noch ${f.left} ${f.left===1?'Einheit':'Einheiten'} bis Sonntag, sonst −${f.risk} Punkte</small>`:g.mood==='tired'?`<small class="risk">${icon('info',13)} ${g.days} Tage Pause – deine Figur wird müde</small>`:g.mood==='sleep'?`<small class="risk">${icon('moon',13)} ${g.days} Tage Pause – ein Training weckt sie auf</small>`:''}</span>${icon('chev',16)}</button>`;
 }
-function openForm(){
-  const f=formInfo();
+function formSheetHTML(){
+  const f=formInfo(), g=f.fig, gl=num(S.profile.goalWeight);
   const row=(l,v,c='')=>`<div class="srow"><span>${l}</span><b class="num ${c}">${v}</b></div>`;
-  openSheet(`<div style="text-align:center">${stickSVG(f.stage,150)}<div class="kicker" style="margin-top:6px">Stufe ${f.stage+1} von 6</div><h2 style="justify-content:center;margin:4px 0 2px">${f.form.name}</h2>
-    <p class="muted sm">${f.pts} Formpunkte${f.next?` · ab ${f.next.min} wirst du „${f.next.name}“`:''}</p></div>
-    <div class="stages">${FORM.map((x,i)=>`<div class="${i>f.stage?'lk':''} ${i===f.stage?'cur':''}">${stickSVG(i,44)}<span>${x.name}</span><small>${x.min} P.</small></div>`).join('')}</div>
+  const fac=(ic,t,d,v)=>`<div class="fac">${icon(ic,18)}<span class="grow"><b>${t}</b><small>${d}</small><i class="bar"><u style="width:${Math.round(clamp(v,0,1)*100)}%"></u></i></span></div>`;
+  const moodTx={happy:'Voller Energie – du hast gerade trainiert.',ready:'Ausgeruht und bereit.',tired:`${g.days} Tage Pause – wird müde.`,sleep:`${g.days} Tage Pause – eingeschlafen.`}[g.mood];
+  const ctx={n:S.sessions.length,stage:f.stage,run:S.sessions.some(s=>s.kind==='run'),box:S.sessions.some(s=>s.kind==='boxing')};
+  return `<div style="text-align:center">${stickSVG(g,170)}<div class="kicker" style="margin-top:8px">Stufe ${f.stage+1} von 6</div><h2 style="justify-content:center;margin:4px 0 2px">${f.form.name}</h2>
+    <p class="muted sm">${f.pts} Formpunkte${f.next?` · ab ${f.next.min} wirst du „${f.next.name}“`:''}<br>${moodTx}</p></div>
+    <div class="kicker" style="margin:6px 0 8px">Pose</div>
+    <div class="chips poses">${POSES.map(([k,l,ok,req])=>ok(ctx)?`<button class="${g.pose===k?'on':''}" data-a="pose" data-v="${k}" ${g.mood==='tired'||g.mood==='sleep'?'disabled':''}>${l}</button>`:`<button class="lk" disabled>${icon('lock',12)} ${l}<small>${req}</small></button>`).join('')}</div>
+    <div class="kicker" style="margin:16px 0 8px">Was deine Figur formt</div>
+    <div class="card" style="padding:4px 16px">
+      ${fac('scale','Körpergewicht → Statur',`${fmt(g.bw,1)} kg${g.bmi?` · BMI ${fmt(g.bmi,1)}`:''}${gl?` · Ziel ${fmt(gl,1)} kg`:''}. Je näher am Ziel, desto schlanker die Taille.`,g.wProg??1-g.f)}
+      ${fac('cal','Trainingshäufigkeit → Muskeln & Energie',`${g.c28} Einheiten in den letzten 4 Wochen (Ziel ${f.target*4}).`,g.cons)}
+      ${fac('dumbbell','Kraft → Schultern & Arme',g.score!=null?`Kraft-Score ${fmt(g.score,0)} von 100.`:'Kraft-Score erscheint nach den ersten Grundübungen.',(g.score??0)/100)}
+      ${fac('flame','Streak → goldener Ring',g.streak?`${g.streak} volle ${g.streak===1?'Woche':'Wochen'} in Folge.`:'Ab 2 vollen Wochen in Folge.',g.streak/8)}
+      ${fac('swap','Letztes Training → Pose',g.last==='run'?'Zuletzt gelaufen – sie läuft.':g.last==='boxing'?'Zuletzt geboxt – sie boxt.':g.last?'Zuletzt Kraft trainiert.':'Noch kein Training.',g.last?1:0)}</div>
+    <div class="kicker" style="margin:16px 0 4px">Stufen</div>
+    <div class="stages">${FORM.map((x,i)=>`<div class="${i>f.stage?'lk':''} ${i===f.stage?'cur':''}">${stickSVG(i,46)}<span>${x.name}</span><small>${x.min} P.</small></div>`).join('')}</div>
     <div class="card" style="padding:2px 16px;margin-top:14px">
       ${row(`${f.sessions} Trainings`,'+'+f.sessions,'up-c')}${row(`${f.full} volle Wochen (je +2)`,'+'+f.full*2,'up-c')}${row(`Kraftzuwachs +${fmt(f.gain,1)} % (je 3 % = 1)`,'+'+f.gp,'up-c')}
       ${f.missed||f.zero?row(`${f.missed} fehlende Einheiten${f.zero?` · ${f.zero} Wochen ohne Training (je −3)`:''}`,'−'+(f.missed+f.zero*3),'down-c'):''}</div>
-    <p class="muted sm">Deine Figur wird fitter, wenn du dranbleibst – nicht durch schwere Gewichte allein. Verpasste Einheiten kosten Punkte, sie kann also auch wieder abbauen. Die laufende Woche zählt erst ab Montag gegen dich.</p>
-    <button class="btn primary block" data-a="close">Schließen</button>`);
+    <p class="muted sm">Verpasste Einheiten kosten Punkte – die Figur kann also auch wieder abbauen. Die laufende Woche zählt erst ab Montag gegen dich.</p>
+    <button class="btn primary block" data-a="close">Schließen</button>`;
 }
+function openForm(){openSheet(formSheetHTML());}
 
 /* ----- diary ----- */
 const feelHTML=v=>`<span class="feel">${[1,2,3,4,5].map(i=>`<i class="${i<=v?'on':''}"></i>`).join('')}${FEEL[v-1]}</span>`;
@@ -1309,6 +1387,7 @@ const A={
   discard:async()=>{if(await confirmDlg(S.active.editing?'Änderungen verwerfen?':'Training abbrechen? Alle Eingaben gehen verloren.','Verwerfen',true)){S.active=null;stopTimer();releaseWake();save(true);render();}},
   check:el=>checkSet(el.dataset.e,+el.dataset.s,el),
   form:()=>openForm(),
+  pose:el=>{ui.pose=el.dataset.v;setSheet(formSheetHTML());const y=scrollY;render();scrollTo(0,y);buzz(15);},
   logf:el=>{ui.logF=el.dataset.v;ui.logN=30;render();},
   'log-more':()=>{ui.logN=(ui.logN||30)+30;const y=scrollY;render();scrollTo(0,y);},
   feel:el=>{const s=S.sessions.find(x=>x.id===el.dataset.id);if(!s)return;const v=+el.dataset.v;s.feel=s.feel===v?null:v;save(true);
