@@ -1,53 +1,21 @@
-/* VIGIL Service Worker – macht die App offline-fähig.
-   Version erhöhen, wenn index.html geändert wurde, damit Handys das Update laden. */
-const CACHE = 'vigil-v13';
-const FONTS = 'vigil-fonts';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
-
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
+// Offline-Speicher der Web-App (erzeugt von scripts/handy.js)
+const SPEICHER = 'sales-universe-1792692617811';
+const DATEIEN = ["./","index.html","manifest.webmanifest","icon-180.png","icon-192.png","icon-512-maskable.png","icon-512.png","fonts/inter-400.woff2","fonts/inter-500.woff2","fonts/inter-600.woff2","fonts/inter-700.woff2"];
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(SPEICHER).then((c) => c.addAll(DATEIEN)).then(() => self.skipWaiting()));
 });
-
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== FONTS).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+self.addEventListener('activate', (e) => {
+  e.waitUntil(caches.keys().then((alle) => Promise.all(alle.filter((n) => n !== SPEICHER).map((n) => caches.delete(n)))).then(() => self.clients.claim()));
 });
-
-self.addEventListener('fetch', e => {
-  const req = e.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-
-  // App-Dateien: sofort aus dem Cache (schnell im Gym), im Hintergrund aktualisieren.
-  if (url.origin === location.origin) {
-    const key = req.mode === 'navigate' ? './index.html' : req;
-    e.respondWith(caches.open(CACHE).then(async cache => {
-      const cached = await cache.match(key, { ignoreSearch: true });
-      const network = fetch(req).then(res => {
-        if (res && res.ok) cache.put(key, res.clone());
-        return res;
-      }).catch(() => null);
-      if (cached) { e.waitUntil(network); return cached; }
-      return (await network) || new Response('Offline', { status: 503, statusText: 'Offline' });
-    }));
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  if (e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).then((r) => {
+      const kopie = r.clone();
+      caches.open(SPEICHER).then((c) => c.put('index.html', kopie));
+      return r;
+    }).catch(() => caches.match('index.html')));
     return;
   }
-
-  // Google Fonts: einmal laden, danach offline aus dem Cache.
-  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-    e.respondWith(caches.open(FONTS).then(async cache => {
-      const cached = await cache.match(req);
-      if (cached) return cached;
-      try {
-        const res = await fetch(req);
-        if (res && (res.ok || res.type === 'opaque')) cache.put(req, res.clone());
-        return res;
-      } catch (err) {
-        return new Response('', { status: 504 });
-      }
-    }));
-  }
+  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
 });

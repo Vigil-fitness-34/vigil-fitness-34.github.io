@@ -1,32 +1,30 @@
 {
-  "name": "VIGIL – Training",
-  "short_name": "VIGIL",
-  "description": "Trainingslog für Kraft, Laufen und Boxen. Progression, Rekorde und Statistiken. Offline.",
+  "name": "Sales Universe",
+  "short_name": "Sales Universe",
+  "description": "Einwände nachschlagen, Playbook lernen und üben: Sales Universe für unterwegs.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0a0a0b",
-  "theme_color": "#0a0a0b",
+  "background_color": "#0B0B0D",
+  "theme_color": "#0B0B0D",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "src": "icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
