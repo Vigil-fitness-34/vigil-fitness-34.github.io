@@ -207,6 +207,176 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .zertpreise span { color: var(--leise); font-size: 14px; }
 @media (max-width: 760px) { .zertband { grid-template-columns: 1fr; } }
 
+.stufenreihe { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stufenreihe div { padding: 14px; border-radius: 16px; background: var(--flaeche-hoch); border: 1px solid var(--kante); display: grid; gap: 2px; }
+.stufenreihe div.gold { border-color: rgba(212, 175, 124, 0.5); background: var(--gold-zart); }
+.stufenreihe b { font-family: var(--anzeige); font-size: 30px; color: var(--gold); }
+.stufenreihe span { font-weight: 700; }
+.stufenreihe small { color: var(--leise); font-size: 13px; }
+
+.planpreise { display: flex; gap: 8px; flex-wrap: wrap; }
+.planpreise div { padding: 10px 14px; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--kante); display: grid; }
+.planpreise div.gold { border-color: rgba(212, 175, 124, 0.5); }
+.planpreise b { font-family: var(--anzeige); font-size: 22px; color: var(--gold); }
+.planpreise span { font-size: 12.5px; color: var(--leise); }
+
+
+/* Das kleine Fenster: Video mit Stimme */
+.szene { position: relative; display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: start; padding-bottom: 92px; }
+.szenetitel { margin-bottom: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--leise); }
+.bildschirm { position: relative; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background: #101116; border: 1px solid var(--kante); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); transition: box-shadow 0.4s, border-color 0.4s; }
+.callleiste { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; font-size: 12px; color: var(--leise); background: rgba(0, 0, 0, 0.35); z-index: 2; }
+.callzeit { margin-left: auto; font-variant-numeric: tabular-nums; }
+.punkt.rot { width: 8px; height: 8px; border-radius: 50%; background: var(--rot); animation: puls 1.6s infinite; }
+.punkt.gruen { width: 8px; height: 8px; border-radius: 50%; background: var(--gruen); }
+.folie { position: absolute; left: 6%; top: 18%; width: 58%; height: 64%; border-radius: 12px; background: linear-gradient(160deg, #1d2030, #141620); padding: 6% 7%; display: grid; align-content: start; gap: 8px; }
+.folie small { color: var(--gold); font-weight: 700; font-size: clamp(9px, 1vw, 12px); letter-spacing: 0.08em; text-transform: uppercase; }
+.folie b { font-family: var(--anzeige); font-size: clamp(13px, 1.8vw, 22px); line-height: 1.15; }
+.folienbalken { display: grid; gap: 7px; margin-top: 6px; }
+.folienbalken i { display: block; height: 7px; border-radius: 4px; background: rgba(255, 255, 255, 0.12); }
+.kachel.kunde, .kachel.ich { position: absolute; right: 4%; width: 27%; aspect-ratio: 4 / 3; border-radius: 12px; display: grid; place-items: center; padding: 0; border: 2px solid transparent; transition: border-color 0.3s; }
+.kachel.kunde { top: 18%; background: linear-gradient(160deg, #2a3550, #1b2133); }
+.kachel.ich { top: 52%; background: linear-gradient(160deg, #262833, #17181d); }
+.kachel.ich img { width: 34%; height: auto; }
+.szene[data-schritt="einwand"] .kachel.kunde, .szene[data-schritt="reaktion"] .kachel.kunde, .szene[data-schritt="antwort"] .kachel.ich { border-color: var(--gruen); }
+.avatar { width: 44%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: #8a5a3b; color: #fff; font-weight: 800; font-size: clamp(11px, 1.4vw, 16px); }
+.kachel.kunde em { position: absolute; left: 8px; bottom: 6px; font-style: normal; font-size: 11px; color: var(--leise); }
+.denkblase { position: absolute; top: 8%; right: 10%; padding: 2px 8px; border-radius: 10px; background: #fff; color: #111; font-weight: 900; font-size: clamp(11px, 1.3vw, 15px); opacity: 0; transform: scale(0.6); transition: opacity 0.3s, transform 0.3s; }
+.szene[data-schritt="stille"] .denkblase { opacity: 1; transform: scale(1); animation: wackeln 0.5s ease-in-out infinite alternate; }
+@keyframes wackeln { to { transform: rotate(6deg) scale(1.05); } }
+.untertitel { position: absolute; left: 50%; bottom: 7%; transform: translate(-50%, 8px); width: max-content; max-width: 88%; padding: 7px 12px; border-radius: 10px; background: rgba(0, 0, 0, 0.78); font-size: clamp(11px, 1.3vw, 14px); opacity: 0; transition: opacity 0.35s, transform 0.35s; z-index: 2; }
+.szene[data-schritt="einwand"] .untertitel.kunde, .szene[data-schritt="stille"] .untertitel.kunde, .szene[data-schritt="antwort"] .untertitel.du, .szene[data-schritt="reaktion"] .untertitel.kunde2 { opacity: 1; transform: translate(-50%, 0); }
+.taste { position: absolute; left: 36%; top: 46%; transform: translate(-50%, -50%) scale(0.9); display: flex; gap: 6px; align-items: center; padding: 10px 14px; border-radius: 14px; background: rgba(11, 11, 13, 0.9); border: 1px solid var(--gold); color: var(--leise); opacity: 0; transition: opacity 0.25s, transform 0.25s; z-index: 4; }
+.taste kbd { font: inherit; font-weight: 700; color: var(--text); padding: 4px 9px; border-radius: 8px; background: var(--flaeche-hoch); border: 1px solid var(--kante); box-shadow: 0 3px 0 #000; font-size: clamp(11px, 1.2vw, 14px); }
+.szene[data-schritt="taste"] .taste:not(.esc), .szene[data-schritt="esc"] .taste.esc { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.szene[data-schritt="taste"] .taste kbd, .szene[data-schritt="esc"] .taste kbd { animation: druck 0.5s 0.3s; }
+@keyframes druck { 50% { transform: translateY(3px); box-shadow: 0 0 0 #000; } }
+.mini { position: absolute; right: 3%; top: 12%; width: 40%; padding: 10px 12px; border-radius: 14px; background: rgba(23, 24, 27, 0.97); border: 1px solid var(--gold); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 0 4px rgba(212, 175, 124, 0.12); display: grid; gap: 6px; font-size: clamp(10px, 1.1vw, 13px); opacity: 0; transform: translateY(-10px) scale(0.96); transition: opacity 0.35s, transform 0.35s; z-index: 3; }
+.szene[data-schritt="fenster"] .mini, .szene[data-schritt="unsichtbar"] .mini, .szene[data-schritt="antwort"] .mini, .szene[data-schritt="reaktion"] .mini { opacity: 1; transform: none; }
+.minikopf { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--gold); }
+.minikopf small { margin-left: auto; color: var(--leise); font-weight: 500; }
+.minipunkt { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.minisuche { padding: 5px 8px; border-radius: 8px; background: var(--flaeche-hoch); color: var(--leise); }
+.cursor { display: inline-block; width: 1px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--gold); animation: blinken 1s steps(2) infinite; }
+@keyframes blinken { 50% { opacity: 0; } }
+.mini b { font-size: 1.15em; }
+.mini p { color: var(--text); line-height: 1.4; }
+.minichips { display: flex; gap: 4px; flex-wrap: wrap; }
+.minichips span { padding: 2px 7px; border-radius: 999px; border: 1px solid var(--kante); color: var(--leise); font-size: 0.9em; }
+.unsichtbar { position: absolute; right: 4%; top: 18%; width: 34%; padding: 10px; border-radius: 12px; border: 1px dashed rgba(46, 204, 113, 0.5); color: var(--gruen); font-size: clamp(10px, 1.1vw, 13px); font-weight: 700; text-align: center; opacity: 0; transition: opacity 0.35s; }
+.szene[data-schritt="unsichtbar"] .unsichtbar, .szene[data-schritt="antwort"] .unsichtbar, .szene[data-schritt="reaktion"] .unsichtbar { opacity: 1; }
+.szene[data-schritt="unsichtbar"] .bildschirm.kundin { border-color: var(--gruen); box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.25), 0 24px 60px rgba(0, 0, 0, 0.45); }
+.erzaehler { position: absolute; left: 0; right: 0; bottom: 18px; min-height: 52px; display: grid; place-items: center; text-align: center; font-size: clamp(15px, 1.7vw, 19px); font-weight: 600; color: var(--text); padding: 0 60px; }
+.erzaehler:empty { display: none; }
+.szeneende { position: absolute; inset: 0 0 92px 0; border-radius: 18px; display: grid; place-content: center; gap: 12px; text-align: center; background: radial-gradient(circle at 50% 40%, rgba(212, 175, 124, 0.25), rgba(11, 11, 13, 0.94) 65%); opacity: 0; pointer-events: none; transition: opacity 0.5s; z-index: 6; }
+.szeneende b { font-family: var(--anzeige); font-size: clamp(24px, 3.4vw, 42px); line-height: 1.15; }
+.szeneende span { color: var(--gold); font-weight: 700; letter-spacing: 0.06em; }
+.szene[data-schritt="ende"] .szeneende { opacity: 1; }
+.szenestart { position: absolute; inset: 0 0 92px 0; z-index: 7; display: grid; place-content: center; justify-items: center; gap: 6px; border: 0; border-radius: 18px; background: rgba(11, 11, 13, 0.55); backdrop-filter: blur(2px); color: var(--text); cursor: pointer; font: inherit; }
+.szenestart .dreieck { width: 84px; height: 84px; border-radius: 50%; background: var(--gold); box-shadow: 0 6px 0 var(--gold-tief), 0 0 0 10px rgba(212, 175, 124, 0.18); position: relative; margin-bottom: 8px; }
+.szenestart .dreieck::after { content: ''; position: absolute; left: 34px; top: 26px; border-left: 26px solid #1a1408; border-top: 16px solid transparent; border-bottom: 16px solid transparent; }
+.szenestart b { font-family: var(--anzeige); font-size: 22px; }
+.szenestart small { color: var(--leise); }
+.szene.laeuft .szenestart { display: none; }
+.szenesteuer { position: absolute; right: 0; bottom: 30px; display: flex; gap: 6px; z-index: 8; }
+.szenesteuer button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--kante); background: var(--flaeche); color: var(--leise); cursor: pointer; font-size: 13px; }
+.szene:not(.laeuft) .szenesteuer { display: none; }
+.fenstervorteile { margin-top: 28px; }
+@media (max-width: 860px) { .szene { grid-template-columns: 1fr; padding-bottom: 110px; } .mini { width: 50%; } .szeneende, .szenestart { inset: 0 0 110px 0; } .erzaehler { padding: 0 50px 0 0; text-align: left; } }
+@media (max-width: 520px) { .mini { width: 60%; top: 10%; padding: 7px 8px; gap: 3px; font-size: 9px; } .minichips, .minisuche { display: none; } .untertitel { font-size: 10px; padding: 5px 8px; } .kachel.kunde em { display: none; } .kachel.ich { display: none; } }
+
+/* Widgets */
+.widgetwand { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.widget { border-radius: 26px; padding: 16px; background: linear-gradient(170deg, #1c1d22, #0f1013); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4); display: grid; gap: 8px; align-content: start; transition: transform 0.25s; }
+.widget:hover { transform: translateY(-4px) rotate(-0.4deg); }
+.widget.klein { aspect-ratio: 1; align-content: end; }
+.widget.mittel { grid-column: span 2; aspect-ratio: 2.14; }
+.widget b { font-family: var(--anzeige); }
+.widget.feuer { background: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.28), transparent 60%), linear-gradient(170deg, #1c1d22, #0f1013); justify-items: center; text-align: center; }
+.wflamme { width: 46%; fill: var(--flamme); filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.6)); }
+.widget.feuer b { font-size: 44px; color: var(--flamme); line-height: 1; }
+.widget.klein span { color: var(--leise); font-size: 14px; font-weight: 600; }
+.widget.ring { justify-items: center; text-align: center; align-content: center; }
+.ringbox { position: relative; width: 64%; aspect-ratio: 1; }
+.widget.ring svg { width: 100%; transform: rotate(-90deg); }
+.ringzahl { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; }
+.ringzahl b { font-size: 34px; }
+.ringzahl small { color: var(--leise); font-weight: 700; font-size: 12px; }
+.widget.ring circle { fill: none; stroke-width: 4; }
+.widget.ring .hinten { stroke: #2a2b31; }
+.widget.ring .vorne { stroke: var(--gold); stroke-linecap: round; }
+.widget.wiederholung, .widget.rang { justify-items: start; }
+.widget.klein .wkarten, .widget.klein .levelbadge { color: #1a1408; }
+.widget.klein .wkarten { color: #fff; }
+.wkarten { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: #4D9BE8; color: #fff; font-size: 30px; font-weight: 700; box-shadow: 6px -6px 0 rgba(77,155,232,0.35); margin-bottom: auto; }
+.widget.wiederholung b, .widget.rang b { font-size: 40px; line-height: 1; }
+.widget.rang b { font-size: 26px; }
+.levelbadge.gross { width: 64px; height: 64px; font-size: 28px; margin-bottom: auto; }
+.wkopf { display: flex; align-items: center; gap: 10px; }
+.wkopf small, .wtitel { color: var(--gold); font-size: 12px; font-weight: 700; }
+.wkopf b { display: block; font-size: 18px; line-height: 1.2; }
+.wkopf em { margin-left: auto; font-style: normal; font-weight: 700; color: var(--gold); font-size: 13px; }
+.levelbadge { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(180deg, #F2D9B0, var(--gold)); color: #1a1408; font-weight: 900; font-family: var(--anzeige); }
+.wpfad { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; position: relative; }
+.wpfad::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: #2a2b31; }
+.wpfad i { position: relative; width: 18px; height: 18px; border-radius: 50%; background: #2a2b31; font-style: normal; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+.wpfad i.ok { background: var(--gold); }
+.wpfad i.jetzt { width: 28px; height: 28px; background: linear-gradient(180deg, #F2D9B0, var(--gold)); color: #1a1408; box-shadow: 0 0 0 4px rgba(212, 175, 124, 0.25); }
+.wspur { height: 7px; border-radius: 4px; background: #2a2b31; overflow: hidden; }
+.wspur span { display: block; height: 100%; border-radius: 4px; background: var(--gold); }
+.wspur.blau span { background: #4D9BE8; }
+.wspur.lila span { background: #A78BFA; }
+.wleise { color: var(--leise); font-size: 13px; }
+.wzeile { display: flex; justify-content: space-between; align-items: center; }
+.wchip { padding: 3px 9px; border-radius: 999px; background: var(--gold-zart); color: var(--gold); font-size: 12px; font-weight: 700; }
+.wgross { font-size: 30px; }
+.quest { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; font-size: 14px; }
+.quest b { font-family: var(--schrift); font-size: 14px; display: block; margin-bottom: 4px; }
+.quest em { font-style: normal; color: var(--leise); font-size: 12px; }
+.qsym { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; font-size: 14px; }
+.qsym.gold { background: rgba(245, 158, 11, 0.18); color: var(--flamme); }
+.qsym.blau { background: rgba(77, 155, 232, 0.18); color: #7DB6F0; }
+.qsym.lila { background: rgba(167, 139, 250, 0.18); color: #A78BFA; }
+.widget.lernstand { grid-template-columns: auto 1fr; align-items: center; gap: 16px; }
+.widget.lernstand svg { width: 120px; transform: rotate(-90deg); }
+.widget.lernstand circle { fill: none; stroke-width: 6; stroke-linecap: round; }
+.r1 { stroke: #F59E0B; stroke-dasharray: 94 276.5; }
+.r2 { stroke: #2ECC71; stroke-dasharray: 117.6 226.2; }
+.r3 { stroke: #4D9BE8; stroke-dasharray: 107.3 175.9; }
+.r4 { stroke: #A78BFA; stroke-dasharray: 35.2 125.7; }
+.lsliste { display: grid; gap: 4px; font-size: 13.5px; }
+.lsliste span { display: flex; align-items: center; gap: 8px; }
+.lsliste span b { margin-left: auto; font-family: var(--schrift); color: var(--gold); }
+.lsliste i { width: 9px; height: 9px; border-radius: 50%; }
+@media (max-width: 900px) { .widgetwand { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .widget.mittel { aspect-ratio: auto; } .widget.feuer b { font-size: 34px; } }
+
+/* Warum sich das lohnt */
+.nutzen { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.nutzen > * { min-width: 0; }
+.vorhernachher { border-radius: var(--rund); overflow: hidden; border: 1px solid var(--kante); background: var(--flaeche); }
+.vnkopf, .vnzeile { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.vnkopf span { padding: 14px 18px; font-weight: 800; font-family: var(--anzeige); font-size: 18px; }
+.vnkopf span:first-child { color: var(--leise); }
+.vnkopf span:last-child { color: var(--gold); background: var(--gold-zart); }
+.vnzeile span { padding: 14px 18px; border-top: 1px solid var(--kante); line-height: 1.4; }
+.vnzeile span:first-child { color: var(--leise); text-decoration: line-through; text-decoration-color: rgba(240, 84, 79, 0.6); }
+.vnzeile span:last-child { background: var(--gold-zart); font-weight: 600; }
+.lohnrechner { border-radius: var(--rund); padding: clamp(20px, 3vw, 28px); border: 1px solid rgba(212, 175, 124, 0.4); background: linear-gradient(160deg, rgba(212, 175, 124, 0.18), rgba(212, 175, 124, 0.03)); display: grid; gap: 12px; }
+.lohnrechner { grid-template-columns: minmax(0, 1fr); }
+.lohnrechner > * { min-width: 0; }
+.eurofeld input { width: 100%; }
+.lohnrechner label { display: grid; gap: 2px; font-size: 18px; }
+.eurofeld { display: flex; align-items: center; gap: 8px; }
+.eurofeld input { flex: 1; min-width: 0; font: inherit; font-family: var(--anzeige); font-size: 28px; font-weight: 800; padding: 10px 14px; border-radius: 14px; border: 2px solid var(--kante); background: var(--nacht); color: var(--text); }
+.eurofeld input:focus { outline: none; border-color: var(--gold); }
+.eurofeld span { font-family: var(--anzeige); font-size: 28px; font-weight: 800; color: var(--gold); }
+.lohnergebnis { font-size: 17px; line-height: 1.45; }
+.lohnergebnis b { color: var(--gold); font-size: 1.15em; }
+.lohnrechner .knopf { justify-self: start; }
+@media (max-width: 860px) { .nutzen { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .vnkopf span, .vnzeile span { padding: 11px 12px; font-size: 14px; } .vnkopf span { font-size: 15px; } }
+
 /* Lernpfad */
 .pfad { position: relative; display: grid; gap: 18px; max-width: 760px; margin: 0 auto; }
 .station { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: center; }
@@ -368,12 +538,13 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <div class="huelle">
     <a class="marke" href="#start"><img src="bilder/logo.png" alt="">Sales <span>Universe</span></a>
     <nav aria-label="Abschnitte">
+      <a href="#nutzen">Warum</a>
+      <a href="#probe">Ausprobieren</a>
+      <a href="#fenster">Kleines Fenster</a>
       <a href="#lernpfad">Lernpfad</a>
-      <a href="#funktionen">So lernst du</a>
+      <a href="#preise">Preise</a>
       <a href="#ambassador">Ambassador</a>
       <a href="#pipeline">Was kommt</a>
-      <a href="#preise">Preise</a>
-      <a href="#fragen">Fragen</a>
     </nav>
     <a class="knopf" data-link="gratis" href="#preise">30 Tage testen</a>
   </div>
@@ -419,6 +590,128 @@ details p { padding-bottom: 20px; color: var(--leise); }
     </div>
   </section>
 
+  <section id="nutzen">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <span class="etikett">Warum sich das lohnt</span>
+        <h2>Ein Kunde mehr, und die 49 € sind wieder drin.</h2>
+        <p class="leise">Kein Seminar am Wochenende, kein Abo. Du lernst jeden Tag ein paar Minuten und hast im Call die Antwort parat.</p>
+      </div>
+      <div class="nutzen">
+        <div class="vorhernachher">
+          <div class="vnkopf"><span>Ohne</span><span>Mit Sales Universe</span></div>
+          <div class="vnzeile"><span>Du schiebst den Anruf noch einen Tag vor dir her.</span><span>Du weißt, was du sagst, und rufst an.</span></div>
+          <div class="vnzeile"><span>Bei „zu teuer“ gibst du sofort Rabatt.</span><span>Du fragst nach und findest den echten Grund.</span></div>
+          <div class="vnzeile"><span>Im Call suchst du nach Worten.</span><span>Ein Tastendruck, und die Antwort steht da.</span></div>
+          <div class="vnzeile"><span>Das Sales-Buch liegt seit Monaten herum.</span><span>Ein paar Minuten am Tag, deine Serie hält dich dran.</span></div>
+          <div class="vnzeile"><span>Du weißt nicht, ob du besser wirst.</span><span>Level, Lernstand und Zertifikate zeigen es dir.</span></div>
+        </div>
+        <div class="lohnrechner">
+          <label for="kundenwert"><b>Was bringt dir ein neuer Kunde?</b><span class="leise klein">Deine eigene Zahl, in Euro</span></label>
+          <div class="eurofeld"><input id="kundenwert" type="number" inputmode="numeric" min="1" step="1" placeholder="z. B. 500"><span>€</span></div>
+          <p class="lohnergebnis" id="lohnergebnis" aria-live="polite">Gib ein, was dir ein Kunde bringt, und sieh, ab wann sich Sales Universe bezahlt macht.</p>
+          <ul class="haken">
+            <li>30 Tage kostenlos, ohne Zahlungsdaten</li>
+            <li>Danach einmal 49 €, kein Abo</li>
+            <li>Dein Fortschritt bleibt beim Upgrade</li>
+          </ul>
+          <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zahlen" aria-label="Was drin ist">
+    <div class="huelle">
+      <div class="zahl"><b>30</b><span>Einwände mit fertigen Antworten</span></div>
+      <div class="zahl"><b>30</b><span>Kapitel im Sales-Playbook</span></div>
+      <div class="zahl"><b>148</b><span>Quizfragen in drei Levels</span></div>
+      <div class="zahl"><b>123</b><span>Vokabeln aus der Startup-Welt</span></div>
+      <div class="zahl"><b>4</b><span>Kundentypen erkennen</span></div>
+      <div class="zahl"><b>7</b><span>Frameworks mit Zertifikat</span></div>
+    </div>
+  </section>
+
+  <section id="probe">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <span class="etikett">Probier's aus</span>
+        <h2>Deine erste Lektion. Jetzt, in 60 Sekunden.</h2>
+        <p class="leise">Such dir eine Figur aus und beantworte fünf echte Fragen aus der App. Du bekommst XP wie in der App: 10 für jede richtige Antwort, 5 fürs Üben, wenn es noch nicht saß.</p>
+      </div>
+      <div class="spiel" id="spiel">
+        <div class="spielkopf" aria-live="polite">
+          <div class="hudpunkt"><svg viewBox="0 0 24 24" class="hudflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b id="hudrichtig">0</b><span>richtig</span></div>
+          <div class="hudpunkt"><b id="hudxp">0</b><span>XP</span></div>
+          <div class="hudlevel"><span class="levelzahl" id="hudlevel">1</span><div class="levelspur"><span id="hudspur"></span></div><small id="hudrest">25 XP bis Level 2</small></div>
+        </div>
+        <div class="spielbuehne">
+          <div class="spielfigur"><img id="spielfigur" src="bilder/figuren/jordan-1.svg" alt="Deine Figur" width="120" height="150"><span class="xpflug" id="xpflug" aria-hidden="true"></span></div>
+          <div class="spielinhalt" id="spielinhalt"></div>
+        </div>
+        <div class="lektionsspur" aria-hidden="true"><span id="lektionsspur"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fenster">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <span class="etikett">Das kleine Fenster</span>
+        <h2>Der Kunde sagt „zu teuer“. Du teilst gerade deinen Bildschirm.</h2>
+        <p class="leise">Ein Tastendruck, und die passende Antwort steht neben deinem Call. Dein Gegenüber sieht davon nichts, auch nicht, wenn du deinen Bildschirm überträgst.</p>
+      </div>
+      <div class="szene" id="szene" data-schritt="start" aria-label="Video: Im Videocall kommt ein Einwand, das kleine Fenster zeigt die Antwort, die Kundin sieht es nicht">
+        <div class="szenebild">
+          <div class="szenetitel"><span>Das siehst du</span></div>
+          <div class="bildschirm du">
+            <div class="callleiste"><span class="punkt rot"></span> Du teilst deinen Bildschirm <span class="callzeit">12:41</span></div>
+            <div class="folie">
+              <small>Angebot</small>
+              <b>Ihr Weg zu mehr Abschlüssen</b>
+              <div class="folienbalken"><i style="width:72%"></i><i style="width:48%"></i><i style="width:60%"></i></div>
+            </div>
+            <div class="kachel kunde"><span class="avatar">MK</span><em>Kundin</em></div>
+            <div class="kachel ich"><img src="bilder/figuren/jordan-2.svg" alt="" width="40" height="50"><span class="denkblase" aria-hidden="true">…?</span></div>
+            <div class="untertitel kunde"><b>Kundin:</b> „Ehrlich gesagt ist uns das zu teuer.“</div>
+            <div class="untertitel du"><b>Du:</b> „Verstehe. Im Vergleich zu welcher Alternative?“</div>
+            <div class="untertitel kunde2"><b>Kundin:</b> „Gute Frage. Im Vergleich zu dem, was wir jetzt haben.“</div>
+            <div class="taste" id="taste"><kbd data-mac="⌘">Strg</kbd>+<kbd>Shift</kbd>+<kbd>Leertaste</kbd></div>
+            <div class="taste esc"><kbd>Esc</kbd></div>
+            <div class="mini">
+              <div class="minikopf"><span class="minipunkt"></span>Sales Universe <small>nur für dich</small></div>
+              <div class="minisuche">zu teuer<span class="cursor"></span></div>
+              <b>Zu teuer</b>
+              <p>„Verstehe, und gut, dass Sie genau auf die Kosten schauen. Wenn Sie sagen zu teuer: im Vergleich zu welcher Alternative?“</p>
+              <div class="minichips"><span>Kurz</span><span>Mit Rechnung</span><span>Geschichte: muss</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="szenebild kundinseite">
+          <div class="szenetitel"><span>Das sieht deine Kundin</span></div>
+          <div class="bildschirm kundin">
+            <div class="callleiste"><span class="punkt gruen"></span> Bildschirm von dir <span class="callzeit">12:41</span></div>
+            <div class="folie">
+              <small>Angebot</small>
+              <b>Ihr Weg zu mehr Abschlüssen</b>
+              <div class="folienbalken"><i style="width:72%"></i><i style="width:48%"></i><i style="width:60%"></i></div>
+            </div>
+            <div class="unsichtbar">Kein Fenster zu sehen</div>
+          </div>
+        </div>
+        <div class="erzaehler" id="erzaehler" aria-live="polite"></div>
+        <div class="szeneende"><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><span>Sales Universe · das kleine Fenster</span></div>
+        <button class="szenestart" id="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Stimme, 40 Sekunden</small></button>
+        <div class="szenesteuer"><button type="button" id="szeneton" aria-label="Ton aus">🔊</button><button type="button" id="szeneknopf" aria-label="Anhalten">❚❚</button></div>
+      </div>
+      <div class="dreier fenstervorteile">
+        <div class="kachel"><h3>Ein Tastendruck</h3><p>Strg + Shift + Leertaste (am Mac ⌘ + Shift + Leertaste). Tipp zwei Wörter, und der passende Einwand mit Antwort ist da.</p></div>
+        <div class="kachel"><h3>Unsichtbar beim Teilen</h3><p>Das Fenster ist so eingestellt, dass es bei der Bildschirmübertragung nicht mitgesendet wird, unter Windows und macOS. Probier es vor deinem ersten wichtigen Call einmal aus.</p></div>
+        <div class="kachel"><h3>Esc und weg</h3><p>Ein Druck auf Esc, und du bist wieder ganz im Gespräch. Kein Tab-Wechsel, kein Suchen, kein Stottern.</p></div>
+      </div>
+    </div>
+  </section>
+
   <section id="moment" style="padding-top:0">
     <div class="huelle moment">
       <div class="kopfzeile" style="margin:0">
@@ -452,60 +745,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
       <div class="dreier">
         <div class="kachel rolle haupt"><span class="etikett">Gründer und Startups</span><h3>Du musst kein Verkäufer werden.</h3><p>Du musst dein Produkt verkaufen können. Ehrlich, ohne Druck, auch wenn du lieber am Produkt arbeiten würdest.</p></div>
         <div class="kachel rolle"><span class="etikett">Neu im Vertrieb</span><h3>Vom ersten Tag an sicherer.</h3><p>Fachbegriffe erklärt, Grundlagen zuerst, und für jeden Einwand eine Antwort, die du im Gespräch nachschlagen kannst.</p></div>
-        <div class="kachel rolle"><span class="etikett">Schon im Vertrieb</span><h3>Besser werden, jeden Tag.</h3><p>SPICED, MEDDIC und BANT in Übungen statt in Folien, schwerere Fragen im Level Profi und ein Rückblick nach jedem Gespräch.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="zahlen" aria-label="Was drin ist">
-    <div class="huelle">
-      <div class="zahl"><b>30</b><span>Einwände mit fertigen Antworten</span></div>
-      <div class="zahl"><b>25</b><span>Kapitel im Sales-Playbook</span></div>
-      <div class="zahl"><b>174</b><span>Quizfragen in drei Levels</span></div>
-      <div class="zahl"><b>123</b><span>Vokabeln aus der Startup-Welt</span></div>
-      <div class="zahl"><b>4</b><span>Kundentypen erkennen</span></div>
-      <div class="zahl"><b>3</b><span>Methoden: SPICED, MEDDIC, BANT</span></div>
-    </div>
-  </section>
-
-  <section id="probe">
-    <div class="huelle">
-      <div class="kopfzeile">
-        <span class="etikett">Probier's aus</span>
-        <h2>Deine erste Lektion. Jetzt, in 60 Sekunden.</h2>
-        <p class="leise">Such dir eine Figur aus und beantworte fünf echte Fragen aus der App. Du bekommst XP wie in der App: 10 für jede richtige Antwort, 5 fürs Üben, wenn es noch nicht saß.</p>
-      </div>
-      <div class="spiel" id="spiel">
-        <div class="spielkopf" aria-live="polite">
-          <div class="hudpunkt"><svg viewBox="0 0 24 24" class="hudflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b id="hudrichtig">0</b><span>richtig</span></div>
-          <div class="hudpunkt"><b id="hudxp">0</b><span>XP</span></div>
-          <div class="hudlevel"><span class="levelzahl" id="hudlevel">1</span><div class="levelspur"><span id="hudspur"></span></div><small id="hudrest">25 XP bis Level 2</small></div>
-        </div>
-        <div class="spielbuehne">
-          <div class="spielfigur"><img id="spielfigur" src="bilder/figuren/jordan-1.svg" alt="Deine Figur" width="120" height="150"><span class="xpflug" id="xpflug" aria-hidden="true"></span></div>
-          <div class="spielinhalt" id="spielinhalt"></div>
-        </div>
-        <div class="lektionsspur" aria-hidden="true"><span id="lektionsspur"></span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="rechner" style="padding-top:0">
-    <div class="huelle rechner">
-      <div class="kopfzeile" style="margin:0">
-        <span class="etikett">Wie weit kommst du?</span>
-        <h2>100 Level. Wo stehst du in einem Jahr?</h2>
-        <p class="leise">Wähl dein Tagesziel. Gerechnet wird mit derselben Formel wie in der App: jedes Level braucht etwas mehr XP als das davor, und jeder Tag, an dem du lernst, gibt 10 XP extra.</p>
-      </div>
-      <div class="rechnerkarte">
-        <div class="zielwahl" role="radiogroup" aria-label="Tagesziel">
-          <button type="button" data-ziel="50" role="radio">Locker<small>50 XP</small></button>
-          <button type="button" data-ziel="100" role="radio" class="an">Solide<small>100 XP</small></button>
-          <button type="button" data-ziel="200" role="radio">Ernsthaft<small>200 XP</small></button>
-          <button type="button" data-ziel="300" role="radio">Wolf<small>300 XP</small></button>
-        </div>
-        <div class="prognose" id="prognose"></div>
-        <p class="leise klein">Wenn du dein Ziel jeden Tag schaffst. Die Titel ab Level 15 bleiben geheim, bis du dort bist.</p>
+        <div class="kachel rolle"><span class="etikett">Schon im Vertrieb</span><h3>Besser werden, jeden Tag.</h3><p>Sieben Frameworks von SPIN bis MEDDIC in Übungen statt in Folien, Zertifikate für LinkedIn und ein Rückblick nach jedem Gespräch.</p></div>
       </div>
     </div>
   </section>
@@ -514,7 +754,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
     <div class="huelle">
       <div class="kopfzeile">
         <span class="etikett">Der Lernpfad</span>
-        <h2>Acht Einheiten vom ersten Call bis zur Prüfung.</h2>
+        <h2>Neun Einheiten vom ersten Call bis zur Prüfung.</h2>
         <p class="leise">Jede Einheit hat kurze Lektionen. Du gehst Schritt für Schritt, die nächste öffnet sich, wenn du die vorige geschafft hast.</p>
       </div>
       <ol class="pfad" style="list-style:none;padding:0;margin:0">
@@ -525,6 +765,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <li class="station weiter"><div class="knoten">5</div><div><h3>Die Startup-Welt</h3><p>Finanzierung, Produkt und Werkzeuge: die Begriffe, die deine Kunden benutzen.</p></div></li>
         <li class="station weiter"><div class="knoten">6</div><div><h3>Netzwerk und Beziehungen</h3><p>Kontakte knüpfen, halten und aus dem Netzwerk Kunden gewinnen, auf Events und auf LinkedIn.</p></div></li>
         <li class="station weiter"><div class="knoten">7</div><div><h3>Auftreten und Psychologie</h3><p>Wie du wirkst, wie Menschen entscheiden und was die Besten anders machen.</p></div></li>
+        <li class="station weiter"><div class="knoten">8</div><div><h3>Die großen Frameworks</h3><p>SPIN, Sandler, Challenger und SNAP: wie die Besten fragen, qualifizieren und Gespräche führen.</p></div></li>
         <li class="station ende"><div class="knoten">✓</div><div><h3>Die Prüfung</h3><p>Alles gemischt. Wer hier durchkommt, ist bereit für echte Gespräche.</p></div></li>
       </ol>
     <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Einheit 1 kannst du heute noch anfangen.</span></div>
@@ -588,6 +829,26 @@ details p { padding-bottom: 20px; color: var(--leise); }
     </div>
   </section>
 
+  <section id="rechner" style="padding-top:0">
+    <div class="huelle rechner">
+      <div class="kopfzeile" style="margin:0">
+        <span class="etikett">Wie weit kommst du?</span>
+        <h2>100 Level. Wo stehst du in einem Jahr?</h2>
+        <p class="leise">Wähl dein Tagesziel. Gerechnet wird mit derselben Formel wie in der App: jedes Level braucht etwas mehr XP als das davor, und jeder Tag, an dem du lernst, gibt 10 XP extra.</p>
+      </div>
+      <div class="rechnerkarte">
+        <div class="zielwahl" role="radiogroup" aria-label="Tagesziel">
+          <button type="button" data-ziel="50" role="radio">Locker<small>50 XP</small></button>
+          <button type="button" data-ziel="100" role="radio" class="an">Solide<small>100 XP</small></button>
+          <button type="button" data-ziel="200" role="radio">Ernsthaft<small>200 XP</small></button>
+          <button type="button" data-ziel="300" role="radio">Wolf<small>300 XP</small></button>
+        </div>
+        <div class="prognose" id="prognose"></div>
+        <p class="leise klein">Wenn du dein Ziel jeden Tag schaffst. Die Titel ab Level 15 bleiben geheim, bis du dort bist.</p>
+      </div>
+    </div>
+  </section>
+
   <section style="padding-top:0">
     <div class="huelle">
       <div class="kopfzeile">
@@ -615,6 +876,44 @@ details p { padding-bottom: 20px; color: var(--leise); }
     </div>
   </section>
 
+  <section id="widgets" style="padding-top:0">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <span class="etikett">Widgets für den Mac</span>
+        <h2>Deine Serie, immer im Blick.</h2>
+        <p class="leise">Klein für den schnellen Blick, groß für den ganzen Lernstand. Leg sie auf den Schreibtisch oder in die Mitteilungszentrale.</p>
+      </div>
+      <div class="widgetwand">
+        <div class="widget klein feuer"><svg viewBox="0 0 24 24" class="wflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b>12</b><span>Tage in Folge</span></div>
+        <div class="widget klein ring"><div class="ringbox"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" class="hinten"/><circle cx="18" cy="18" r="15" class="vorne" stroke-dasharray="61 94.2"/></svg><div class="ringzahl"><b>65</b><small>XP</small></div></div><span>35 XP bis zum Ziel</span></div>
+        <div class="widget mittel karriere">
+          <div class="wkopf"><span class="levelbadge">15</span><div><small>Deine Karriere</small><b>Junior Account Executive</b></div><em>1.900 XP</em></div>
+          <div class="wpfad"><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="jetzt">15</i><i class="zu"></i><i class="zu"></i><i class="zu"></i></div>
+          <div class="wspur"><span style="width:61%"></span></div>
+          <small class="wleise">Noch 80 XP bis Level 16</small>
+        </div>
+        <div class="widget mittel vokabel">
+          <div class="wzeile"><span class="wchip">Vokabel des Tages</span><small class="wleise">Kennzahlen</small></div>
+          <b class="wgross">Runway</b>
+          <p class="wleise">Wie viele Monate das vorhandene Geld noch reicht, wenn die Ausgaben so weiterlaufen.</p>
+        </div>
+        <div class="widget mittel quests">
+          <small class="wtitel">Heute</small>
+          <div class="quest"><span class="qsym gold">⚡</span><div><b>Tagesziel erreichen</b><div class="wspur"><span style="width:65%"></span></div></div><em>65/100</em></div>
+          <div class="quest"><span class="qsym blau">↻</span><div><b>12 Karten wiederholen</b><div class="wspur blau"><span style="width:20%"></span></div></div><em>offen</em></div>
+          <div class="quest"><span class="qsym lila">◷</span><div><b>Fokus-Block abschließen</b><div class="wspur lila"><span style="width:0%"></span></div></div><em>0 min</em></div>
+        </div>
+        <div class="widget mittel lernstand">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" class="r1"/><circle cx="50" cy="50" r="36" class="r2"/><circle cx="50" cy="50" r="28" class="r3"/><circle cx="50" cy="50" r="20" class="r4"/></svg>
+          <div class="lsliste"><small class="wtitel">Dein Lernstand</small><span><i style="background:#F59E0B"></i>Einwände <b>34 %</b></span><span><i style="background:#2ECC71"></i>Wissen <b>52 %</b></span><span><i style="background:#4D9BE8"></i>Kundentypen <b>61 %</b></span><span><i style="background:#A78BFA"></i>Frameworks <b>28 %</b></span></div>
+        </div>
+        <div class="widget klein wiederholung"><span class="wkarten" aria-hidden="true">↻</span><b>12</b><span>Karten zum Wiederholen</span></div>
+        <div class="widget klein rang"><span class="levelbadge gross">15</span><b>Level 15</b><span>von 100</span></div>
+      </div>
+      <p class="leise klein mitte-text">Beispielwerte. Auf deinem Mac zeigen die Widgets deinen echten Stand aus der App.</p>
+    </div>
+  </section>
+
   <section style="padding-top:0">
     <div class="huelle geraete">
       <div class="laptop"><img src="bilder/desktop.jpg" alt="Sales Universe am Computer: der Sales Baum mit dem Einwand „Zu teuer“" width="1600" height="1000" loading="lazy"></div>
@@ -624,6 +923,50 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <p class="leise">Ein Schlüssel für zwei Geräte. Was du auf dem Handy lernst, zählt auch am Computer: XP, Serie, Lektionen und deine eigenen Einwände. Alles wird auf deinem Gerät verschlüsselt, bevor es abgeglichen wird. Wir können es nicht lesen.</p>
         <div class="plattformen"><span class="plattform">Windows</span><span class="plattform">Mac</span><span class="plattform">iPhone und Android</span></div>
       </div>
+    </div>
+  </section>
+
+  <section id="preise" style="background:linear-gradient(180deg,transparent,rgba(212,175,124,0.06),transparent)">
+    <div class="huelle">
+      <div class="kopfzeile" style="text-align:center;margin-left:auto;margin-right:auto">
+        <span class="etikett">Preise</span>
+        <h2>Einmal zahlen. Für immer lernen.</h2>
+      </div>
+      <div class="preise">
+        <div class="preis">
+          <h3>Testversion</h3>
+          <div class="betrag">0 € <small>für 30 Tage</small></div>
+          <ul class="liste">
+            <li>Alles aus der Vollversion</li>
+            <li>Ohne Zahlungsdaten</li>
+            <li>Dein Fortschritt bleibt beim Upgrade</li>
+          </ul>
+          <a class="knopf zweit" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+        </div>
+        <div class="preis haupt">
+          <h3>Vollversion</h3>
+          <div class="betrag"><span data-preis>49 €</span> <small>einmalig</small></div>
+          <ul class="liste">
+            <li>Lernpfad, Quiz, Vokabeln, Universum</li>
+            <li>30 Einwände, 7 Frameworks, das ganze Playbook</li>
+            <li>Das kleine Fenster für deine Calls</li>
+            <li>Windows, Mac und Handy, zwei Geräte, Widgets am Mac</li>
+          </ul>
+          <a class="knopf" data-link="kaufen" href="#preise">Vollversion holen</a>
+        </div>
+      </div>
+      <div class="zertband">
+        <div>
+          <span class="etikett">Neu: Zertifikate für LinkedIn</span>
+          <h3>Zeig, was du kannst.</h3>
+          <p class="leise">Besteh die Prüfung zu einem Framework mit mindestens 80 % und hol dir dein Zertifikat mit Name, Ergebnis und Nummer. Ein Klick trägt es in dein LinkedIn-Profil ein. Die Prüfungen sind kostenlos.</p>
+        </div>
+        <div class="zertpreise">
+          <div><b>5 €</b><span>pro Framework</span></div>
+          <div class="gold"><b>20 €</b><span>alle 7 Frameworks plus „Sales Frameworks Master“</span></div>
+        </div>
+      </div>
+      <p class="hinweis">Bezahlt wird über Lemon Squeezy. Den Schlüssel bekommst du sofort per E-Mail.</p>
     </div>
   </section>
 
@@ -641,13 +984,19 @@ details p { padding-bottom: 20px; color: var(--leise); }
         </div>
         <div class="angebot" id="partner">
           <h3>Ambassador werden</h3>
-          <p>Du bist Coach, Teamlead oder hast eine Community im Vertrieb? Empfiehl Sales Universe und verdiene an jedem Kauf über deinen Link mit.</p>
-          <ol class="schritte">
-            <li>Kostenlos als Ambassador anmelden</li>
-            <li>Deinen persönlichen Link teilen</li>
-            <li>Für jeden Kauf darüber eine Provision bekommen</li>
-          </ol>
+          <p>Du machst Content, coachst oder hast eine Community rund um Startups und Vertrieb? Empfiehl Sales Universe und verdiene an jedem Kauf über deinen Link mit.</p>
+          <div class="stufenreihe">
+            <div><b>10 %</b><span>an jedem Verkauf</span><small>rund 4 € je Vollversion, rund 7 € je Bundle</small></div>
+            <div class="gold"><b>1 Schlüssel</b><span>jeden Monat gratis</span><small>zum Verlosen oder Verschenken an deine Community</small></div>
+          </div>
+          <ul class="haken">
+            <li>Vollversion und Zertifikate für dich gratis</li>
+            <li>Content-Kit: Karussell-Vorlagen, Hooks, Screenshots</li>
+            <li>Dein eigener Link, deine Follower testen 30 Tage kostenlos</li>
+            <li>Auszahlung direkt über Lemon Squeezy, zweimal im Monat</li>
+          </ul>
           <a class="knopf zweit" data-link="partner" href="#partner">Als Ambassador anmelden</a>
+          <p class="leise klein">Provision auf Vollversion, Bundle und Erweiterungen, gerechnet vom Preis ohne Umsatzsteuer. Ausgezahlt wird nach 30 Tagen Rückgabefrist.</p>
         </div>
       </div>
     </div>
@@ -692,64 +1041,23 @@ details p { padding-bottom: 20px; color: var(--leise); }
             <li>Effektivität: Routinen, Pipeline-Tag, Fokus-Blöcke</li>
             <li>Mindset: Rückschläge, Motivation, Ziele, die halten</li>
           </ul>
-          <p class="leise klein">Als Upgrade zur Vollversion, freigeschaltet mit einem zweiten Schlüssel. Voraussichtlich 10 €.</p>
+          <div class="planpreise"><div><b>49 €</b><span>einzeln</span></div><div class="gold"><b>30 €</b><span>wenn du die Vollversion hast</span></div><div><b>79 €</b><span>beides im Bundle</span></div></div>
+          <p class="leise klein">Geplante Preise, einmalig. Freigeschaltet mit einem zweiten Schlüssel, dein Fortschritt läuft einfach weiter.</p>
         </div>
         <div class="visionkarte">
           <span class="etikett">Vision · fernere Zukunft</span>
-          <h3>Live-Begleitung im Meeting</h3>
+          <h3>Radar: der KI-Alarm für deine Calls</h3>
           <p>Du verbindest Sales Universe mit der Transkription deines Meeting-Tools, zum Beispiel Gemini. Das kleine Fenster liest mit und meldet sich, wenn es zählt:</p>
           <ul class="haken">
             <li>Ein Einwand fällt: drei passende Antworten als Pop-up</li>
             <li>Der Ton deines Gegenübers ändert sich: ein kurzer Hinweis</li>
             <li>Alles nach deinem Playbook, ohne Druck und ohne Tricks</li>
           </ul>
-          <p class="leise klein">Nur mit Zustimmung aller im Gespräch. Nichts wird über deine Kunden gespeichert.</p>
+          <div class="planpreise"><div class="gold"><b>ca. 10 €</b><span>im Monat, als Abo</span></div></div>
+          <p class="leise klein">Geplant. Als Abo, weil die KI laufend Kosten verursacht. Nur mit Zustimmung aller im Gespräch, nichts wird über deine Kunden gespeichert.</p>
         </div>
       </div>
       <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Neues kommt per Update direkt in die App.</span></div>
-    </div>
-  </section>
-
-  <section id="preise" style="background:linear-gradient(180deg,transparent,rgba(212,175,124,0.06),transparent)">
-    <div class="huelle">
-      <div class="kopfzeile" style="text-align:center;margin-left:auto;margin-right:auto">
-        <span class="etikett">Preise</span>
-        <h2>Einmal zahlen. Für immer lernen.</h2>
-      </div>
-      <div class="preise">
-        <div class="preis">
-          <h3>Testversion</h3>
-          <div class="betrag">0 € <small>für 30 Tage</small></div>
-          <ul class="liste">
-            <li>Alles aus der Vollversion</li>
-            <li>Ohne Zahlungsdaten</li>
-            <li>Dein Fortschritt bleibt beim Upgrade</li>
-          </ul>
-          <a class="knopf zweit" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
-        </div>
-        <div class="preis haupt">
-          <h3>Vollversion</h3>
-          <div class="betrag"><span data-preis>49 €</span> <small>einmalig</small></div>
-          <ul class="liste">
-            <li>Lernpfad, Quiz, Vokabeln, Universum</li>
-            <li>Alle Einwände und das ganze Playbook</li>
-            <li>Windows, Mac und Handy, zwei Geräte</li>
-          </ul>
-          <a class="knopf" data-link="kaufen" href="#preise">Vollversion holen</a>
-        </div>
-      </div>
-      <div class="zertband">
-        <div>
-          <span class="etikett">Neu: Zertifikate für LinkedIn</span>
-          <h3>Zeig, was du kannst.</h3>
-          <p class="leise">Besteh die Prüfung zu einem Framework mit mindestens 80 % und hol dir dein Zertifikat mit Name, Ergebnis und Nummer. Ein Klick trägt es in dein LinkedIn-Profil ein. Die Prüfungen sind kostenlos.</p>
-        </div>
-        <div class="zertpreise">
-          <div><b>5 €</b><span>pro Framework</span></div>
-          <div class="gold"><b>20 €</b><span>alle 7 Frameworks plus „Sales Frameworks Master“</span></div>
-        </div>
-      </div>
-      <p class="hinweis">Bezahlt wird über Lemon Squeezy. Den Schlüssel bekommst du sofort per E-Mail.</p>
     </div>
   </section>
 
@@ -763,7 +1071,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <details><summary>Brauche ich Erfahrung im Vertrieb?</summary><p>Nein. Sales Universe ist für Einsteiger geschrieben. Fachbegriffe werden erklärt, und der Lernpfad beginnt bei den Grundlagen.</p></details>
         <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Das bestimmst du mit deinem Tagesziel: von einer halben Lektion bis zu drei Lektionen und mehr. Die Serie zählt jeden Tag, an dem du dein Ziel erreichst.</p></details>
         <details><summary>Funktioniert die App ohne Internet?</summary><p>Ja. Zum Freischalten braucht sie einmal Internet, danach läuft sie offline. Ab und zu prüft sie, ob der Schlüssel noch gilt.</p></details>
-        <details><summary>Auf wie vielen Geräten kann ich lernen?</summary><p>Ein Schlüssel gilt für zwei Geräte, zum Beispiel Laptop und Handy. Bei einem neuen Gerät meldest du das alte in den Optionen ab. Der Fortschritt wird pro Gerät gespeichert.</p></details>
+        <details><summary>Auf wie vielen Geräten kann ich lernen?</summary><p>Ein Schlüssel gilt für zwei Geräte, zum Beispiel Laptop und Handy. Bei einem neuen Gerät meldest du das alte in den Optionen ab. Mit dem Abgleich ist dein Fortschritt auf beiden Geräten gleich.</p></details>
         <details><summary>Speichert die App etwas über meine Kunden?</summary><p>Nein. Sales Universe ist kein CRM. Gespeichert wird nur dein eigener Lernstand, deine eigenen Notizen und dein Rückblick nach dem Gespräch, auf deinem Gerät. Schaltest du den Abgleich zwischen Handy und Computer ein, werden sie vorher auf deinem Gerät verschlüsselt. Lesen können wir sie nicht.</p></details>
         <details><summary>Was passiert nach den 30 Tagen?</summary><p>Die Testversion endet von selbst, es wird nichts abgebucht. Holst du die Vollversion, lernst du mit deinem bisherigen Fortschritt weiter.</p></details>
       </div>
@@ -968,6 +1276,102 @@ details p { padding-bottom: 20px; color: var(--leise); }
   }
   zeigeStand();
   figurWahl();
+
+
+  // Das kleine Fenster: Video mit Stimme. Jeder Schritt hat einen Satz für
+  // die Stimme (Sprachausgabe des Browsers) und als Untertitel. Ohne Stimme
+  // oder bei stummem Gerät laufen die Schritte nach Zeit.
+  (() => {
+    const szene = document.getElementById('szene');
+    if (!szene) return;
+    const start = document.getElementById('szenestart');
+    const ton = document.getElementById('szeneton');
+    const pause = document.getElementById('szeneknopf');
+    const text = document.getElementById('erzaehler');
+    const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    if (mac) szene.querySelectorAll('kbd[data-mac]').forEach((k) => (k.textContent = k.dataset.mac));
+    const SCHRITTE = [
+      ['start', 'Du bist im Videocall und teilst gerade deinen Bildschirm.', 2600],
+      ['einwand', 'Dann kommt er, der Einwand: Das ist uns zu teuer.', 2800],
+      ['stille', 'Kurz Stille. Was sagst du jetzt?', 2000],
+      ['taste', mac ? 'Ein Tastendruck: Command, Shift, Leertaste.' : 'Ein Tastendruck: Steuerung, Shift, Leertaste.', 2400],
+      ['fenster', 'Das kleine Fenster zeigt dir sofort die passende Antwort. Nach einem Playbook, das zuerst anerkennt und dann fragt.', 4200],
+      ['unsichtbar', 'Und das Beste: Deine Kundin sieht davon nichts. Das Fenster wird beim Bildschirmteilen nicht mit übertragen.', 4600],
+      ['antwort', 'Du antwortest ruhig und stellst eine offene Frage, statt den Preis zu verteidigen.', 3800],
+      ['reaktion', 'Jetzt redet die Kundin über ihr eigentliches Problem. Genau da willst du hin.', 3600],
+      ['esc', 'Escape, und du bist wieder ganz im Gespräch.', 2400],
+      ['ende', 'Sales Universe. Die richtige Antwort, genau dann, wenn du sie brauchst.', 4200],
+    ];
+    const sprache = 'speechSynthesis' in window ? window.speechSynthesis : null;
+    let stimme = null;
+    const waehleStimme = () => {
+      const alle = sprache ? sprache.getVoices() : [];
+      stimme = alle.find((v) => v.lang === 'de-DE' && /Google|Anna|Helena|Katja|Petra|Markus/i.test(v.name)) || alle.find((v) => (v.lang || '').startsWith('de')) || null;
+    };
+    if (sprache) { waehleStimme(); sprache.onvoiceschanged = waehleStimme; }
+    let i = 0, laeuft = false, mitTon = true, timer = null, lauf = 0;
+    const naechster = (meiner) => { if (meiner !== lauf || !laeuft) return; i++; if (i >= SCHRITTE.length) return fertig(); zeige(); };
+    function zeige() {
+      const meiner = ++lauf;
+      const [schritt, satz, dauer] = SCHRITTE[i];
+      szene.dataset.schritt = schritt;
+      text.textContent = satz;
+      clearTimeout(timer);
+      if (mitTon && sprache && stimme) {
+        sprache.cancel();
+        const u = new SpeechSynthesisUtterance(satz);
+        u.voice = stimme; u.lang = stimme.lang; u.rate = 1.02;
+        let fertigGesprochen = false;
+        u.onend = () => { if (!fertigGesprochen) { fertigGesprochen = true; timer = setTimeout(() => naechster(meiner), 450); } };
+        sprache.speak(u);
+        // Sicherheitsnetz, falls das Gerät kein onend meldet
+        timer = setTimeout(() => { if (!fertigGesprochen) { fertigGesprochen = true; naechster(meiner); } }, dauer + 4000);
+      } else timer = setTimeout(() => naechster(meiner), dauer);
+    }
+    function fertig() {
+      laeuft = false;
+      szene.classList.remove('laeuft');
+      start.querySelector('b').textContent = 'Nochmal ansehen';
+    }
+    start.addEventListener('click', () => { i = 0; laeuft = true; szene.classList.add('laeuft'); pause.textContent = '❚❚'; zeige(); });
+    pause.addEventListener('click', () => {
+      laeuft = !laeuft;
+      pause.textContent = laeuft ? '❚❚' : '▶';
+      pause.setAttribute('aria-label', laeuft ? 'Anhalten' : 'Weiter');
+      if (laeuft) zeige(); else { clearTimeout(timer); lauf++; if (sprache) sprache.cancel(); }
+    });
+    ton.addEventListener('click', () => {
+      mitTon = !mitTon;
+      ton.textContent = mitTon ? '🔊' : '🔇';
+      ton.setAttribute('aria-label', mitTon ? 'Ton aus' : 'Ton an');
+      if (!mitTon && sprache) sprache.cancel();
+      if (laeuft) zeige();
+    });
+    if (!sprache) start.querySelector('small').textContent = 'mit Untertiteln, 40 Sekunden';
+    // Wer wegscrollt, hält das Video an
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting && laeuft) pause.click(); }, { threshold: 0.2 }).observe(szene);
+  })();
+
+  // Lohnt sich das? Mit der eigenen Zahl des Besuchers, nichts geschätzt
+  (() => {
+    const feld = document.getElementById('kundenwert');
+    const aus = document.getElementById('lohnergebnis');
+    if (!feld) return;
+    const fmt = (n) => n.toLocaleString('de-DE', { maximumFractionDigits: 1 });
+    feld.addEventListener('input', () => {
+      const wert = Number(feld.value);
+      aus.replaceChildren();
+      if (!(wert > 0)) { aus.textContent = 'Gib ein, was dir ein Kunde bringt, und sieh, ab wann sich Sales Universe bezahlt macht.'; return; }
+      const b = document.createElement('b');
+      if (wert >= 49) {
+        b.textContent = fmt(wert / 49) + '-mal';
+        aus.append('Ein einziger zusätzlicher Kunde bezahlt Sales Universe ', b, '. Alles danach ist Gewinn.');
+      } else {
+        b.textContent = String(Math.ceil(49 / wert)) + ' zusätzliche Kunden';
+        aus.append('Nach ', b, ' hat sich Sales Universe bezahlt. Für immer, ohne Abo.');
+      }
+    });
+  })();
 
   // XP-Rechner: Tagesziel + 10 XP Tagesbonus, jeden Tag
   const OFFEN = [[1, 'Sales-Neuling'], [3, 'Cold Caller'], [6, 'Terminleger'], [10, 'Sales Development Rep']];
