@@ -1,0 +1,16 @@
+/* Impressum und Datenschutz: schlicht, gleiche Farben und Schriften wie index.html */
+@font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('schrift/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('schrift/inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 900; font-display: swap; src: url('schrift/nunito-latin-900-normal.woff2') format('woff2'); }
+:root { --nacht: #0B0B0D; --flaeche: #16171B; --text: #F8F9FA; --leise: #A3A9B0; --gold: #D4AF7C; --kante: rgba(255, 255, 255, 0.08); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--nacht); color: var(--text); font: 16px/1.7 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 48px max(20px, env(safe-area-inset-right, 0px)) 80px max(20px, env(safe-area-inset-left, 0px)); }
+a { color: var(--gold); }
+.zurueck { display: inline-block; margin-bottom: 28px; text-decoration: none; font-weight: 600; }
+h1 { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: clamp(34px, 6vw, 48px); line-height: 1.1; margin: 0 0 28px; }
+h2 { font-size: 19px; margin: 34px 0 8px; }
+p, li { color: var(--leise); }
+strong { color: var(--text); }
+.offen { background: rgba(245, 158, 11, 0.16); color: #F5B845; border-radius: 4px; padding: 0 4px; }
+.entwurf { padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); color: #F5C779; margin-bottom: 28px; }

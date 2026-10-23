@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grund" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#24262B"/>
+      <stop offset="1" stop-color="#0B0B0D"/>
+    </linearGradient>
+    <radialGradient id="planet" cx="0.38" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#FBEFD7"/>
+      <stop offset="0.45" stop-color="#E2C394"/>
+      <stop offset="1" stop-color="#9A6F3A"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D4AF7C" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#F6E6C8"/>
+      <stop offset="1" stop-color="#D4AF7C" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="rand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D4AF7C" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#D4AF7C" stop-opacity="0.25"/>
+    </linearGradient>
+    <!-- vorderer Teil der Umlaufbahn: nur unterhalb der Planetenmitte -->
+    <clipPath id="vorn">
+      <rect x="0" y="262" width="512" height="250" transform="rotate(-16 256 262)"/>
+    </clipPath>
+  </defs>
+  <!-- dunkle Kachel mit goldener Kante -->
+  <rect x="12" y="12" width="488" height="488" rx="112" fill="url(#grund)" stroke="url(#rand)" stroke-width="10"/>
+  <!-- Sterne: das wachsende Universum -->
+  <path d="M388 92 L398 122 L428 132 L398 142 L388 172 L378 142 L348 132 L378 122 Z" fill="#F6E6C8"/>
+  <circle cx="128" cy="138" r="8" fill="#F6E6C8" opacity="0.85"/>
+  <circle cx="160" cy="98" r="4.5" fill="#D4AF7C" opacity="0.8"/>
+  <circle cx="410" cy="392" r="6" fill="#D4AF7C" opacity="0.8"/>
+  <circle cx="106" cy="372" r="4.5" fill="#F6E6C8" opacity="0.6"/>
+  <!-- Umlaufbahn hinter dem Planeten -->
+  <ellipse cx="256" cy="262" rx="196" ry="58" transform="rotate(-16 256 262)" fill="none" stroke="url(#ring)" stroke-width="16" opacity="0.55"/>
+  <!-- Planet -->
+  <circle cx="256" cy="262" r="112" fill="url(#planet)"/>
+  <!-- Umlaufbahn vor dem Planeten -->
+  <ellipse cx="256" cy="262" rx="196" ry="58" transform="rotate(-16 256 262)" fill="none" stroke="url(#ring)" stroke-width="16" clip-path="url(#vorn)"/>
+</svg>
