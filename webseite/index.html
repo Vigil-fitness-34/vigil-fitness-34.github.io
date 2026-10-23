@@ -198,6 +198,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 900px) { .rechner { grid-template-columns: 1fr; gap: 28px; } }
 @media (max-width: 480px) { .zielwahl { grid-template-columns: repeat(2, 1fr); } .prognose b { font-size: 28px; } }
 
+.zertband { margin-top: 26px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: center; padding: clamp(22px, 3vw, 32px); border-radius: var(--rund); border: 1px solid rgba(212, 175, 124, 0.4); background: linear-gradient(160deg, rgba(212, 175, 124, 0.16), rgba(212, 175, 124, 0.03)); }
+.zertband h3 { font-size: 26px; margin: 6px 0; }
+.zertpreise { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.zertpreise div { padding: 16px; border-radius: 16px; background: var(--flaeche); border: 1px solid var(--kante); display: grid; gap: 4px; }
+.zertpreise div.gold { border-color: rgba(212, 175, 124, 0.5); }
+.zertpreise b { font-family: var(--anzeige); font-size: 32px; color: var(--gold); }
+.zertpreise span { color: var(--leise); font-size: 14px; }
+@media (max-width: 760px) { .zertband { grid-template-columns: 1fr; } }
+
 /* Lernpfad */
 .pfad { position: relative; display: grid; gap: 18px; max-width: 760px; margin: 0 auto; }
 .station { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: center; }
@@ -656,6 +665,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <div class="spaltenkopf"><span class="punkt fertig"></span>Gerade fertig</div>
           <div class="projekt"><h3>Handy und Computer im Gleichschritt</h3><p>Lernen auf dem Handy zählt am Computer, eigene Einwände sind überall. Verschlüsselt auf deinem Gerät.</p></div>
           <div class="projekt"><h3>Deine eigene Figur</h3><p>Anzug, Hosenanzug oder Kostüm, Frisur, Haarfarbe, Hautton. Sie macht mit dir Karriere.</p></div>
+          <div class="projekt"><h3>Zertifikate für LinkedIn</h3><p>Prüfung je Framework, bestanden ab 80 %, das Zertifikat landet mit einem Klick in deinem Profil.</p></div>
           <div class="projekt"><h3>100 Level mit geheimen Titeln</h3><p>Jedes Level schwerer als das davor. Was oben wartet, erfährst du erst, wenn du da bist.</p></div>
         </div>
         <div class="spalte">
@@ -726,6 +736,17 @@ details p { padding-bottom: 20px; color: var(--leise); }
             <li>Windows, Mac und Handy, zwei Geräte</li>
           </ul>
           <a class="knopf" data-link="kaufen" href="#preise">Vollversion holen</a>
+        </div>
+      </div>
+      <div class="zertband">
+        <div>
+          <span class="etikett">Neu: Zertifikate für LinkedIn</span>
+          <h3>Zeig, was du kannst.</h3>
+          <p class="leise">Besteh die Prüfung zu einem Framework mit mindestens 80 % und hol dir dein Zertifikat mit Name, Ergebnis und Nummer. Ein Klick trägt es in dein LinkedIn-Profil ein. Die Prüfungen sind kostenlos.</p>
+        </div>
+        <div class="zertpreise">
+          <div><b>5 €</b><span>pro Framework</span></div>
+          <div class="gold"><b>20 €</b><span>alle 7 Frameworks plus „Sales Frameworks Master“</span></div>
         </div>
       </div>
       <p class="hinweis">Bezahlt wird über Lemon Squeezy. Den Schlüssel bekommst du sofort per E-Mail.</p>
