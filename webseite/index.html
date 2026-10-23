@@ -137,6 +137,67 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .urteil strong { font-family: var(--anzeige); font-size: 20px; }
 @media (max-width: 900px) { .probe { grid-template-columns: 1fr; gap: 36px; } }
 
+
+/* Mitmach-Lektion */
+.spiel { max-width: 920px; margin: 0 auto; background: var(--flaeche); border: 1px solid var(--kante); border-radius: var(--rund); padding: clamp(18px, 3vw, 30px); display: grid; gap: 22px; }
+.spielkopf { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.hudpunkt { display: inline-flex; align-items: baseline; gap: 6px; padding: 9px 14px; border-radius: 999px; background: var(--flaeche-hoch); border: 1px solid var(--kante); }
+.hudpunkt b { font-family: var(--anzeige); font-size: 22px; font-variant-numeric: tabular-nums; }
+.hudpunkt span { color: var(--leise); font-size: 14px; }
+.hudflamme { width: 20px; height: 20px; align-self: center; fill: #3a3b42; transition: fill 0.3s, transform 0.3s; }
+.hudflamme.an { fill: var(--flamme); transform: scale(1.15); }
+.hudlevel { flex: 1; min-width: 220px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; }
+.levelzahl { grid-row: span 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(180deg, #E8C995, var(--gold)); color: #1a1408; font-family: var(--anzeige); font-weight: 900; font-size: 22px; transition: transform 0.3s; }
+.levelzahl.hoch { animation: hoch 0.7s ease; }
+@keyframes hoch { 40% { transform: scale(1.35) rotate(-6deg); } }
+.levelspur { height: 12px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.levelspur span { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--gold-tief), var(--gold)); transition: width 0.6s cubic-bezier(.2,.9,.3,1.2); }
+.hudlevel small { color: var(--leise); font-size: 13px; margin-top: 4px; }
+.spielbuehne { display: grid; grid-template-columns: 150px 1fr; gap: 26px; align-items: start; }
+.spielfigur { position: relative; display: grid; justify-items: center; padding-top: 10px; }
+.spielfigur img { width: 130px; height: auto; transition: transform 0.3s; }
+.spielfigur img.jubel { animation: jubel 0.6s ease; }
+@keyframes jubel { 30% { transform: translateY(-14px) rotate(-3deg); } 60% { transform: translateY(0) rotate(2deg); } }
+.xpflug { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-family: var(--anzeige); font-weight: 900; font-size: 24px; color: var(--gold); opacity: 0; pointer-events: none; }
+.xpflug.flieg { animation: flieg 1.1s ease-out; }
+@keyframes flieg { 0% { opacity: 0; transform: translate(-50%, 20px) scale(0.8); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50px) scale(1.2); } }
+.spielinhalt { display: grid; gap: 12px; }
+.spielinhalt h3 { font-size: clamp(20px, 2.4vw, 25px); margin: 0; }
+.figurwahl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.figurwahl button { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: 16px; background: var(--flaeche-hoch); border: 2px solid var(--kante); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #0c0c0f; }
+.figurwahl button:hover { border-color: rgba(212, 175, 124, 0.5); }
+.figurwahl button.an { border-color: var(--gold); background: var(--gold-zart); }
+.figurwahl img { width: 58px; height: auto; }
+.lektionsspur { height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.lektionsspur span { display: block; height: 100%; width: 0; background: var(--gruen); transition: width 0.4s; }
+.ergebnis { display: grid; gap: 10px; }
+.ergebnis .zeile { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 12px; background: var(--flaeche-hoch); animation: zeilerein 0.4s backwards; }
+.ergebnis .zeile b { color: var(--gold); font-variant-numeric: tabular-nums; }
+@keyframes zeilerein { from { opacity: 0; transform: translateY(8px); } }
+.geheimkarte { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 16px; border: 1px dashed rgba(212, 175, 124, 0.55); background: repeating-linear-gradient(135deg, rgba(212,175,124,0.08) 0 10px, rgba(212,175,124,0.02) 10px 20px); }
+.geheimkarte img { width: 46px; filter: brightness(0) drop-shadow(0 0 1px rgba(212,175,124,.6)); opacity: 0.7; }
+.konfetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.konfetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; animation: fall 1.8s ease-in forwards; }
+@keyframes fall { to { transform: translateY(520px) rotate(540deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .konfetti, .xpflug { display: none; } .levelzahl.hoch, .spielfigur img.jubel { animation: none; } }
+@media (max-width: 700px) { .spielbuehne { grid-template-columns: 1fr; gap: 10px; } .spielfigur img { width: 96px; } .figurwahl { grid-template-columns: repeat(4, 1fr); gap: 6px; } .figurwahl img { width: 44px; } }
+
+/* XP-Rechner */
+.rechner { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+.rechnerkarte { background: var(--flaeche); border: 1px solid var(--kante); border-radius: var(--rund); padding: clamp(20px, 3vw, 30px); display: grid; gap: 18px; }
+.zielwahl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.zielwahl button { display: grid; gap: 2px; padding: 12px 6px; border-radius: 14px; border: 2px solid var(--kante); background: var(--flaeche-hoch); color: var(--text); font: inherit; font-weight: 800; cursor: pointer; }
+.zielwahl button small { color: var(--leise); font-weight: 500; }
+.zielwahl button.an { border-color: var(--gold); background: var(--gold-zart); }
+.prognose { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.prognose div { padding: 16px 10px; border-radius: 16px; background: var(--flaeche-hoch); text-align: center; display: grid; gap: 4px; }
+.prognose b { font-family: var(--anzeige); font-size: 34px; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+.prognose small { color: var(--leise); font-size: 13px; }
+.prognose em { font-style: normal; font-weight: 700; font-size: 14px; }
+.klein { font-size: 14px; }
+@media (max-width: 900px) { .rechner { grid-template-columns: 1fr; gap: 28px; } }
+@media (max-width: 480px) { .zielwahl { grid-template-columns: repeat(2, 1fr); } .prognose b { font-size: 28px; } }
+
 /* Lernpfad */
 .pfad { position: relative; display: grid; gap: 18px; max-width: 760px; margin: 0 auto; }
 .station { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: center; }
@@ -185,6 +246,16 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .projekt p { color: var(--leise); font-size: 15px; }
 .schloss { justify-self: start; margin-top: 4px; font-size: 12.5px; font-weight: 700; color: var(--gold); padding: 4px 10px 4px 26px; border-radius: 999px; background: rgba(212,175,124,0.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF7C' stroke-width='2.4' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") no-repeat 9px center / 12px; }
 @media (max-width: 860px) { .pipeline { grid-template-columns: 1fr; } }
+.vision { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 26px; }
+.visionkarte { border-radius: var(--rund); padding: clamp(22px, 3vw, 32px); display: grid; gap: 12px; align-content: start; border: 1px solid var(--kante); background: linear-gradient(160deg, rgba(77, 155, 232, 0.12), rgba(77, 155, 232, 0.02)); }
+.visionkarte.life { background: linear-gradient(160deg, rgba(212, 175, 124, 0.22), rgba(212, 175, 124, 0.04)); border-color: rgba(212, 175, 124, 0.4); }
+.visionkarte h3 { font-size: 24px; }
+.visionkarte p { color: var(--leise); }
+.haken { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.haken li { padding-left: 26px; position: relative; }
+.haken li::before { content: ''; position: absolute; left: 0; top: 6px; width: 14px; height: 8px; border-left: 2.5px solid var(--gold); border-bottom: 2.5px solid var(--gold); transform: rotate(-45deg); }
+@media (max-width: 860px) { .vision { grid-template-columns: 1fr; } }
+
 @media (max-width: 760px) { .stufen { grid-template-columns: repeat(4, 1fr); row-gap: 22px; } }
 
 /* Gewohnheit: Serie, Ziel, Schutz */
@@ -308,7 +379,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <p class="unter">Du hast ein Produkt gebaut, kein Vertriebsteam. Sales Universe bringt dir Verkaufen bei wie eine Sprache: jeden Tag ein paar Minuten, mit Serie, Tagesziel und Antworten für den Moment, in dem der Kunde Nein sagt.</p>
         <div class="aktionen">
           <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
-          <a class="knopf zweit" href="#probe">Probier eine Frage</a>
+          <a class="knopf zweit" href="#probe">Probier eine Lektion</a>
         </div>
         <p class="fein">Für Windows, Mac und Handy. Läuft auch ohne Internet.</p>
       </div>
@@ -389,18 +460,43 @@ details p { padding-bottom: 20px; color: var(--leise); }
   </section>
 
   <section id="probe">
-    <div class="huelle probe">
-      <div class="kopfzeile" style="margin:0">
+    <div class="huelle">
+      <div class="kopfzeile">
         <span class="etikett">Probier's aus</span>
-        <h2>So fühlt sich eine Lektion an.</h2>
-        <p class="leise">Eine echte Frage aus der App. Wähl eine Antwort und sieh, warum sie passt oder nicht. In der App kommen Fragen, die du noch nicht kannst, morgen wieder, die sicheren immer seltener.</p>
+        <h2>Deine erste Lektion. Jetzt, in 60 Sekunden.</h2>
+        <p class="leise">Such dir eine Figur aus und beantworte fünf echte Fragen aus der App. Du bekommst XP wie in der App: 10 für jede richtige Antwort, 5 fürs Üben, wenn es noch nicht saß.</p>
       </div>
-      <div class="quiz" id="quiz">
-        <div class="spur" aria-hidden="true"><span id="quizspur"></span></div>
-        <span class="etikett">Einwände · Level Mittel</span>
-        <h3>Der Kunde sagt: „Das ist zu teuer.“ Deine erste Reaktion?</h3>
-        <div id="antworten" style="display:grid;gap:10px"></div>
-        <div class="urteil" id="urteil" hidden role="status"><strong id="urteiltitel"></strong><p id="urteiltext"></p></div>
+      <div class="spiel" id="spiel">
+        <div class="spielkopf" aria-live="polite">
+          <div class="hudpunkt"><svg viewBox="0 0 24 24" class="hudflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b id="hudrichtig">0</b><span>richtig</span></div>
+          <div class="hudpunkt"><b id="hudxp">0</b><span>XP</span></div>
+          <div class="hudlevel"><span class="levelzahl" id="hudlevel">1</span><div class="levelspur"><span id="hudspur"></span></div><small id="hudrest">25 XP bis Level 2</small></div>
+        </div>
+        <div class="spielbuehne">
+          <div class="spielfigur"><img id="spielfigur" src="bilder/figuren/jordan-1.svg" alt="Deine Figur" width="120" height="150"><span class="xpflug" id="xpflug" aria-hidden="true"></span></div>
+          <div class="spielinhalt" id="spielinhalt"></div>
+        </div>
+        <div class="lektionsspur" aria-hidden="true"><span id="lektionsspur"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rechner" style="padding-top:0">
+    <div class="huelle rechner">
+      <div class="kopfzeile" style="margin:0">
+        <span class="etikett">Wie weit kommst du?</span>
+        <h2>100 Level. Wo stehst du in einem Jahr?</h2>
+        <p class="leise">Wähl dein Tagesziel. Gerechnet wird mit derselben Formel wie in der App: jedes Level braucht etwas mehr XP als das davor, und jeder Tag, an dem du lernst, gibt 10 XP extra.</p>
+      </div>
+      <div class="rechnerkarte">
+        <div class="zielwahl" role="radiogroup" aria-label="Tagesziel">
+          <button type="button" data-ziel="50" role="radio">Locker<small>50 XP</small></button>
+          <button type="button" data-ziel="100" role="radio" class="an">Solide<small>100 XP</small></button>
+          <button type="button" data-ziel="200" role="radio">Ernsthaft<small>200 XP</small></button>
+          <button type="button" data-ziel="300" role="radio">Wolf<small>300 XP</small></button>
+        </div>
+        <div class="prognose" id="prognose"></div>
+        <p class="leise klein">Wenn du dein Ziel jeden Tag schaffst. Die Titel ab Level 15 bleiben geheim, bis du dort bist.</p>
       </div>
     </div>
   </section>
@@ -575,6 +671,31 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <div class="projekt"><h3>App Store, Microsoft Store, mehr Sprachen</h3><p>Installieren mit einem Klick, und Sales Universe auch auf Spanisch, Französisch und mehr.</p></div>
         </div>
       </div>
+      <div class="vision">
+        <div class="visionkarte life">
+          <span class="etikett">Erweiterung · geplant</span>
+          <h3>Sales Universe Life</h3>
+          <p>Verkaufen kannst du dann. Jetzt lernst du, dich selbst zu managen. Dieselbe App, dieselbe Serie, neue Lernpfade:</p>
+          <ul class="haken">
+            <li>Selbstmanagement und Fokus: Planen, Prioritäten, Nein sagen</li>
+            <li>Energie: Schlaf, Pausen, Sport, Stress nach einem harten Nein</li>
+            <li>Effektivität: Routinen, Pipeline-Tag, Fokus-Blöcke</li>
+            <li>Mindset: Rückschläge, Motivation, Ziele, die halten</li>
+          </ul>
+          <p class="leise klein">Als Upgrade zur Vollversion, freigeschaltet mit einem zweiten Schlüssel. Voraussichtlich 10 €.</p>
+        </div>
+        <div class="visionkarte">
+          <span class="etikett">Vision · fernere Zukunft</span>
+          <h3>Live-Begleitung im Meeting</h3>
+          <p>Du verbindest Sales Universe mit der Transkription deines Meeting-Tools, zum Beispiel Gemini. Das kleine Fenster liest mit und meldet sich, wenn es zählt:</p>
+          <ul class="haken">
+            <li>Ein Einwand fällt: drei passende Antworten als Pop-up</li>
+            <li>Der Ton deines Gegenübers ändert sich: ein kurzer Hinweis</li>
+            <li>Alles nach deinem Playbook, ohne Druck und ohne Tricks</li>
+          </ul>
+          <p class="leise klein">Nur mit Zustimmung aller im Gespräch. Nichts wird über deine Kunden gespeichert.</p>
+        </div>
+      </div>
       <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Neues kommt per Update direkt in die App.</span></div>
     </div>
   </section>
@@ -711,40 +832,138 @@ details p { padding-bottom: 20px; color: var(--leise); }
   zeigeMoment(0);
   setInterval(() => { if (automatisch && !document.hidden) zeigeMoment((jetzt + 1) % momente.length); }, 6500);
 
-  // Probier's aus: eine Frage aus der App, Antworten einmal gemischt
-  const frage = {
-    antworten: ['„Im Vergleich zu welcher Alternative?“', '„Wir sind jeden Cent wert.“', '„Ich kann Ihnen einen Rabatt anbieten.“', '„Andere zahlen das gerne.“'],
-    richtig: 0,
-    erklaerung: 'Erst präzisieren. So findest du heraus, ob der Preis wirklich das Problem ist.',
-  };
-  const reihe = frage.antworten.map((text, i) => ({ text, richtig: i === frage.richtig })).sort(() => Math.random() - 0.5);
-  const liste = document.getElementById('antworten');
-  const urteil = document.getElementById('urteil');
-  const knoepfe = reihe.map((a, i) => {
-    const b = document.createElement('button');
-    b.className = 'antwort';
-    b.type = 'button';
-    const nr = document.createElement('i');
-    nr.textContent = String(i + 1);
-    b.append(nr, document.createTextNode(a.text));
-    b.addEventListener('click', () => waehle(i));
-    liste.append(b);
-    return b;
-  });
-  function waehle(i) {
-    const gut = reihe[i].richtig;
-    knoepfe.forEach((b, j) => {
-      b.disabled = true;
-      if (reihe[j].richtig) b.classList.add('richtig');
-      else if (j === i) b.classList.add('falsch');
-      else b.classList.add('blass');
-    });
-    urteil.hidden = false;
-    urteil.className = 'urteil ' + (gut ? 'gut' : 'schlecht');
-    document.getElementById('urteiltitel').textContent = gut ? 'Richtig! +XP' : 'Nicht ganz.';
-    document.getElementById('urteiltext').textContent = frage.erklaerung + (gut ? '' : ' In der App kommt diese Frage morgen wieder.');
-    document.getElementById('quizspur').style.width = gut ? '50%' : '40%';
+  // Probier's aus: fünf echte Fragen aus der App, XP wie in der App
+  // (Übung 5, gewusst +5, Lektion geschafft +10, fehlerfrei +5, Tag gelernt +10)
+  const levelAb = (n) => (n <= 1 ? 0 : Math.round((26 * Math.pow(n - 1, 1.6)) / 5) * 5);
+  const levelVon = (xp) => { let l = 1; while (l < 100 && xp >= levelAb(l + 1)) l++; return l; };
+  const FIGUREN = ['jordan', 'mia', 'kofi', 'aylin', 'sam', 'zoe', 'yuki', 'leo'];
+  const NAMEN = { jordan: 'Jordan', mia: 'Mia', kofi: 'Kofi', aylin: 'Aylin', sam: 'Sam', zoe: 'Zoe', yuki: 'Yuki', leo: 'Leo' };
+  const FRAGEN = [
+    { bereich: 'Einwände', frage: 'Der Kunde sagt: „Das ist uns zu teuer.“ Deine erste Reaktion?', antworten: ['„Im Vergleich zu welcher Alternative?“', '„Wenn Sie heute unterschreiben, gebe ich Ihnen 20 Prozent Rabatt.“', '„Wir sind nicht teuer, wenn man sieht, was alles drin ist.“', '„Andere zahlen das gerne.“'], warum: 'Erst präzisieren. So findest du heraus, ob wirklich der Preis das Problem ist.' },
+    { bereich: 'Einwände', frage: 'Der Kunde sagt: „Schicken Sie mir einfach etwas zu.“ Was antwortest du?', antworten: ['„Gerne. Welche Informationen wären für Ihre Entscheidung besonders relevant?“', '„Kein Problem, ich schicke die Präsentation und rufe nächste Woche an.“', '„Darf ich Ihnen trotzdem kurz zeigen, was wir alles können?“', '„Schade, dann will ich nicht weiter stören.“'], warum: 'Er bekommt nur, was für ihn zählt, und du erfährst, ob echtes Interesse da ist.' },
+    { bereich: 'Frameworks', frage: 'Wofür steht das I in SPIN?', antworten: ['Implication: die Folgen des Problems', 'Insight: eine neue Sicht für den Kunden', 'Interest: wie interessiert der Kunde ist', 'Investment: was die Lösung kostet'], warum: 'Situation, Problem, Implication, Need-payoff. Fragen nach den Folgen machen aus einem Ärgernis ein Problem, das sich zu lösen lohnt.' },
+    { bereich: 'Kundentypen', frage: 'Wer fragt sich im Kopf: „Was bringt mir das?“', antworten: ['Rot, der Macher', 'Gelb, der Visionär', 'Grün, der Beziehungsmensch', 'Blau, der Analyst'], warum: 'Der Macher will schnell wissen, was es ihm bringt. Also kurz, klar und mit seinem Ergebnis im Mittelpunkt.' },
+    { bereich: 'Playbook', frage: 'Wann zeigst du dein Produkt?', antworten: ['Wenn du Situation, Problem und Ziel des Kunden kennst', 'Gleich am Anfang, damit er weiß, worum es geht', 'Sobald er nach dem Preis fragt', 'Wenn er keine Zeit hat, in zwei Minuten'], warum: 'Diagnose vor Präsentation. Wer zu früh zeigt, zeigt das Falsche.' },
+  ];
+  const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (id) => document.getElementById(id);
+  const neu = (tag, klasse, text) => { const e = document.createElement(tag); if (klasse) e.className = klasse; if (text != null) e.textContent = text; return e; };
+  const spiel = { figur: 'jordan', nr: -1, xp: 0, richtig: 0, fehler: 0 };
+  function zeigeStand() {
+    const l = levelVon(spiel.xp);
+    const lz = $('hudlevel');
+    if (lz.textContent !== String(l)) { lz.textContent = String(l); lz.classList.remove('hoch'); void lz.offsetWidth; lz.classList.add('hoch'); }
+    const ab = levelAb(l), bis = levelAb(l + 1);
+    $('hudspur').style.width = Math.round(((spiel.xp - ab) / (bis - ab)) * 100) + '%';
+    $('hudrest').textContent = (bis - spiel.xp) + ' XP bis Level ' + (l + 1);
+    $('hudxp').textContent = String(spiel.xp);
+    $('hudrichtig').textContent = String(spiel.richtig);
+    document.querySelector('.hudflamme').classList.toggle('an', spiel.richtig > 0);
+    $('spielfigur').src = 'bilder/figuren/' + spiel.figur + '-' + (l >= 3 ? 2 : 1) + '.svg';
   }
+  function gibXP(n) {
+    spiel.xp += n;
+    const f = $('xpflug');
+    f.textContent = '+' + n + ' XP';
+    f.classList.remove('flieg'); void f.offsetWidth; f.classList.add('flieg');
+    zeigeStand();
+  }
+  function jubel() { const i = $('spielfigur'); i.classList.remove('jubel'); void i.offsetWidth; i.classList.add('jubel'); }
+  function konfetti() {
+    if (ruhig) return;
+    const k = neu('div', 'konfetti');
+    const farben = ['#D4AF7C', '#F2D9B0', '#2ECC71', '#F59E0B', '#E6E9EE'];
+    for (let i = 0; i < 40; i++) { const t = neu('i'); t.style.left = ((i * 37) % 100) + '%'; t.style.background = farben[i % 5]; t.style.animationDelay = ((i * 53) % 600) / 1000 + 's'; k.append(t); }
+    $('spiel').style.position = 'relative'; $('spiel').append(k); setTimeout(() => k.remove(), 2600);
+  }
+  function figurWahl() {
+    const inhalt = $('spielinhalt');
+    inhalt.replaceChildren(neu('h3', null, 'Wer bist du im Büro?'), neu('p', 'leise', 'Deine Figur startet als Sales-Neuling und bekommt mit jedem Titel etwas dazu.'));
+    const wahl = neu('div', 'figurwahl');
+    for (const f of FIGUREN) {
+      const b = neu('button', f === spiel.figur ? 'an' : '');
+      b.type = 'button';
+      const img = neu('img'); img.src = 'bilder/figuren/' + f + '-1.svg'; img.alt = ''; img.width = 58; img.height = 72;
+      b.append(img, document.createTextNode(NAMEN[f]));
+      b.addEventListener('click', () => { spiel.figur = f; wahl.querySelectorAll('button').forEach((x) => x.classList.toggle('an', x === b)); zeigeStand(); jubel(); });
+      wahl.append(b);
+    }
+    const los = neu('a', 'knopf', 'Lektion starten'); los.href = '#spiel'; los.addEventListener('click', (e) => { e.preventDefault(); naechste(); });
+    inhalt.append(wahl, los);
+  }
+  function naechste() {
+    spiel.nr++;
+    $('lektionsspur').style.width = (spiel.nr / FRAGEN.length) * 100 + '%';
+    if (spiel.nr >= FRAGEN.length) return ergebnis();
+    const q = FRAGEN[spiel.nr];
+    const inhalt = $('spielinhalt');
+    const reihe = q.antworten.map((text, i) => ({ text, richtig: i === 0 })).sort(() => Math.random() - 0.5);
+    const liste = neu('div'); liste.style.cssText = 'display:grid;gap:10px';
+    const urteil = neu('div', 'urteil'); urteil.hidden = true; urteil.setAttribute('role', 'status');
+    const knoepfe = reihe.map((a, i) => {
+      const b = neu('button', 'antwort'); b.type = 'button';
+      b.append(neu('i', null, String(i + 1)), document.createTextNode(a.text));
+      b.addEventListener('click', () => {
+        knoepfe.forEach((x, j) => { x.disabled = true; if (reihe[j].richtig) x.classList.add('richtig'); else if (j === i) x.classList.add('falsch'); else x.classList.add('blass'); });
+        const gut = reihe[i].richtig;
+        if (gut) { spiel.richtig++; gibXP(10); jubel(); } else { spiel.fehler++; gibXP(5); }
+        urteil.hidden = false; urteil.className = 'urteil ' + (gut ? 'gut' : 'schlecht');
+        const w = neu('a', 'knopf', spiel.nr + 1 < FRAGEN.length ? 'Weiter' : 'Ergebnis');
+        w.href = '#spiel'; w.style.justifySelf = 'start'; w.addEventListener('click', (e) => { e.preventDefault(); naechste(); });
+        urteil.replaceChildren(neu('strong', null, gut ? 'Richtig! +10 XP' : 'Nicht ganz. +5 XP fürs Üben'), neu('p', null, q.warum + (gut ? '' : ' In der App kommt diese Frage morgen wieder.')), w);
+        w.focus({ preventScroll: true });
+      });
+      liste.append(b); return b;
+    });
+    inhalt.replaceChildren(neu('span', 'etikett', q.bereich + ' · Frage ' + (spiel.nr + 1) + ' von ' + FRAGEN.length), neu('h3', null, q.frage), liste, urteil);
+  }
+  function ergebnis() {
+    const inhalt = $('spielinhalt');
+    const box = neu('div', 'ergebnis');
+    const zeilen = [['Lektion geschafft', 10]];
+    if (!spiel.fehler) zeilen.push(['Fehlerfrei', 5]);
+    zeilen.push(['Erster Tag gelernt', 10]);
+    inhalt.replaceChildren(neu('h3', null, spiel.fehler ? 'Lektion geschafft!' : 'Fehlerfrei! Stark.'), box);
+    zeilen.forEach(([text, xp], i) => setTimeout(() => {
+      const z = neu('div', 'zeile'); z.append(neu('span', null, text), neu('b', null, '+' + xp + ' XP')); box.append(z); gibXP(xp);
+      if (i === zeilen.length - 1) setTimeout(abschluss, 500);
+    }, 500 + i * 650));
+    function abschluss() {
+      konfetti(); jubel();
+      const l = levelVon(spiel.xp);
+      const geheim = neu('div', 'geheimkarte');
+      const img = neu('img'); img.src = 'bilder/figuren/' + spiel.figur + '-2.svg'; img.alt = '';
+      const t = neu('div');
+      if (l >= 3) t.append(neu('strong', null, 'Geheimer Titel freigeschaltet: Cold Caller'), neu('p', 'leise klein', 'Die erste Krawatte oder Kette. 97 Level warten noch.'));
+      else t.append(neu('strong', null, 'Noch ' + (levelAb(3) - spiel.xp) + ' XP bis Level 3'), neu('p', 'leise klein', 'Dort wartet dein erster geheimer Titel. Welcher, siehst du erst in der App.'));
+      geheim.append(img, t);
+      const cta = neu('div'); cta.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;align-items:center';
+      const k = neu('a', 'knopf', '30 Tage jetzt testen'); k.href = '#preise'; k.dataset.link = 'gratis';
+      const n = neu('a', 'knopf zweit', 'Nochmal'); n.href = '#spiel'; n.addEventListener('click', (e) => { e.preventDefault(); Object.assign(spiel, { nr: -1, xp: 0, richtig: 0, fehler: 0 }); zeigeStand(); $('lektionsspur').style.width = '0'; figurWahl(); });
+      cta.append(k, n);
+      box.append(geheim, neu('p', 'leise klein', 'Level ' + l + ' von 100 mit ' + spiel.xp + ' XP. Mit dem Tagesziel „Locker“ (50 XP) wäre heute Tag 1 deiner Serie.'), cta);
+      if (typeof setzeLinks === 'function') setzeLinks();
+    }
+  }
+  zeigeStand();
+  figurWahl();
+
+  // XP-Rechner: Tagesziel + 10 XP Tagesbonus, jeden Tag
+  const OFFEN = [[1, 'Sales-Neuling'], [3, 'Cold Caller'], [6, 'Terminleger'], [10, 'Sales Development Rep']];
+  const titelBei = (l) => { let t = null; for (const [ab, n] of OFFEN) if (l >= ab) t = n; return l >= 15 ? '??? (geheim)' : t; };
+  function rechne(ziel) {
+    const box = $('prognose');
+    box.replaceChildren(...[[30, 'nach 30 Tagen'], [182, 'nach 6 Monaten'], [365, 'nach einem Jahr']].map(([tage, text]) => {
+      const l = levelVon(tage * (ziel + 10));
+      const d = neu('div'); d.append(neu('small', null, text), neu('b', null, 'Lv ' + l), neu('em', null, titelBei(l)));
+      return d;
+    }));
+  }
+  document.querySelectorAll('.zielwahl button').forEach((b) => {
+    b.setAttribute('aria-checked', String(b.classList.contains('an')));
+    b.addEventListener('click', () => { document.querySelectorAll('.zielwahl button').forEach((x) => { x.classList.toggle('an', x === b); x.setAttribute('aria-checked', String(x === b)); }); rechne(Number(b.dataset.ziel)); });
+  });
+  rechne(100);
 </script>
 </body>
 </html>
