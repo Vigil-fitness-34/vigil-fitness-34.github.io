@@ -317,6 +317,154 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .szenesteuer button { padding: 0.6cqw 1.2cqw; min-height: 28px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.5); color: var(--text); cursor: pointer; font: inherit; font-size: max(12px, 1.1cqw); }
 .kino:not(.laeuft) .szenesteuer { display: none; }
 .fenstervorteile { margin-top: 28px; }
+/* Willkommensvideo: jede Szene ist eine Ebene, die mit .an erscheint */
+.szenestart.klein { inset: auto 1.4cqw 1.4cqw auto; background: transparent; }
+.filmabschnitt { padding-top: 0; }
+.willkommen { background: radial-gradient(ellipse at 50% 30%, #1d1b26, #07070a 70%); }
+.wb { position: absolute; inset: 7% 6%; display: grid; place-content: center; justify-items: center; gap: 2cqw; text-align: center; opacity: 0; transform: scale(1.08); filter: blur(0.6cqw); transition: opacity 0.6s, transform 1.2s cubic-bezier(.2,.8,.2,1), filter 0.6s; pointer-events: none; z-index: 2; }
+.wb.an { opacity: 1; transform: none; filter: none; pointer-events: auto; }
+.vtitel img, .wende img { width: 9cqw; height: 9cqw; border-radius: 22%; }
+.vtitel b, .wende b { font-family: var(--anzeige); font-size: 5.4cqw; }
+.vtitel span { color: var(--leise); font-size: 2cqw; }
+.vgross b { display: block; font-family: var(--anzeige); font-weight: 900; font-size: 8.4cqw; line-height: 1.02; letter-spacing: -0.02em; }
+.vgross.an b { animation: knall 0.9s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes knall { from { opacity: 0; transform: scale(2.2); filter: blur(1cqw); } to { opacity: 1; transform: none; filter: none; } }
+.vgross.an b + b { animation-delay: 0.35s; color: var(--gold); }
+.vgross s { text-decoration-thickness: 0.6cqw; text-decoration-color: #ff6b6b; }
+.wschmerz { grid-template-columns: repeat(3, 1fr); gap: 2.4cqw; }
+.wding { position: relative; padding: 2.4cqw 2cqw; border-radius: 1.6cqw; background: var(--flaeche); border: 1px solid var(--kante); display: grid; justify-items: center; gap: 1.2cqw; font-size: 1.9cqw; opacity: 0; }
+.wschmerz.an .wding { animation: reinfallen 0.6s cubic-bezier(.2,.9,.3,1.3) both; }
+.wschmerz.an .wding:nth-child(2) { animation-delay: 1.2s; } .wschmerz.an .wding:nth-child(3) { animation-delay: 2.4s; }
+@keyframes reinfallen { from { opacity: 0; transform: translateY(-6cqw) rotate(-6deg); } to { opacity: 1; transform: none; } }
+.wding i { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-size: 10cqw; color: #ff6b6b; opacity: 0; }
+.wschmerz.an .wding i { animation: kreuz 0.3s ease-out 4.4s both; }
+@keyframes kreuz { from { opacity: 0; transform: scale(2); } to { opacity: 0.9; transform: none; } }
+.wsymbol { width: 7cqw; height: 8cqw; border-radius: 0.6cqw; background: linear-gradient(160deg, #3b4766, #222a3d); position: relative; }
+.wsymbol.buch { background: linear-gradient(90deg, #7a2e2e 12%, #a33b3b 12%); }
+.wsymbol.folie2 { height: 5.6cqw; width: 8cqw; background: repeating-linear-gradient(180deg, #2a3148 0 1cqw, #3d4767 1cqw 1.4cqw); }
+.wsymbol.kalender { background: linear-gradient(180deg, #c0392b 0 28%, #e8e8ea 28%); }
+.wfrage { grid-column: 1 / -1; font-family: var(--anzeige); font-size: 3.6cqw; color: var(--gold); opacity: 0; }
+.wschmerz.an .wfrage { animation: aufblenden2 0.8s ease-out 4.8s both; }
+@keyframes aufblenden2 { from { opacity: 0; transform: translateY(1.5cqw); } to { opacity: 1; transform: none; } }
+.wkarten3 { display: flex; gap: 2cqw; }
+.wkarten3 div { padding: 2cqw 3cqw; border-radius: 1.4cqw; background: var(--flaeche); border: 1px solid var(--kante); font-weight: 800; font-size: 2.6cqw; opacity: 0; }
+.wgrund.an .wkarten3 div { animation: reinfallen 0.5s cubic-bezier(.2,.9,.3,1.3) both; }
+.wgrund.an .wkarten3 div:nth-child(1) { animation-delay: 1.4s; } .wgrund.an .wkarten3 div:nth-child(2) { animation-delay: 2s; } .wgrund.an .wkarten3 div:nth-child(3) { animation-delay: 2.6s; }
+.wfundament { width: 100%; padding: 1.8cqw 3cqw; border-radius: 1.4cqw; background: linear-gradient(90deg, var(--gold), #f1d3a1); color: #1a1408; font-family: var(--anzeige); font-weight: 900; font-size: 3.4cqw; opacity: 0; transform-origin: center; }
+.wgrund.an .wfundament { animation: fundament 0.8s cubic-bezier(.2,.9,.3,1.2) 5s both; }
+@keyframes fundament { from { opacity: 0; transform: scaleX(0.2); } to { opacity: 1; transform: none; } }
+.wloesung { grid-template-columns: auto auto; gap: 5cqw; align-items: center; text-align: left; justify-items: start; }
+.wtelefon { width: 17cqw; aspect-ratio: 9 / 18; border-radius: 2.6cqw; padding: 0.8cqw; background: #2a2b31; box-shadow: 0 2cqw 5cqw rgba(0,0,0,0.6); }
+.wtelefon .wbildschirm { width: 100%; height: 100%; border-radius: 2cqw; background: radial-gradient(circle at 50% 30%, #2b2416, #0c0c0f); display: grid; place-content: center; justify-items: center; gap: 0.6cqw; }
+.wtelefon .wbildschirm img { width: 6cqw; height: 6cqw; border-radius: 22%; }
+.wtelefon .wbildschirm b { font-family: var(--anzeige); font-size: 2.4cqw; color: var(--gold); }
+.wtelefon .wbildschirm span { font-size: 1.4cqw; color: var(--leise); }
+.wloesung.an .wtelefon { animation: hochfahren 1s cubic-bezier(.2,.9,.3,1.1) both; }
+@keyframes hochfahren { from { transform: translateY(30cqw) rotate(8deg); } to { transform: none; } }
+.wtext { display: grid; gap: 0.8cqw; }
+.wtext small { color: var(--leise); font-size: 2cqw; }
+.wtext b { font-family: var(--anzeige); font-size: 5.6cqw; color: var(--gold); }
+.wtext span { font-size: 2.4cqw; }
+.wknoten { display: flex; gap: 2.4cqw; align-items: center; }
+.wknoten i { width: 8cqw; height: 8cqw; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 900; font-size: 3cqw; background: var(--gruen); color: #04230f; box-shadow: 0 0.6cqw 0 #1b8a4a; opacity: 0; }
+.wknoten i.jetzt { background: var(--gold); color: #1a1408; box-shadow: 0 0.6cqw 0 var(--gold-tief), 0 0 0 1.2cqw rgba(212,175,124,0.2); }
+.wknoten i.zu { background: #2a2b31; box-shadow: 0 0.6cqw 0 #111; }
+.vpfad.an .wknoten i { animation: reinfallen 0.45s cubic-bezier(.2,.9,.3,1.4) both; }
+.vpfad.an .wknoten i:nth-child(2) { animation-delay: 0.4s; } .vpfad.an .wknoten i:nth-child(3) { animation-delay: 0.8s; } .vpfad.an .wknoten i:nth-child(4) { animation-delay: 1.2s; } .vpfad.an .wknoten i:nth-child(5) { animation-delay: 1.6s; }
+.wstatus { display: flex; gap: 2cqw; font-size: 2.4cqw; font-weight: 800; }
+.wstatus > span { display: flex; align-items: center; gap: 0.6cqw; padding: 1cqw 2cqw; border-radius: 999px; background: var(--flaeche); border: 1px solid var(--kante); opacity: 0; }
+.wstatus svg { width: 2.8cqw; height: 2.8cqw; }
+.vpfad.an .wstatus > span { animation: aufblenden2 0.5s ease-out both; }
+.vpfad.an .vflamme { animation-delay: 2.2s !important; } .vpfad.an .wxp { animation-delay: 3s !important; color: var(--gruen); } .vpfad.an .wlevel { animation-delay: 4.6s !important; color: var(--gold); }
+.weinwand { grid-template-columns: auto 1fr; gap: 4cqw; align-items: center; }
+.wzahl { font-family: var(--anzeige); font-weight: 900; font-size: 18cqw; line-height: 1; color: var(--gold); }
+.weinwand.an .wzahl { animation: knall 0.8s cubic-bezier(.2,.9,.3,1) both; }
+.wfaecher { display: grid; gap: 1.2cqw; justify-items: start; }
+.wfaecher span { padding: 1.2cqw 2.4cqw; border-radius: 1.4cqw 1.4cqw 1.4cqw 0.2cqw; background: #fff; color: #111; font-weight: 800; font-size: 2.4cqw; opacity: 0; }
+.weinwand.an .wfaecher span { animation: reinfallen 0.4s cubic-bezier(.2,.9,.3,1.3) both; }
+.weinwand.an .wfaecher span:nth-child(1) { animation-delay: 0.5s; } .weinwand.an .wfaecher span:nth-child(2) { animation-delay: 0.8s; } .weinwand.an .wfaecher span:nth-child(3) { animation-delay: 1.1s; } .weinwand.an .wfaecher span:nth-child(4) { animation-delay: 1.4s; }
+.wfenster { grid-template-columns: auto auto; gap: 0; align-items: center; }
+.wcall { width: 40cqw; aspect-ratio: 16 / 10; border-radius: 1.6cqw; background: linear-gradient(160deg, #2a3550, #1b2133); display: grid; place-items: center; position: relative; }
+.wcall .avatar { width: 9cqw; font-size: 3cqw; }
+.wcall em { position: absolute; left: 1.2cqw; bottom: 1cqw; font-style: normal; color: var(--leise); font-size: 1.4cqw; }
+.wmini { margin-left: -6cqw; width: 26cqw; padding: 1.8cqw; border-radius: 1.6cqw; background: rgba(23,24,27,0.97); border: 0.2cqw solid var(--gold); text-align: left; display: grid; gap: 0.8cqw; font-size: 1.8cqw; box-shadow: 0 2cqw 4cqw rgba(0,0,0,0.6); opacity: 0; }
+.wfenster.an .wmini { animation: fensterauf 0.6s cubic-bezier(.2,.9,.3,1.4) 0.6s both; }
+.wmini small { color: var(--gruen); font-weight: 700; }
+.wchips { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2cqw; max-width: 70cqw; }
+.wchips span { padding: 1cqw 2.2cqw; border-radius: 999px; border: 0.2cqw solid var(--gold); color: var(--gold); font-weight: 800; font-size: 2.4cqw; opacity: 0; }
+.wrahmen.an .wchips span { animation: reinfallen 0.4s cubic-bezier(.2,.9,.3,1.3) both; }
+.wrahmen.an .wchips span:nth-child(2) { animation-delay: 0.25s; } .wrahmen.an .wchips span:nth-child(3) { animation-delay: 0.5s; } .wrahmen.an .wchips span:nth-child(4) { animation-delay: 0.75s; } .wrahmen.an .wchips span:nth-child(5) { animation-delay: 1s; } .wrahmen.an .wchips span:nth-child(6) { animation-delay: 1.25s; } .wrahmen.an .wchips span:nth-child(7) { animation-delay: 1.5s; }
+.wzert { position: relative; width: 34cqw; padding: 2.2cqw; border-radius: 1.2cqw; background: linear-gradient(160deg, #f6efe2, #e5d6b8); color: #1a1408; display: grid; gap: 0.6cqw; box-shadow: 0 2cqw 4cqw rgba(0,0,0,0.5); opacity: 0; }
+.wzert small { letter-spacing: 0.2em; text-transform: uppercase; font-weight: 800; font-size: 1.3cqw; color: #8a6a37; }
+.wzert b { font-family: var(--anzeige); font-size: 2.8cqw; }
+.wzert .li { position: absolute; right: -1.6cqw; top: -1.6cqw; width: 5cqw; height: 5cqw; border-radius: 1cqw; background: #0a66c2; color: #fff; font-weight: 900; font-size: 2.6cqw; display: grid; place-items: center; }
+.wrahmen.an .wzert { animation: zertifikat 0.8s cubic-bezier(.2,.9,.3,1.3) 4s both; }
+@keyframes zertifikat { from { opacity: 0; transform: translateY(6cqw) rotate(-8deg) scale(0.8); } to { opacity: 1; transform: rotate(-2deg); } }
+.wkarriere { grid-template-columns: auto auto auto; align-items: end; gap: 3cqw; }
+.wfig { width: 14cqw; height: auto; }
+.wfig.zwei { width: 20cqw; filter: drop-shadow(0 0 3cqw rgba(212,175,124,0.5)); opacity: 0; }
+.wkarriere.an .wfig.zwei { animation: aufsteigen 1s cubic-bezier(.2,.9,.3,1.3) 1.8s both; }
+@keyframes aufsteigen { from { opacity: 0; transform: translateY(4cqw) scale(0.7); } to { opacity: 1; transform: none; } }
+.wpfeil { font-size: 6cqw; color: var(--gold); align-self: center; }
+.wlevelzahl { grid-column: 1 / -1; justify-self: center; font-size: 3cqw; font-weight: 800; }
+.wlevelzahl b { color: var(--gold); font-family: var(--anzeige); font-size: 4cqw; }
+.wgeraete { grid-template-columns: auto auto auto; align-items: center; gap: 3cqw; }
+.wlaptop { width: 36cqw; aspect-ratio: 16 / 10; border-radius: 1.4cqw 1.4cqw 0 0; padding: 0.8cqw; background: #2a2b31; position: relative; }
+.wlaptop::after { content: ''; position: absolute; left: -3cqw; right: -3cqw; bottom: -1.6cqw; height: 1.6cqw; border-radius: 0 0 1.4cqw 1.4cqw; background: #3a3b42; }
+.wlaptop div, .wtelefon.klein .wbildschirm { width: 100%; height: 100%; border-radius: 0.8cqw; background: radial-gradient(circle at 40% 30%, #2b2416, #0c0c0f); }
+.wtelefon.klein { width: 11cqw; }
+.wsync { font-size: 6cqw; color: var(--gold); }
+.wgeraete.an .wsync { animation: drehen 1.4s ease-in-out infinite; }
+@keyframes drehen { 50% { transform: scale(1.25); color: var(--gruen); } }
+.wnamen { grid-column: 1 / -1; justify-self: center; font-size: 2.8cqw; font-weight: 800; margin-top: 2cqw; }
+.wende .knopf { font-size: 1.8cqw; }
+.wende.an img { animation: logodreh 1.2s cubic-bezier(.2,.9,.3,1.3); }
+.wende.an .knopf { animation: knopfglanz 2s ease-in-out 1s infinite; }
+.willkommen[data-schritt="w-ende"] .untertitel { display: none; }
+.wnutzen { grid-template-columns: 1fr auto 1fr; align-items: center; gap: 3cqw; }
+.wvorher, .wnachher { display: grid; gap: 1.2cqw; text-align: left; }
+.wvorher small, .wnachher small { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; font-size: 1.4cqw; }
+.wvorher small { color: #ff6b6b; } .wnachher small { color: var(--gruen); }
+.wvorher span, .wnachher span { padding: 1.4cqw 2cqw; border-radius: 1.2cqw; font-weight: 800; font-size: 2.2cqw; opacity: 0; }
+.wvorher span { background: rgba(224,49,49,0.12); border: 1px solid rgba(224,49,49,0.35); color: #ffb3b3; text-decoration: line-through; text-decoration-color: rgba(255,107,107,0.7); }
+.wnachher span { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.45); }
+.wnutzen.an .wvorher span { animation: aufblenden2 0.4s ease-out both; }
+.wnutzen.an .wvorher span:nth-child(3) { animation-delay: 0.3s; } .wnutzen.an .wvorher span:nth-child(4) { animation-delay: 0.6s; }
+.wnutzen.an .wnachher span { animation: reinfallen 0.5s cubic-bezier(.2,.9,.3,1.3) both; }
+.wnutzen.an .wnachher span:nth-child(2) { animation-delay: 1.6s; } .wnutzen.an .wnachher span:nth-child(3) { animation-delay: 3s; } .wnutzen.an .wnachher span:nth-child(4) { animation-delay: 4.4s; }
+
+.wraster { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.4cqw; }
+.wraster span { display: grid; place-items: center; aspect-ratio: 2 / 1; padding: 0 1cqw; border-radius: 1.4cqw; background: var(--flaeche); border: 1px solid var(--kante); font-weight: 800; font-size: 1.9cqw; opacity: 0; }
+.wwerkzeug.an .wraster span { animation: kachelan 0.35s cubic-bezier(.2,.9,.3,1.4) both; }
+.wwerkzeug.an .wraster span:nth-child(1) { animation-delay: 0.3s; }
+.wwerkzeug.an .wraster span:nth-child(2) { animation-delay: 0.6s; }
+.wwerkzeug.an .wraster span:nth-child(3) { animation-delay: 0.9s; }
+.wwerkzeug.an .wraster span:nth-child(4) { animation-delay: 1.2s; }
+.wwerkzeug.an .wraster span:nth-child(5) { animation-delay: 1.5s; }
+.wwerkzeug.an .wraster span:nth-child(6) { animation-delay: 1.8s; }
+.wwerkzeug.an .wraster span:nth-child(7) { animation-delay: 2.1s; }
+.wwerkzeug.an .wraster span:nth-child(8) { animation-delay: 2.4s; }
+.wwerkzeug.an .wraster span:nth-child(9) { animation-delay: 2.7s; }
+.wwerkzeug.an .wraster span:nth-child(10) { animation-delay: 3.0s; }
+@keyframes kachelan { from { opacity: 0; transform: scale(0.4); } 70% { border-color: var(--gold); } to { opacity: 1; transform: none; } }
+.weinapp { font-family: var(--anzeige); font-size: 3.6cqw; color: var(--gold); opacity: 0; }
+.wwerkzeug.an .weinapp { animation: aufblenden2 0.6s ease-out 4.2s both; }
+.weigen.an .weinapp { animation: aufblenden2 0.6s ease-out 5.4s both; }
+.wordner { display: flex; gap: 2cqw; }
+.wordner div { display: grid; justify-items: center; gap: 1cqw; padding: 2.2cqw 2.6cqw; border-radius: 1.6cqw; border: 0.25cqw dashed var(--gold); font-weight: 800; font-size: 2.1cqw; opacity: 0; }
+.wordner b { width: 5cqw; height: 5cqw; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #1a1408; font-size: 3.4cqw; }
+.weigen.an .wordner div { animation: reinfallen 0.5s cubic-bezier(.2,.9,.3,1.3) both; }
+.weigen.an .wordner div:nth-child(1) { animation-delay: 2.3s; } .weigen.an .wordner div:nth-child(2) { animation-delay: 2.9s; } .weigen.an .wordner div:nth-child(3) { animation-delay: 3.5s; }
+.wregler { display: grid; grid-template-columns: auto 24cqw auto 24cqw; align-items: center; gap: 1.4cqw; font-size: 1.7cqw; color: var(--leise); }
+.wregler i { height: 0.8cqw; border-radius: 999px; background: #2a2b31; position: relative; }
+.wregler em { position: absolute; left: 10%; top: 50%; width: 2.6cqw; height: 2.6cqw; margin-top: -1.3cqw; border-radius: 50%; background: var(--gold); }
+.weigen.an .wregler em { animation: schieben 1.6s ease-in-out 4.2s both; }
+.weigen.an .wregler i + span + i em { animation-delay: 4.6s; }
+@keyframes schieben { to { left: 70%; } }
+@media (max-width: 600px) { .wraster span { font-size: 2.4cqw; } .willkommen { aspect-ratio: 1 / 1; } .willkommen .wb { inset: 8% 3% 30%; } .willkommen .untertitel { font-size: 4.2cqw; padding: 4cqw 5cqw 7cqw; background: linear-gradient(transparent, rgba(0,0,0,0.85) 30%); } }
+
+@media (max-width: 600px) { .wb { inset: 4% 3%; } .willkommen .untertitel { font-size: 3cqw; padding-bottom: 6cqw; } .kino .untertitel { font-size: 3.2cqw; } }
+
 /* Zusätzliche Animationen: Kinobalken, Lichter, große Worte, Blitz, Treffer */
 .balken { position: absolute; left: 0; right: 0; height: 7%; background: #000; z-index: 9; transition: transform 1.2s cubic-bezier(.65,0,.25,1); }
 .balken.oben { top: 0; transform: translateY(-100%); }
@@ -447,6 +595,28 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .lsliste span b { margin-left: auto; font-family: var(--schrift); color: var(--gold); }
 .lsliste i { width: 9px; height: 9px; border-radius: 50%; }
 @media (max-width: 900px) { .widgetwand { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Widgets auf einem Mac-Schreibtisch, in echter Größe gezeichnet und mit --s verkleinert */
+.macbuch { max-width: 980px; margin: 0 auto; }
+.macschirm { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; padding: 1.4%; background: #1d1e22; border: 1px solid #34353b; box-shadow: 0 40px 90px rgba(0,0,0,0.55); overflow: hidden; container-type: inline-size; }
+.macbuehne { position: relative; width: 1280px; height: 800px; transform-origin: 0 0; transform: scale(var(--s, 0.7)); border-radius: 10px; overflow: hidden; background: radial-gradient(ellipse at 20% 10%, #5b3b7a, transparent 55%), radial-gradient(ellipse at 90% 90%, #b5672f, transparent 50%), radial-gradient(ellipse at 70% 20%, #1f4f7a, transparent 55%), #12131a; }
+.macleiste { position: absolute; left: 0; right: 0; top: 0; height: 30px; display: flex; align-items: center; gap: 22px; padding: 0 18px; background: rgba(20,20,26,0.55); backdrop-filter: blur(12px); font-size: 14px; color: #e9e9ee; }
+.macleiste .apfel { width: 14px; height: 16px; border-radius: 50% 50% 45% 45%; background: #e9e9ee; }
+.macleiste em { margin-left: auto; font-style: normal; }
+.macspalte { position: absolute; top: 56px; display: grid; gap: 16px; align-content: start; }
+.macspalte.links { left: 28px; width: 344px; }
+.macspalte.rechts { right: 28px; width: 344px; }
+.macpaar { display: grid; grid-template-columns: 164px 164px; gap: 16px; }
+.macbuehne .widget { border-radius: 22px; box-shadow: 0 12px 30px rgba(0,0,0,0.35); background-color: rgba(18,18,22,0.82); }
+.macbuehne .widget.klein { width: 164px; aspect-ratio: 1; }
+.macbuehne .widget.mittel { width: 344px; aspect-ratio: auto; min-height: 164px; grid-column: auto; }
+.macbuehne .widget.feuer b { font-size: 40px; }
+.macdock { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; gap: 12px; padding: 8px 12px; border-radius: 18px; background: rgba(255,255,255,0.16); backdrop-filter: blur(14px); }
+.macdock i, .macdock img { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(160deg, #3c4a66, #232a3a); }
+.macdock img { box-shadow: 0 0 0 2px rgba(212,175,124,0.6); }
+.macfuss { height: 16px; margin: 0 -4%; border-radius: 0 0 16px 16px; background: linear-gradient(180deg, #3a3b42, #26272c); position: relative; }
+.macfuss::before { content: ''; position: absolute; left: 50%; top: 0; width: 16%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #1d1e22; }
+@media (max-width: 600px) { .macfuss { margin: 0 -2%; height: 10px; } .macschirm { border-radius: 10px; } }
+
 @media (max-width: 480px) { .widget.mittel { aspect-ratio: auto; } .widget.feuer b { font-size: 34px; } }
 
 /* Warum sich das lohnt */
@@ -551,6 +721,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 900px) { .geraete { grid-template-columns: 1fr; } }
 
 /* Freunde und Ambassador */
+.einladeschritte { display: grid; gap: 10px; margin: 14px 0; }
+.einladeschritte div { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--kante); }
+.einladeschritte b { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--flaeche-hoch); font-family: var(--anzeige); font-size: 18px; }
+.einladeschritte .geschenk { border-color: var(--gold); background: linear-gradient(90deg, rgba(212,175,124,0.18), transparent); }
+.einladeschritte .geschenk b { background: var(--gold); color: #1a1408; font-size: 15px; animation: puls 2s infinite; }
+
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .angebot { border-radius: var(--rund); padding: clamp(24px, 3.4vw, 40px); display: grid; gap: 14px; align-content: start; border: 1px solid var(--kante); background: var(--flaeche); }
 .angebot.gold { background: linear-gradient(160deg, rgba(212, 175, 124, 0.2), rgba(212, 175, 124, 0.04)); border-color: rgba(212, 175, 124, 0.4); }
@@ -658,7 +834,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <p class="unter">Kein 400-Seiten-Buch, kein Wochenend-Seminar, keine trockenen Frameworks. Fünf Minuten am Tag am Handy, in der Bahn, in der Pause. Mit Serie, XP und Level wie bei Duolingo, bis Verkaufen sich anfühlt wie etwas, das du einfach kannst.</p>
         <div class="aktionen">
           <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
-          <a class="knopf zweit" href="#probe">Probier eine Lektion</a>
+          <a class="knopf zweit" href="#film">Video ansehen, 1 Minute</a>
         </div>
         <p class="fein">Handy, Windows und Mac. Dein Fortschritt läuft überall mit.</p>
       </div>
@@ -667,6 +843,79 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <div class="telefon zwei"><img src="bilder/quiz.jpg" alt="" width="780" height="1688"></div>
         <div class="abzeichen flamme"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1.2 3.4 5.5 5.6 5.5 10.6A5.5 5.5 0 0 1 6.5 12.6c0-2.4 1.2-3.9 2.5-5 0 2.2 1 3.6 2.4 3.6.3-3.6-.6-6.4.6-9.2z" fill="#F59E0B"/></svg>Serie halten</div>
         <div class="abzeichen ziel"><b>+XP</b>für jede Antwort, die sitzt</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="film" class="filmabschnitt">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <span class="etikett">In einer Minute erklärt</span>
+        <h2>Worum es bei Sales Universe geht.</h2>
+      </div>
+      <div class="kino willkommen" id="willkommen" data-schritt="w-start" aria-label="Video: Warum es Sales Universe gibt und was drin ist">
+        <div class="lichter" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="wb vtitel" data-bei="w-start"><img src="bilder/logo.png" alt="" width="80" height="80"><b>Sales Universe</b><span>Sales lernen wie eine Sprache</span></div>
+        <div class="wb vgross" data-bei="w-hook"><b>Keiner hat Bock</b><b>auf <s>Sales</s>.</b></div>
+        <div class="wb wschmerz" data-bei="w-schmerz">
+          <div class="wding"><span class="wsymbol buch"></span><b>400 Seiten</b><i>✕</i></div>
+          <div class="wding"><span class="wsymbol folie2"></span><b>Trockene Frameworks</b><i>✕</i></div>
+          <div class="wding"><span class="wsymbol kalender"></span><b>Seminar am Samstag</b><i>✕</i></div>
+          <div class="wfrage">Wer hat dafür Zeit?</div>
+        </div>
+        <div class="wb wgrund" data-bei="w-grundlage">
+          <div class="wkarten3"><div>Job</div><div>Gehalt</div><div>Eigenes Business</div></div>
+          <div class="wfundament">Sales ist die Grundlage für alles.</div>
+        </div>
+        <div class="wb wloesung" data-bei="w-loesung">
+          <div class="wtelefon"><div class="wbildschirm"><img src="bilder/logo.png" alt="" width="56" height="56"><b>5 Minuten</b><span>am Tag</span></div></div>
+          <div class="wtext"><small>Deshalb gibt es</small><b>Sales Universe</b><span>Sales lernen wie eine Sprache.</span></div>
+        </div>
+        <div class="wb vpfad" data-bei="w-lernpfad">
+          <div class="wknoten"><i>✓</i><i>✓</i><i>✓</i><i class="jetzt">▶</i><i class="zu"></i></div>
+          <div class="wstatus"><span class="vflamme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1.2 3.4 5.5 5.6 5.5 10.6A5.5 5.5 0 0 1 6.5 12.6c0-2.4 1.2-3.9 2.5-5 0 2.2 1 3.6 2.4 3.6.3-3.6-.6-6.4.6-9.2z" fill="#F59E0B"/></svg><b>7</b> Tage Serie</span><span class="wxp">+10 XP</span><span class="wlevel">Level <b>3</b></span></div>
+        </div>
+        <div class="wb weinwand" data-bei="w-einwaende">
+          <div class="wzahl">30</div>
+          <div class="wfaecher"><span>„Zu teuer.“</span><span>„Keine Zeit.“</span><span>„Schicken Sie mir was.“</span><span>„Ich melde mich.“</span></div>
+        </div>
+        <div class="wb wfenster" data-bei="w-fenster">
+          <div class="wcall"><span class="avatar">MK</span><em>Videocall</em></div>
+          <div class="wmini"><b>Zu teuer</b><p>„Im Vergleich zu welcher Alternative?“</p><small>nur für dich sichtbar</small></div>
+        </div>
+        <div class="wb wrahmen" data-bei="w-frameworks">
+          <div class="wchips"><span>SPIN</span><span>MEDDIC</span><span>BANT</span><span>SPICED</span><span>Challenger</span><span>Sandler</span><span>SNAP</span></div>
+          <div class="wzert"><small>Zertifikat</small><b>Sales Frameworks</b><span class="li">in</span></div>
+        </div>
+        <div class="wb wwerkzeug" data-bei="w-werkzeuge">
+          <div class="wraster"><span>Lernpfad</span><span>Einwände</span><span>Kleines Fenster</span><span>Playbook</span><span>Kundentypen</span><span>Vokabeln</span><span>Frameworks</span><span>Fokus-Planer</span><span>Netzwerk</span><span>Zertifikate</span></div>
+          <div class="weinapp">Alles in einer App.</div>
+        </div>
+        <div class="wb weigen" data-bei="w-eigenes">
+          <div class="wordner"><div><b>+</b><span>Eigene Einwände</span></div><div><b>+</b><span>Eigene Prompts</span></div><div><b>+</b><span>Eigene Frameworks</span></div></div>
+          <div class="wregler"><span>Dein Tempo</span><i><em></em></i><span>Dein Tagesziel</span><i><em></em></i></div>
+          <div class="weinapp">So, wie du es willst.</div>
+        </div>
+        <div class="wb wkarriere" data-bei="w-karriere">
+          <img class="wfig eins" src="bilder/figuren/mia-1.svg" alt="" width="120" height="150"><span class="wpfeil">→</span><img class="wfig zwei" src="bilder/figuren/mia-2.svg" alt="" width="120" height="150">
+          <div class="wlevelzahl">Level <b>1</b> bis <b>100</b></div>
+        </div>
+        <div class="wb wgeraete" data-bei="w-ueberall">
+          <div class="wlaptop"><div></div></div><span class="wsync">⇄</span><div class="wtelefon klein"><div class="wbildschirm"></div></div>
+          <div class="wnamen">Handy · Windows · Mac</div>
+        </div>
+        <div class="wb wnutzen" data-bei="w-nutzen">
+          <div class="wvorher"><small>Vorher</small><span>Stottern bei „zu teuer“</span><span>Rabatt aus Panik</span><span>Call aufschieben</span></div>
+          <span class="wpfeil">→</span>
+          <div class="wnachher"><small>Mit Sales Universe</small><span>Sicher in jeden Call</span><span>Du weißt, was du sagst</span><span>Verkaufen ohne Überreden</span></div>
+        </div>
+        <div class="wb wende" data-bei="w-ende"><img src="bilder/logo.png" alt="" width="80" height="80"><b>Willkommen im Sales Universe.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage kostenlos testen</a></div>
+        <div class="vignette"></div>
+        <div class="balken oben" aria-hidden="true"></div><div class="balken unten" aria-hidden="true"></div>
+        <div class="untertitel" aria-live="polite"></div>
+        <div class="kinofortschritt"><span></span></div>
+        <button class="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, gut 1 Minute</small></button>
+        <div class="szenesteuer"><button type="button" class="szeneton">Ton an</button><button type="button" class="szeneknopf">Pause</button></div>
       </div>
     </div>
   </section>
@@ -820,10 +1069,10 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <div class="balken oben" aria-hidden="true"></div><div class="balken unten" aria-hidden="true"></div>
         <div class="titelkarte"><small>Sales Universe</small><b>Jeder Call hat diesen einen Moment.</b></div>
         <div class="kinoende"><img src="bilder/logo.png" alt="" width="72" height="72" class="kinologo"><small>Sales Universe</small><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a></div>
-        <div class="untertitel" id="erzaehler" aria-live="polite"></div>
-        <div class="kinofortschritt"><span id="kinofortschritt"></span></div>
-        <button class="szenestart" id="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, 40 Sekunden</small></button>
-        <div class="szenesteuer"><button type="button" id="szeneton" aria-label="Ton aus">Ton an</button><button type="button" id="szeneknopf" aria-label="Anhalten">Pause</button></div>
+        <div class="untertitel" aria-live="polite"></div>
+        <div class="kinofortschritt"><span></span></div>
+        <button class="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, 50 Sekunden</small></button>
+        <div class="szenesteuer"><button type="button" class="szeneton">Ton an</button><button type="button" class="szeneknopf">Pause</button></div>
       </div>
       <div class="dreier fenstervorteile">
         <div class="kachel"><h3>Ein Tastendruck</h3><p>Strg + Shift + Leertaste (am Mac ⌘ + Shift + Leertaste). Tipp zwei Wörter, und der passende Einwand mit Antwort ist da.</p></div>
@@ -1002,22 +1251,22 @@ details p { padding-bottom: 20px; color: var(--leise); }
     <div class="huelle">
       <div class="kopfzeile">
         <span class="etikett">Widgets für den Mac</span>
-        <h2>Deine Serie, immer im Blick.</h2>
+        <h2>Deine Serie, immer im Blick. Direkt auf dem Schreibtisch.</h2>
         <p class="leise">Klein für den schnellen Blick, groß für den ganzen Lernstand. Leg sie auf den Schreibtisch oder in die Mitteilungszentrale.</p>
       </div>
-      <div class="widgetwand">
-        <div class="widget klein feuer"><svg viewBox="0 0 24 24" class="wflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b>12</b><span>Tage in Folge</span></div>
-        <div class="widget klein ring"><div class="ringbox"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" class="hinten"/><circle cx="18" cy="18" r="15" class="vorne" stroke-dasharray="61 94.2"/></svg><div class="ringzahl"><b>65</b><small>XP</small></div></div><span>35 XP bis zum Ziel</span></div>
-        <div class="widget mittel karriere">
-          <div class="wkopf"><span class="levelbadge">15</span><div><small>Deine Karriere</small><b>Junior Account Executive</b></div><em>1.900 XP</em></div>
-          <div class="wpfad"><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="jetzt">15</i><i class="zu"></i><i class="zu"></i><i class="zu"></i></div>
-          <div class="wspur"><span style="width:61%"></span></div>
-          <small class="wleise">Noch 80 XP bis Level 16</small>
-        </div>
+      <div class="macbuch" aria-label="Mac-Schreibtisch mit Sales-Universe-Widgets">
+        <div class="macschirm">
+          <div class="macbuehne">
+            <div class="macleiste"><span class="apfel"></span><b>Sales Universe</b><span>Ablage</span><span>Lernen</span><span>Fenster</span><em>Fr 09:41</em></div>
+            <div class="macspalte links">
         <div class="widget mittel vokabel">
           <div class="wzeile"><span class="wchip">Vokabel des Tages</span><small class="wleise">Kennzahlen</small></div>
           <b class="wgross">Runway</b>
           <p class="wleise">Wie viele Monate das vorhandene Geld noch reicht, wenn die Ausgaben so weiterlaufen.</p>
+        </div>
+        <div class="widget mittel lernstand">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" class="r1"/><circle cx="50" cy="50" r="36" class="r2"/><circle cx="50" cy="50" r="28" class="r3"/><circle cx="50" cy="50" r="20" class="r4"/></svg>
+          <div class="lsliste"><small class="wtitel">Dein Lernstand</small><span><i style="background:#F59E0B"></i>Einwände <b>34 %</b></span><span><i style="background:#2ECC71"></i>Wissen <b>52 %</b></span><span><i style="background:#4D9BE8"></i>Kundentypen <b>61 %</b></span><span><i style="background:#A78BFA"></i>Frameworks <b>28 %</b></span></div>
         </div>
         <div class="widget mittel quests">
           <small class="wtitel">Heute</small>
@@ -1025,12 +1274,27 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <div class="quest"><span class="qsym blau">↻</span><div><b>12 Karten wiederholen</b><div class="wspur blau"><span style="width:20%"></span></div></div><em>offen</em></div>
           <div class="quest"><span class="qsym lila">◷</span><div><b>Fokus-Block abschließen</b><div class="wspur lila"><span style="width:0%"></span></div></div><em>0 min</em></div>
         </div>
-        <div class="widget mittel lernstand">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" class="r1"/><circle cx="50" cy="50" r="36" class="r2"/><circle cx="50" cy="50" r="28" class="r3"/><circle cx="50" cy="50" r="20" class="r4"/></svg>
-          <div class="lsliste"><small class="wtitel">Dein Lernstand</small><span><i style="background:#F59E0B"></i>Einwände <b>34 %</b></span><span><i style="background:#2ECC71"></i>Wissen <b>52 %</b></span><span><i style="background:#4D9BE8"></i>Kundentypen <b>61 %</b></span><span><i style="background:#A78BFA"></i>Frameworks <b>28 %</b></span></div>
+            </div>
+            <div class="macspalte rechts">
+              <div class="macpaar">
+        <div class="widget klein feuer"><svg viewBox="0 0 24 24" class="wflamme" aria-hidden="true"><path d="M12.5 2.5c.4 3.1-1.2 4.9-2.8 6.6C8.1 10.8 6.5 12.6 6.5 15.2c0 3.3 2.5 6.3 5.6 6.3s5.9-2.6 5.9-6.2c0-2.3-1-3.9-2-5.1.1 1.6-.5 2.9-1.6 3.4.4-3.5-.6-7.6-1.9-11.1z"/></svg><b>12</b><span>Tage in Folge</span></div>
+        <div class="widget klein ring"><div class="ringbox"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" class="hinten"/><circle cx="18" cy="18" r="15" class="vorne" stroke-dasharray="61 94.2"/></svg><div class="ringzahl"><b>65</b><small>XP</small></div></div><span>35 XP bis zum Ziel</span></div>
+              </div>
+        <div class="widget mittel karriere">
+          <div class="wkopf"><span class="levelbadge">15</span><div><small>Deine Karriere</small><b>Junior Account Executive</b></div><em>1.900 XP</em></div>
+          <div class="wpfad"><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="jetzt">15</i><i class="zu"></i><i class="zu"></i><i class="zu"></i></div>
+          <div class="wspur"><span style="width:61%"></span></div>
+          <small class="wleise">Noch 80 XP bis Level 16</small>
         </div>
+              <div class="macpaar">
         <div class="widget klein wiederholung"><span class="wkarten" aria-hidden="true">↻</span><b>12</b><span>Karten zum Wiederholen</span></div>
         <div class="widget klein rang"><span class="levelbadge gross">15</span><b>Level 15</b><span>von 100</span></div>
+              </div>
+            </div>
+            <div class="macdock"><i></i><i></i><img src="bilder/logo.png" alt="" width="40" height="40"><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="macfuss"></div>
       </div>
       <p class="leise klein mitte-text">Beispielwerte. Auf deinem Mac zeigen die Widgets deinen echten Stand aus der App.</p>
     </div>
@@ -1099,9 +1363,14 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <h2>Bring jemanden mit.</h2>
       </div>
       <div class="duo">
-        <div class="angebot gold">
-          <h3>Freunde einladen</h3>
-          <p>In der App teilst du deinen Link. Wer darüber kommt, lernt 30 Tage kostenlos, mit allem, was drin ist. Zu zweit hält man die Serie leichter durch.</p>
+        <div class="angebot gold einladung">
+          <h3>Freunde einladen, beide gewinnen</h3>
+          <div class="einladeschritte">
+            <div><b>1</b><span>Du teilst deinen Link aus der App.</span></div>
+            <div><b>2</b><span>Dein Freund lernt 30 Tage kostenlos, mit allem.</span></div>
+            <div class="geschenk"><b>+30</b><span>Für jeden Freund, der startet, bekommst du 30 Tage dazu.</span></div>
+          </div>
+          <p class="leise klein">Zu zweit hält man die Serie leichter durch. Die 30 Tage für dich gibt es ab dem Verkaufsstart.</p>
           <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
         </div>
         <div class="angebot" id="partner">
@@ -1400,191 +1669,195 @@ details p { padding-bottom: 20px; color: var(--leise); }
   figurWahl();
 
 
-  // Das kleine Fenster: Video mit Kamerafahrt. Die Stimme kommt aus einer
-  // Sprecher-Aufnahme je Satz (STIMME[sprache][i], z. B. bilder/stimme/de-01.mp3),
-  // solange es die nicht gibt aus der besten Stimme des Geräts.
-  (() => {
-    const szene = document.getElementById('szene');
+  // Videos auf der Seite: Szenen aus HTML und CSS, Stimme je Satz als Aufnahme
+  // (Higgsfield, ElevenLabs), Soundeffekte aus einer Sammeldatei (Mixkit, freie Lizenz).
+  // Geladen wird erst beim Klick auf „Video ansehen“. Lädt eine Aufnahme nicht,
+  // spricht die Stimme des Geräts, das Video bleibt nie stumm.
+  const STIMME_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_';
+  const KLAENGE_URL = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/5f16d090-ebbd-4122-acf7-99f105e3e912.mp3';
+  // Name: [Start in Sekunden, Länge]
+  const KLAENGE = { intro: [0, 2.8], wusch: [3.2, 1.76], schlag: [5.357, 3], herz: [8.757, 2.6], taste: [11.757, 0.31], plopp: [12.463, 0.38], tippen: [13.244, 1.3], glitzer: [14.944, 2.6], nachricht: [17.944, 1.06], richtig: [19.403, 1.96], swoosh: [21.763, 1.39], erfolg: [23.553, 1.8] };
+  const effekte = (() => {
+    let vorrat = [], an = false;
+    return {
+      bereit() {
+        if (vorrat.length) return;
+        vorrat = Array.from({ length: 4 }, () => { const a = new Audio(KLAENGE_URL); a.preload = 'auto'; a.volume = 0.55; a.frei = true; return a; });
+        // iPhone: jedes Element einmal im Klick freischalten
+        vorrat.forEach((a) => { a.muted = true; a.play().then(() => { a.pause(); a.muted = false; }).catch(() => { a.muted = false; }); });
+        an = true;
+      },
+      spiel(name, nach = 0, laut = 0.55) {
+        const k = KLAENGE[name];
+        if (!an || !k) return;
+        setTimeout(() => {
+          const a = vorrat.find((x) => x.frei) || vorrat[0];
+          a.frei = false; clearTimeout(a.stopp);
+          try { a.currentTime = k[0]; } catch {}
+          a.volume = laut;
+          a.play().catch(() => {});
+          a.stopp = setTimeout(() => { a.pause(); a.frei = true; }, k[1] * 1000);
+        }, nach * 1000);
+      },
+      aus() { vorrat.forEach((a) => { clearTimeout(a.stopp); a.pause(); a.frei = true; }); },
+    };
+  })();
+  const sprache = 'speechSynthesis' in window ? window.speechSynthesis : null;
+  let geraetStimme = null;
+  const waehleStimme = () => {
+    const alle = (sprache ? sprache.getVoices() : []).filter((v) => (v.lang || '').toLowerCase().startsWith('de'));
+    const gut = /natural|neural|premium|enhanced|online|google|siri/i;
+    geraetStimme = alle.find((v) => gut.test(v.name)) || alle.find((v) => v.localService === false) || alle[0] || null;
+  };
+  if (sprache) { waehleStimme(); sprache.onvoiceschanged = waehleStimme; }
+  const istMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+
+  function kino(szene, { saetze, stimme, klang = {}, nochmal = 'Nochmal ansehen' }) {
     if (!szene) return;
-    const start = document.getElementById('szenestart');
-    const ton = document.getElementById('szeneton');
-    const pause = document.getElementById('szeneknopf');
-    const text = document.getElementById('erzaehler');
-    const spur = document.getElementById('kinofortschritt');
-    const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-    if (mac) szene.querySelectorAll('kbd[data-mac]').forEach((k) => (k.textContent = k.dataset.mac));
-    const SPRACHE = (document.documentElement.lang || 'de').slice(0, 2);
-    const SAETZE = {
-      de: [
-        ['intro', 'Jeder Call hat diesen einen Moment.', 2800],
-        ['start', 'Du bist im Videocall und teilst gerade deinen Bildschirm.', 2600],
-        ['einwand', 'Dann kommt er, der Einwand: Das ist uns zu teuer.', 2800],
-        ['stille', 'Stille. Dein Kopf ist leer. Was sagst du jetzt?', 2600],
-        ['taste', 'Ein Tastendruck genügt.', 2000],
-        ['fenster', 'Das kleine Fenster zeigt dir sofort die passende Antwort.', 3200],
-        ['unsichtbar', 'Und deine Kundin sieht davon nichts. Das Fenster wird beim Bildschirmteilen nicht übertragen.', 4600],
-        ['antwort', 'Du antwortest ruhig und stellst eine offene Frage, statt den Preis zu verteidigen.', 3800],
-        ['reaktion', 'Jetzt erzählt sie, worum es wirklich geht. Genau da willst du hin.', 3400],
-        ['esc', 'Escape, und du bist wieder ganz im Gespräch.', 2400],
-        ['ende', 'Die richtige Antwort. Genau dann, wenn du sie brauchst.', 4600],
-      ],
-      en: [
-        ['intro', 'Every call has this one moment.', 2800],
-        ['start', 'You are on a video call, sharing your screen.', 2600],
-        ['einwand', 'Then it comes, the objection: That is too expensive for us.', 2800],
-        ['stille', 'Silence. Your mind goes blank. What do you say now?', 2600],
-        ['taste', 'One shortcut is all it takes.', 2000],
-        ['fenster', 'The small window shows you the right answer instantly.', 3200],
-        ['unsichtbar', 'And your customer sees none of it. The window is not included when you share your screen.', 4600],
-        ['antwort', 'You answer calmly and ask an open question instead of defending the price.', 3800],
-        ['reaktion', 'Now she tells you what it is really about. That is exactly where you want to be.', 3400],
-        ['esc', 'Escape, and you are fully back in the conversation.', 2400],
-        ['ende', 'Sales Universe. The right answer, exactly when you need it.', 4600],
-      ],
-    };
-    // Sprecher-Aufnahmen, sobald vorhanden: { de: ['bilder/stimme/de-01.mp3', ...] }
-    const STIMME = {
-      de: [
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230704_eaef7e35-80f1-438f-bb58-644bb5aeb1ba.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230704_37897dca-24da-4b80-ba22-70123cb061e7.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230704_368c6037-826e-4a63-9962-2017cdc74959.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230621_c2676d56-6933-46f0-ac1d-c79319ca7c0f.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230721_386a11c3-c3fd-4f85-b8f1-5c4010cada27.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230730_e4e663e8-e023-450e-a2a6-56e05e241650.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230720_f03c059a-8e8d-43d4-984e-fe1974a46d37.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230730_d944603c-47a1-47ba-a38c-3a0707bbc24f.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230740_f5a2af7b-4b56-4143-97f2-41cfc59ca237.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_230739_2cf5a889-da24-486f-a01d-4125e0596fd8.mp3',
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_231014_12861207-f6e5-4852-9b21-ce4aa1bd7023.mp3',
-      ],
-    };
-    const schritte = SAETZE[SPRACHE] || SAETZE.de;
-    const aufnahmen = STIMME[SPRACHE] || null;
-    const sprache = 'speechSynthesis' in window ? window.speechSynthesis : null;
-    let stimme = null;
-    // Natürliche Stimmen zuerst (Neural, Natural, Premium, Enhanced, Google), dann jede passende
-    const waehleStimme = () => {
-      const alle = (sprache ? sprache.getVoices() : []).filter((v) => (v.lang || '').toLowerCase().startsWith(SPRACHE));
-      const gut = /natural|neural|premium|enhanced|online|google|siri/i;
-      stimme = alle.find((v) => gut.test(v.name) && /de-DE|en-GB|en-US/i.test(v.lang)) || alle.find((v) => gut.test(v.name)) || alle.find((v) => v.localService === false) || alle[0] || null;
-    };
-    if (sprache) { waehleStimme(); sprache.onvoiceschanged = waehleStimme; }
-    // Soundeffekte, im Browser erzeugt (keine Dateien): Tastatur, Wusch, Schlag, Herzschlag, Plopp, Erfolg
-    let ac = null, musik = null;
-    const sfx = {
-      an() { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); } catch { ac = null; } },
-      rauschen(dauer) { const b = ac.createBuffer(1, Math.max(1, ac.sampleRate * dauer), ac.sampleRate); const d = b.getChannelData(0); for (let k = 0; k < d.length; k++) d[k] = Math.random() * 2 - 1; const q = ac.createBufferSource(); q.buffer = b; return q; },
-      huelle(g, t, a, h, l) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(l, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + h); },
-      klick(nach = 0, laut = 0.25, hell = 3200) {
-        if (!ac) return; const t = ac.currentTime + nach; const q = sfx.rauschen(0.05); const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = hell * (0.85 + Math.random() * 0.3); f.Q.value = 1.4;
-        const g = ac.createGain(); sfx.huelle(g, t, 0.002, 0.035, laut); q.connect(f).connect(g).connect(ac.destination); q.start(t); q.stop(t + 0.06);
-      },
-      tippen(anzahl, ab = 0, abstand = 0.11) { for (let k = 0; k < anzahl; k++) sfx.klick(ab + k * abstand + Math.random() * 0.03, 0.18 + Math.random() * 0.1); },
-      taste(nach = 0) { sfx.klick(nach, 0.4, 1800); sfx.ton(nach, 140, 0.06, 0.12, 'triangle'); },
-      ton(nach, frq, dauer, laut, art = 'sine', bis) {
-        if (!ac) return; const t = ac.currentTime + nach; const o = ac.createOscillator(); o.type = art; o.frequency.setValueAtTime(frq, t); if (bis) o.frequency.exponentialRampToValueAtTime(bis, t + dauer);
-        const g = ac.createGain(); sfx.huelle(g, t, 0.01, dauer, laut); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dauer + 0.05);
-      },
-      wusch(nach = 0, dauer = 0.7, laut = 0.16) {
-        if (!ac) return; const t = ac.currentTime + nach; const q = sfx.rauschen(dauer); const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 0.8;
-        f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(2600, t + dauer * 0.5); f.frequency.exponentialRampToValueAtTime(500, t + dauer);
-        const g = ac.createGain(); sfx.huelle(g, t, dauer * 0.45, dauer * 0.5, laut); q.connect(f).connect(g).connect(ac.destination); q.start(t); q.stop(t + dauer);
-      },
-      schlag(nach = 0, laut = 0.6) { sfx.ton(nach, 110, 0.9, laut, 'sine', 32); sfx.wusch(nach, 0.4, 0.12); },
-      herz(nach = 0) { sfx.ton(nach, 70, 0.16, 0.5, 'sine', 40); sfx.ton(nach + 0.22, 62, 0.2, 0.38, 'sine', 36); },
-      plopp(nach = 0) { sfx.ton(nach, 380, 0.14, 0.28, 'sine', 900); },
-      erfolg(nach = 0) { [523, 659, 784, 1047].forEach((f, k) => sfx.ton(nach + k * 0.09, f, 0.5, 0.12, 'triangle')); },
-      steigen(nach = 0, dauer = 1.6) {
-        if (!ac) return; const t = ac.currentTime + nach; const q = sfx.rauschen(dauer); const f = ac.createBiquadFilter(); f.type = 'lowpass';
-        f.frequency.setValueAtTime(200, t); f.frequency.exponentialRampToValueAtTime(6000, t + dauer); const g = ac.createGain(); sfx.huelle(g, t, dauer * 0.9, 0.1, 0.12);
-        q.connect(f).connect(g).connect(ac.destination); q.start(t); q.stop(t + dauer + 0.1);
-      },
-      // Leiser Klangteppich unter dem ganzen Video
-      musikAn() {
-        if (!ac || musik) return; const t = ac.currentTime; const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.045, t + 2.5);
-        const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900; f.connect(g).connect(ac.destination);
-        const osz = [110, 164.8, 220.5, 277.2].map((frq, k) => { const o = ac.createOscillator(); o.type = k % 2 ? 'sawtooth' : 'triangle'; o.frequency.value = frq; o.detune.value = (k - 1.5) * 6; o.connect(f); o.start(); return o; });
-        const lfo = ac.createOscillator(); const lg = ac.createGain(); lfo.frequency.value = 0.12; lg.gain.value = 350; lfo.connect(lg).connect(f.frequency); lfo.start();
-        musik = { g, f, osz: [...osz, lfo] };
-      },
-      musik(laut, hell) { if (!musik) return; const t = ac.currentTime; musik.g.gain.cancelScheduledValues(t); musik.g.gain.setTargetAtTime(laut, t, 0.4); if (hell) musik.f.frequency.setTargetAtTime(hell, t, 0.6); },
-      musikAus() { if (!musik) return; const m = musik; musik = null; const t = ac.currentTime; m.g.gain.setTargetAtTime(0.0001, t, 0.5); setTimeout(() => m.osz.forEach((o) => o.stop()), 2500); },
-    };
-    const KLANG = {
-      intro: () => { sfx.musikAn(); sfx.steigen(0.2, 2.2); },
-      start: () => { sfx.wusch(0, 0.9); sfx.musik(0.045, 900); },
-      einwand: () => { sfx.schlag(0.05); sfx.musik(0.02, 500); },
-      stille: () => { sfx.musik(0.008, 300); [0, 0.85, 1.7].forEach((n) => sfx.herz(0.2 + n)); },
-      taste: () => { sfx.taste(0.6); sfx.taste(0.72); sfx.taste(0.84); },
-      fenster: () => { sfx.plopp(0); sfx.musik(0.05, 1400); sfx.tippen(8, 0.25, 0.11); },
-      unsichtbar: () => { sfx.wusch(0, 1.1, 0.2); },
-      antwort: () => { sfx.plopp(0.05); },
-      reaktion: () => { sfx.erfolg(0.45); },
-      esc: () => { sfx.taste(0.2); sfx.wusch(0.3, 0.6, 0.1); },
-      ende: () => { sfx.schlag(0, 0.35); sfx.erfolg(0.3); sfx.musik(0.06, 1800); },
-    };
-    let i = 0, laeuft = false, mitTon = true, timer = null, lauf = 0, audio = null, aufnahmeKaputt = false;
-    const naechster = (meiner) => { if (meiner !== lauf || !laeuft) return; i++; if (i >= schritte.length) return fertig(); zeige(); };
-    function stoppeTon() { if (sprache) sprache.cancel(); if (audio) { audio.onended = audio.onerror = null; audio.pause(); audio = null; } }
+    const start = szene.querySelector('.szenestart');
+    const ton = szene.querySelector('.szeneton');
+    const pause = szene.querySelector('.szeneknopf');
+    const text = szene.querySelector('.untertitel');
+    const spur = szene.querySelector('.kinofortschritt span');
+    const ebenen = [...szene.querySelectorAll('[data-bei]')];
+    if (istMac) szene.querySelectorAll('kbd[data-mac]').forEach((k) => (k.textContent = k.dataset.mac));
+    let i = 0, laeuft = false, mitTon = true, timer = null, lauf = 0, audio = null, kaputt = false, vorrat = [];
+    const naechster = (meiner) => { if (meiner !== lauf || !laeuft) return; i++; if (i >= saetze.length) return fertig(); zeige(); };
+    function stoppeTon() { if (sprache) sprache.cancel(); if (audio) { audio.onended = audio.onerror = null; audio.pause(); audio = null; } effekte.aus(); }
     function zeige() {
       const meiner = ++lauf;
-      const [schritt, satz, dauer] = schritte[i];
+      const [schritt, satz, dauer] = saetze[i];
       szene.dataset.schritt = schritt;
+      ebenen.forEach((e) => e.classList.toggle('an', e.dataset.bei.split(' ').includes(schritt)));
       text.textContent = satz;
-      spur.style.width = Math.round(((i + 1) / schritte.length) * 100) + '%';
+      spur.style.width = Math.round(((i + 1) / saetze.length) * 100) + '%';
       clearTimeout(timer);
       stoppeTon();
-      if (mitTon && ac && KLANG[schritt]) KLANG[schritt]();
+      if (mitTon && klang[schritt]) klang[schritt]();
       let erledigt = false;
-      const weiter = (pause) => { if (erledigt || meiner !== lauf) return; erledigt = true; clearTimeout(timer); timer = setTimeout(() => naechster(meiner), pause); };
-      // Mindestens so lange zeigen, wie die Kamerafahrt dauert
+      const weiter = (p) => { if (erledigt || meiner !== lauf) return; erledigt = true; clearTimeout(timer); timer = setTimeout(() => naechster(meiner), p); };
       const mindest = Date.now() + Math.min(dauer, 1800);
       const nachTon = () => weiter(Math.max(450, mindest - Date.now()));
-      // Gerätestimme, falls die Aufnahme nicht lädt: das Video bleibt nie stumm
       const sprich = () => {
-        if (!(sprache && stimme)) { timer = setTimeout(() => weiter(0), dauer); return; }
+        if (!(sprache && geraetStimme)) { timer = setTimeout(() => weiter(0), dauer); return; }
         const u = new SpeechSynthesisUtterance(satz);
-        u.voice = stimme; u.lang = stimme.lang; u.rate = 0.98; u.pitch = 1;
+        u.voice = geraetStimme; u.lang = geraetStimme.lang; u.rate = 0.98;
         u.onend = nachTon;
         sprache.speak(u);
         clearTimeout(timer); timer = setTimeout(() => weiter(0), dauer + 5000);
       };
       if (!mitTon) timer = setTimeout(() => weiter(0), dauer);
-      else if (aufnahmen && aufnahmen[i] && !aufnahmeKaputt) {
-        audio = vorrat[i] || new Audio(aufnahmen[i]);
+      else if (stimme[i] && !kaputt) {
+        audio = vorrat[i] || new Audio(STIMME_URL + stimme[i] + '.mp3');
         audio.currentTime = 0;
         audio.onended = nachTon;
-        const kaputt = () => { if (meiner !== lauf) return; aufnahmeKaputt = true; audio = null; sprich(); };
-        audio.onerror = kaputt;
-        audio.play().catch(kaputt);
+        const fehler = () => { if (meiner !== lauf) return; kaputt = true; audio = null; sprich(); };
+        audio.onerror = fehler;
+        audio.play().catch(fehler);
         timer = setTimeout(() => weiter(0), dauer + 6000);
       } else sprich();
     }
     function fertig() {
       laeuft = false;
       stoppeTon();
-      setTimeout(() => sfx.musikAus(), 2500);
       szene.classList.remove('laeuft');
-      start.querySelector('b').textContent = 'Nochmal ansehen';
-      start.style.background = 'transparent';
-      start.style.inset = 'auto 1.4cqw 1.4cqw auto';
+      start.querySelector('b').textContent = nochmal;
+      start.classList.add('klein');
     }
-    // Alle Sätze beim ersten Klick vorladen, damit es keine Pausen gibt
-    let vorrat = [];
-    start.addEventListener('click', () => { sfx.an(); if (aufnahmen && !vorrat.length) vorrat = aufnahmen.map((u) => { const a = new Audio(u); a.preload = 'auto'; return a; }); i = 0; laeuft = true; start.removeAttribute('style'); szene.classList.add('laeuft'); pause.textContent = 'Pause'; zeige(); });
+    start.addEventListener('click', () => {
+      effekte.bereit();
+      if (!vorrat.length) vorrat = stimme.map((s) => { if (!s) return null; const a = new Audio(STIMME_URL + s + '.mp3'); a.preload = 'auto'; return a; });
+      i = 0; laeuft = true; start.classList.remove('klein'); szene.classList.add('laeuft'); pause.textContent = 'Pause'; zeige();
+    });
     pause.addEventListener('click', () => {
       laeuft = !laeuft;
       pause.textContent = laeuft ? 'Pause' : 'Weiter';
-      if (laeuft) { sfx.an(); sfx.musikAn(); zeige(); } else { clearTimeout(timer); lauf++; stoppeTon(); sfx.musikAus(); }
+      if (laeuft) zeige(); else { clearTimeout(timer); lauf++; stoppeTon(); }
     });
     ton.addEventListener('click', () => {
       mitTon = !mitTon;
       ton.textContent = mitTon ? 'Ton an' : 'Ton aus';
-      if (!mitTon) { stoppeTon(); sfx.musikAus(); } else if (laeuft) { sfx.an(); sfx.musikAn(); }
+      if (!mitTon) stoppeTon();
       if (laeuft) zeige();
     });
-    if (!sprache && !aufnahmen) start.querySelector('small').textContent = 'mit Untertiteln, 40 Sekunden';
     new IntersectionObserver(([e]) => { if (!e.isIntersecting && laeuft) pause.click(); }, { threshold: 0.25 }).observe(szene);
+  }
+
+  const fx = effekte.spiel;
+  // Willkommen: worum es geht, in einer Minute
+  kino(document.getElementById('willkommen'), {
+    saetze: [
+      ['w-hook', 'Ganz ehrlich? Keiner hat Bock auf Sales.', 2800],
+      ['w-schmerz', 'Dicke Bücher. Trockene Frameworks. Seminare am Wochenende. Wer hat dafür schon Zeit?', 6500],
+      ['w-grundlage', 'Aber egal, was du vorhast: Job, Gehalt, eigenes Business. Du musst überzeugen. Sales ist die Grundlage für alles.', 8000],
+      ['w-loesung', 'Deshalb gibt es Sales Universe. Sales lernen wie eine Sprache. Fünf Minuten am Tag. Am Handy.', 6500],
+      ['w-lernpfad', 'Kleine Lektionen, Schritt für Schritt. Mit Serie, XP und Level. Wie bei Duolingo, nur für Sales.', 7000],
+      ['w-einwaende', 'Dreißig echte Einwände. Mit fertigen Antworten zum Üben.', 3600],
+      ['w-fenster', 'Und im Call? Hilft dir das kleine Fenster. Unsichtbar für deinen Kunden.', 4200],
+      ['w-frameworks', 'Sieben Frameworks, von SPIN bis MEDDIC. Als Spiel statt als Folie. Mit Zertifikat für LinkedIn.', 7200],
+      ['w-werkzeuge', 'Dazu: Playbook, Kundentypen, Vokabeln, Fokus-Planer und Netzwerk-Training. Alles in einer App.', 6500],
+      ['w-eigenes', 'Und wenn dir das nicht reicht? Speicher deine eigenen Einwände, Prompts und Frameworks. Sales Universe passt sich dir an.', 7500],
+      ['w-karriere', 'Deine Figur steigt mit dir auf. Vom Sales-Neuling bis ganz nach oben. Hundert Level.', 6000],
+      ['w-ueberall', 'Handy, Windows, Mac. Dein Fortschritt läuft überall mit.', 4200],
+      ['w-nutzen', 'Und was bringt dir das? Du gehst sicher in jeden Call. Du weißt, was du sagst. Und du verkaufst, ohne zu überreden.', 7500],
+      ['w-ende', 'Willkommen im Sales Universe. Fang heute an. Dreißig Tage kostenlos.', 5000],
+    ],
+    stimme: ['232632_62226f78-a997-4628-869e-09da394dc248', '232645_c44d5fc4-feac-4720-8680-7fb99ae1c571', '232645_b936f081-3198-4350-be64-49f761845bd2', '232659_81b416ee-c357-4b31-9d7f-2fc7493b9a1e', '232659_e6fd0359-03f1-455a-a953-7f61d0a84d69', '232711_3db4c88a-f56b-4d18-86be-35377702171b', '232711_67f79630-cfbe-4270-aff5-a97f81b35fae', '232723_66c7e216-5893-480f-af5d-c78d05aa4273', '233706_6f1f3ee8-16d6-4d42-a6f2-d3cc01704554', '233706_6f3eac06-1cf6-428a-b16f-e902216cffb2', '232723_63285b62-79d1-4130-b2bd-e6556d806160', '232735_54835070-76c8-4082-8bae-ed96650916f9', '234458_461bed73-fd48-4107-9403-0f296781a10f', '232735_ff0ec6a8-6e98-4ff8-a9d8-7c7f9c655be2'],
+    klang: {
+      'w-hook': () => { fx('intro', 0, 0.5); },
+      'w-schmerz': () => { fx('swoosh', 0.1); fx('plopp', 0.9); fx('plopp', 2.1); fx('plopp', 3.3); fx('schlag', 4.6, 0.35); },
+      'w-grundlage': () => { fx('wusch', 0); fx('plopp', 1.4); fx('plopp', 2.0); fx('plopp', 2.6); fx('glitzer', 5.2, 0.45); },
+      'w-loesung': () => { fx('wusch', 0); fx('nachricht', 1.6); },
+      'w-lernpfad': () => { fx('richtig', 0.8, 0.4); fx('plopp', 2.2); fx('plopp', 3.0); fx('erfolg', 4.6, 0.45); },
+      'w-einwaende': () => { fx('swoosh', 0); fx('plopp', 0.5); fx('plopp', 0.8); fx('plopp', 1.1); },
+      'w-fenster': () => { fx('taste', 0.2); fx('nachricht', 0.6); fx('tippen', 1.0, 0.4); },
+      'w-frameworks': () => { fx('glitzer', 0, 0.4); fx('erfolg', 4.2, 0.45); },
+      'w-werkzeuge': () => { [0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7, 3.0].forEach((n) => fx('plopp', n, 0.35)); fx('richtig', 4.4, 0.4); },
+      'w-eigenes': () => { fx('tippen', 2.0, 0.4); fx('plopp', 2.4); fx('plopp', 3.0); fx('plopp', 3.6); fx('glitzer', 5.6, 0.4); },
+      'w-karriere': () => { fx('wusch', 0); fx('richtig', 2.0, 0.45); },
+      'w-ueberall': () => { fx('swoosh', 0); fx('nachricht', 1.4); },
+      'w-nutzen': () => { fx('swoosh', 0); fx('richtig', 2.6, 0.4); fx('richtig', 4.0, 0.4); fx('erfolg', 5.6, 0.45); },
+      'w-ende': () => { fx('schlag', 0, 0.4); fx('erfolg', 0.6, 0.5); },
+    },
+  });
+  // Das kleine Fenster im Call
+  kino(document.getElementById('szene'), {
+    saetze: [
+      ['intro', 'Jeder Call hat diesen einen Moment …', 2800],
+      ['start', 'Du bist mitten im Videocall. Bildschirm geteilt. Alles läuft.', 3800],
+      ['einwand', 'Und dann … kommt er. Der Einwand: „Das ist uns zu teuer.“', 5200],
+      ['stille', 'Stille. Dein Kopf? Komplett leer. … Was sagst du jetzt?', 6200],
+      ['taste', 'Ein Tastendruck genügt.', 2000],
+      ['fenster', 'Zack! Das kleine Fenster zeigt dir sofort die passende Antwort.', 4000],
+      ['unsichtbar', 'Und das Beste? Deine Kundin sieht davon … nichts. Gar nichts.', 6200],
+      ['antwort', 'Du bleibst ruhig. Und stellst eine offene Frage, statt den Preis zu verteidigen.', 4400],
+      ['reaktion', 'Und plötzlich erzählt sie, worum es wirklich geht. Genau da willst du hin.', 5200],
+      ['esc', 'Escape. Und du bist wieder voll im Gespräch.', 3200],
+      ['ende', 'Die richtige Antwort. Genau dann, wenn du sie brauchst.', 4600],
+    ],
+    stimme: ['232055_a94508d3-03b5-4022-8d8d-eb4ecf4c2a34', '232055_cd98d4ac-fd83-4039-b3c7-1d54525820d4', '232532_cfbac0c2-6cec-498f-b46e-3ede43706fb5', '232532_c6625173-5d61-4dfb-8d20-0ad9083c3b41', '230721_386a11c3-c3fd-4f85-b8f1-5c4010cada27', '232600_12384f39-d3a5-4905-94e2-71293f7107a6', '232559_85bb532b-015c-4774-acee-5959f1d7c0e5', '232613_30684eb5-47a0-4bd8-aee8-0a78badb47df', '232613_a334d4d3-d837-4bc5-87f3-065f41bbe6b7', '232631_98cda87d-7dec-4b7c-a745-b4fc37c0d95c', '231014_12861207-f6e5-4852-9b21-ce4aa1bd7023'],
+    klang: {
+      intro: () => fx('intro', 0, 0.5),
+      start: () => fx('wusch', 0),
+      einwand: () => fx('schlag', 1.0, 0.6),
+      stille: () => fx('herz', 0.1, 0.7),
+      taste: () => { fx('taste', 0.6); fx('taste', 0.75); fx('taste', 0.9); },
+      fenster: () => { fx('plopp', 0); fx('tippen', 0.25, 0.5); },
+      unsichtbar: () => fx('glitzer', 0.1, 0.5),
+      antwort: () => fx('nachricht', 0.1),
+      reaktion: () => fx('richtig', 0.5, 0.5),
+      esc: () => { fx('taste', 0.1); fx('swoosh', 0.3); },
+      ende: () => fx('erfolg', 0.2, 0.5),
+    },
+  });
+
+  // Mac-Schreibtisch auf die verfügbare Breite verkleinern
+  (() => {
+    const schirm = document.querySelector('.macschirm');
+    if (!schirm) return;
+    const buehne = schirm.querySelector('.macbuehne');
+    const passe = () => buehne.style.setProperty('--s', (schirm.clientWidth - parseFloat(getComputedStyle(schirm).paddingLeft) * 2) / 1280);
+    new ResizeObserver(passe).observe(schirm); passe();
   })();
 
   // Lohnt sich das? Mit der eigenen Zahl des Besuchers, nichts geschätzt
