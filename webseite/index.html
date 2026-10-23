@@ -303,20 +303,78 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @keyframes herein { from { letter-spacing: 0.12em; opacity: 0; } to { letter-spacing: normal; opacity: 1; } }
 .kino[data-schritt="ende"] .kinoende { opacity: 1; pointer-events: auto; }
 .kinoende .knopf { font-size: 1.6cqw; }
-.untertitel { position: absolute; left: 0; right: 0; bottom: 0; padding: 5cqw 8cqw 3.2cqw; text-align: center; font-size: 2cqw; font-weight: 600; line-height: 1.35; color: #fff; text-shadow: 0 0.2cqw 1cqw rgba(0,0,0,0.9); background: linear-gradient(transparent, rgba(0,0,0,0.75)); z-index: 8; pointer-events: none; }
+.untertitel { position: absolute; left: 0; right: 0; bottom: 0; padding: 5cqw 8cqw 5.4cqw; text-align: center; font-size: 2cqw; font-weight: 600; line-height: 1.35; color: #fff; text-shadow: 0 0.2cqw 1cqw rgba(0,0,0,0.9); background: linear-gradient(transparent, rgba(0,0,0,0.75)); z-index: 10; pointer-events: none; }
 .untertitel:empty, .kino[data-schritt="ende"] .untertitel, .kino[data-schritt="intro"] .untertitel { display: none; }
 .kinofortschritt { position: absolute; left: 0; right: 0; bottom: 0; height: 0.45cqw; background: rgba(255,255,255,0.08); z-index: 9; }
 .kinofortschritt span { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.4s linear; }
-.szenestart { position: absolute; inset: 0; z-index: 10; display: grid; place-content: center; justify-items: center; gap: 0.6cqw; border: 0; background: radial-gradient(circle, rgba(11,11,13,0.4), rgba(11,11,13,0.8)); color: var(--text); cursor: pointer; font: inherit; }
+.szenestart { position: absolute; inset: 0; z-index: 12; display: grid; place-content: center; justify-items: center; gap: 0.6cqw; border: 0; background: radial-gradient(circle, rgba(11,11,13,0.4), rgba(11,11,13,0.8)); color: var(--text); cursor: pointer; font: inherit; }
 .szenestart .dreieck { width: 9cqw; height: 9cqw; min-width: 64px; min-height: 64px; border-radius: 50%; background: var(--gold); box-shadow: 0 0.6cqw 0 var(--gold-tief), 0 0 0 1.4cqw rgba(212,175,124,0.18); position: relative; margin-bottom: 1cqw; animation: puls 2s infinite; }
 .szenestart .dreieck::after { content: ''; position: absolute; left: 39%; top: 30%; border-left: 2.8cqw solid #1a1408; border-top: 1.8cqw solid transparent; border-bottom: 1.8cqw solid transparent; }
 .szenestart b { font-family: var(--anzeige); font-size: max(18px, 2.4cqw); }
 .szenestart small { color: var(--leise); font-size: max(13px, 1.3cqw); }
 .kino.laeuft .szenestart { display: none; }
-.szenesteuer { position: absolute; right: 1.4cqw; top: 1.4cqw; display: flex; gap: 0.6cqw; z-index: 11; }
+.szenesteuer { position: absolute; right: 1.4cqw; top: 1.4cqw; display: flex; gap: 0.6cqw; z-index: 13; }
 .szenesteuer button { padding: 0.6cqw 1.2cqw; min-height: 28px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.5); color: var(--text); cursor: pointer; font: inherit; font-size: max(12px, 1.1cqw); }
 .kino:not(.laeuft) .szenesteuer { display: none; }
 .fenstervorteile { margin-top: 28px; }
+/* Zusätzliche Animationen: Kinobalken, Lichter, große Worte, Blitz, Treffer */
+.balken { position: absolute; left: 0; right: 0; height: 7%; background: #000; z-index: 9; transition: transform 1.2s cubic-bezier(.65,0,.25,1); }
+.balken.oben { top: 0; transform: translateY(-100%); }
+.balken.unten { bottom: 0; transform: translateY(100%); }
+.kino.laeuft:not([data-schritt="ende"]) .balken { transform: none; }
+.lichter { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.lichter i { position: absolute; width: 40cqw; height: 40cqw; border-radius: 50%; filter: blur(6cqw); opacity: 0.35; animation: schweben 14s ease-in-out infinite alternate; }
+.lichter i:nth-child(1) { background: #d4af7c; left: -10%; top: -20%; }
+.lichter i:nth-child(2) { background: #3b5bdb; right: -12%; bottom: -25%; animation-duration: 18s; }
+.lichter i:nth-child(3) { background: #2ecc71; left: 40%; top: 50%; opacity: 0.12; animation-duration: 22s; }
+@keyframes schweben { to { transform: translate(12cqw, 6cqw) scale(1.3); } }
+.kino[data-schritt="stille"] .lichter i:nth-child(1) { background: #e03131; }
+.grosswort { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display: grid; justify-items: center; gap: 1cqw; z-index: 6; pointer-events: none; opacity: 0; }
+.grosswort span { font-family: var(--anzeige); font-weight: 900; font-size: 9cqw; letter-spacing: -0.02em; color: #fff; text-shadow: 0 0.6cqw 3cqw rgba(0,0,0,0.8); }
+.grosswort.rot span { color: #ff6b6b; }
+.grosswort.gruen span { color: var(--gruen); font-size: 6cqw; }
+.kino[data-schritt="einwand"] .grosswort[data-bei="einwand"] { animation: einschlag 1.8s cubic-bezier(.2,.9,.3,1) forwards; }
+@keyframes einschlag { 0% { opacity: 0; transform: translateY(-50%) scale(2.4); filter: blur(1cqw); } 18% { opacity: 1; transform: translateY(-50%) scale(1); filter: none; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(-50%) scale(0.92); } }
+.kino[data-schritt="stille"] .grosswort[data-bei="stille"] { animation: glitch 2.4s steps(1) forwards; }
+@keyframes glitch { 0% { opacity: 1; transform: translate(-1cqw, -50%); } 6% { transform: translate(1cqw, -52%); } 12% { transform: translate(0, -50%); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(0, -50%); } }
+.kino[data-schritt="stille"] .grosswort[data-bei="stille"] span { animation: rgbversatz 0.18s infinite; }
+@keyframes rgbversatz { 50% { text-shadow: -0.4cqw 0 #00e5ff, 0.4cqw 0 #ff2d55; } }
+.herz { width: 30cqw; height: 6cqw; }
+.herz path { fill: none; stroke: #ff6b6b; stroke-width: 2.5; stroke-dasharray: 260; stroke-dashoffset: 260; }
+.kino[data-schritt="stille"] .herz path { animation: herzlinie 1.1s linear infinite; }
+@keyframes herzlinie { to { stroke-dashoffset: -260; } }
+.kino[data-schritt="unsichtbar"] .grosswort[data-bei="unsichtbar"] { top: 14%; animation: aufblenden 3.6s ease-out forwards; }
+@keyframes aufblenden { 0% { opacity: 0; letter-spacing: 0.3em; } 25% { opacity: 1; letter-spacing: normal; } 85% { opacity: 1; } 100% { opacity: 0; } }
+.blitz { position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,236,200,0.9), rgba(212,175,124,0.2) 60%, transparent); opacity: 0; pointer-events: none; z-index: 7; }
+.kino[data-schritt="fenster"] .blitz { animation: blitz 0.7s ease-out; }
+@keyframes blitz { 0% { opacity: 0.9; } 100% { opacity: 0; } }
+.kino[data-schritt="taste"] .kamera { animation: wegzoomen 2s ease-in forwards; }
+@keyframes wegzoomen { to { filter: brightness(0.35) blur(0.3cqw); } }
+.treffer { position: absolute; right: 6%; top: 46%; display: grid; justify-items: center; gap: 0.6cqw; z-index: 6; pointer-events: none; opacity: 0; }
+.treffer b { width: 8cqw; height: 8cqw; border-radius: 50%; display: grid; place-items: center; background: var(--gruen); color: #04230f; font-size: 4.5cqw; box-shadow: 0 0 0 1.2cqw rgba(46,204,113,0.25), 0 0 5cqw rgba(46,204,113,0.6); }
+.treffer span { padding: 0.5cqw 1.2cqw; border-radius: 999px; background: rgba(0,0,0,0.7); color: var(--gruen); font-weight: 800; font-size: 1.6cqw; }
+.treffer i { position: absolute; left: 50%; top: 4cqw; width: 1cqw; height: 1cqw; border-radius: 0.2cqw; background: var(--gold); opacity: 0; }
+.treffer i:nth-of-type(even) { background: var(--gruen); }
+.kino[data-schritt="reaktion"] .treffer { animation: treffer 3.2s cubic-bezier(.2,.9,.3,1.4) 0.4s forwards; }
+@keyframes treffer { 0% { opacity: 0; transform: scale(0.3); } 20% { opacity: 1; transform: scale(1); } 85% { opacity: 1; } 100% { opacity: 0; } }
+.kino[data-schritt="reaktion"] .treffer i { animation: funke 1.2s ease-out 0.6s forwards; }
+.treffer i:nth-of-type(1) { --x: -12cqw; --y: -8cqw; } .treffer i:nth-of-type(2) { --x: 12cqw; --y: -9cqw; }
+.treffer i:nth-of-type(3) { --x: -14cqw; --y: 3cqw; } .treffer i:nth-of-type(4) { --x: 14cqw; --y: 4cqw; }
+.treffer i:nth-of-type(5) { --x: -6cqw; --y: -13cqw; } .treffer i:nth-of-type(6) { --x: 7cqw; --y: -14cqw; }
+.treffer i:nth-of-type(7) { --x: -9cqw; --y: 10cqw; } .treffer i:nth-of-type(8) { --x: 10cqw; --y: 11cqw; }
+@keyframes funke { 0% { opacity: 1; transform: translate(0, 0) rotate(0); } 100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(320deg); } }
+.kinologo { width: 7cqw; height: 7cqw; min-width: 44px; min-height: 44px; border-radius: 22%; }
+.kino[data-schritt="ende"] .kinologo { animation: logodreh 1.2s cubic-bezier(.2,.9,.3,1.3); }
+@keyframes logodreh { from { transform: rotate(-180deg) scale(0); } }
+.kino[data-schritt="ende"] .kinoende b { animation: herein 1.6s ease-out; }
+.kino[data-schritt="ende"] .kinoende .knopf { animation: knopfglanz 2s ease-in-out 1s infinite; }
+@keyframes knopfglanz { 50% { box-shadow: 0 0.4cqw 0 var(--gold-tief), 0 0 4cqw rgba(212,175,124,0.7); transform: scale(1.04); } }
+.kino[data-schritt="antwort"] .sprechblase.du { animation: tippblase 0.5s cubic-bezier(.2,.9,.3,1.4); }
+@keyframes tippblase { from { transform: scale(0.6) translateY(2cqw); } }
+.kino[data-schritt="fenster"] .mini { animation: fensterauf 0.6s cubic-bezier(.2,.9,.3,1.4); }
+@keyframes fensterauf { 0% { transform: scale(0.4) rotate(-4deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lichter i, .grosswort, .grosswort span, .treffer, .treffer i { animation: none !important; } }
+
 .grundlage { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .grund { padding: 20px; border-radius: 18px; background: var(--flaeche); border: 1px solid var(--kante); border-top: 3px solid var(--gold); }
 .grund b { font-family: var(--anzeige); font-size: 19px; }
@@ -752,9 +810,16 @@ details p { padding-bottom: 20px; color: var(--leise); }
         </div>
         <div class="tasten"><kbd data-mac="⌘">Strg</kbd><i>+</i><kbd>Shift</kbd><i>+</i><kbd>Leertaste</kbd></div>
         <div class="tasten esc"><kbd>Esc</kbd></div>
+        <div class="lichter" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="grosswort" data-bei="einwand" aria-hidden="true"><span>„Zu teuer.“</span></div>
+        <div class="grosswort rot" data-bei="stille" aria-hidden="true"><span>Stille.</span><svg class="herz" viewBox="0 0 200 40"><path d="M0 20 H70 L80 6 L92 34 L102 12 L110 20 H200"/></svg></div>
+        <div class="grosswort gruen" data-bei="unsichtbar" aria-hidden="true"><span>Unsichtbar.</span></div>
+        <div class="treffer" aria-hidden="true"><b>✓</b><span>Echter Grund gefunden</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="blitz" aria-hidden="true"></div>
         <div class="vignette"></div>
+        <div class="balken oben" aria-hidden="true"></div><div class="balken unten" aria-hidden="true"></div>
         <div class="titelkarte"><small>Sales Universe</small><b>Jeder Call hat diesen einen Moment.</b></div>
-        <div class="kinoende"><small>Sales Universe</small><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a></div>
+        <div class="kinoende"><img src="bilder/logo.png" alt="" width="72" height="72" class="kinologo"><small>Sales Universe</small><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a></div>
         <div class="untertitel" id="erzaehler" aria-live="polite"></div>
         <div class="kinofortschritt"><span id="kinofortschritt"></span></div>
         <button class="szenestart" id="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, 40 Sekunden</small></button>
@@ -1355,7 +1420,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         ['start', 'Du bist im Videocall und teilst gerade deinen Bildschirm.', 2600],
         ['einwand', 'Dann kommt er, der Einwand: Das ist uns zu teuer.', 2800],
         ['stille', 'Stille. Dein Kopf ist leer. Was sagst du jetzt?', 2600],
-        ['taste', mac ? 'Ein Tastendruck.' : 'Ein Tastendruck.', 2000],
+        ['taste', 'Ein Tastendruck genügt.', 2000],
         ['fenster', 'Das kleine Fenster zeigt dir sofort die passende Antwort.', 3200],
         ['unsichtbar', 'Und deine Kundin sieht davon nichts. Das Fenster wird beim Bildschirmteilen nicht übertragen.', 4600],
         ['antwort', 'Du antwortest ruhig und stellst eine offene Frage, statt den Preis zu verteidigen.', 3800],
@@ -1368,7 +1433,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         ['start', 'You are on a video call, sharing your screen.', 2600],
         ['einwand', 'Then it comes, the objection: That is too expensive for us.', 2800],
         ['stille', 'Silence. Your mind goes blank. What do you say now?', 2600],
-        ['taste', 'One shortcut.', 2000],
+        ['taste', 'One shortcut is all it takes.', 2000],
         ['fenster', 'The small window shows you the right answer instantly.', 3200],
         ['unsichtbar', 'And your customer sees none of it. The window is not included when you share your screen.', 4600],
         ['antwort', 'You answer calmly and ask an open question instead of defending the price.', 3800],
@@ -1378,7 +1443,21 @@ details p { padding-bottom: 20px; color: var(--leise); }
       ],
     };
     // Sprecher-Aufnahmen, sobald vorhanden: { de: ['bilder/stimme/de-01.mp3', ...] }
-    const STIMME = {};
+    const STIMME = {
+      de: [
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_7b4cd232-d022-4d41-8794-2de8b3b53f2f.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225520_c0c49e21-4ed7-497d-be23-67bbe88b0acf.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_11497f66-b34e-47b8-94a1-2f3d9f16ff92.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_4bb32c20-26c0-482b-a52e-f7ccab132d29.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225401_f1ff7114-752f-4c95-aeaa-44c01e719a3c.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_0d0599e1-68af-4ebe-abc7-e0f13e3b7ea7.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_fd90a3a7-4ded-4039-b96c-f35ede0435a3.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225400_f9912f91-1ca5-450f-97bc-db22fd21f1b1.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_f6b498b2-733b-4cb4-bd5e-325871029307.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_ce59285e-9941-483f-ae28-a7140eea6958.wav',
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_20261023_225311_aba2dace-091c-49d0-b696-f7c821135fcd.wav',
+      ],
+    };
     const schritte = SAETZE[SPRACHE] || SAETZE.de;
     const aufnahmen = STIMME[SPRACHE] || null;
     const sprache = 'speechSynthesis' in window ? window.speechSynthesis : null;
@@ -1407,7 +1486,8 @@ details p { padding-bottom: 20px; color: var(--leise); }
       const mindest = Date.now() + Math.min(dauer, 1800);
       const nachTon = () => weiter(Math.max(350, mindest - Date.now()));
       if (mitTon && aufnahmen && aufnahmen[i]) {
-        audio = new Audio(aufnahmen[i]);
+        audio = vorrat[i] || new Audio(aufnahmen[i]);
+        audio.currentTime = 0;
         audio.onended = nachTon;
         audio.onerror = () => weiter(dauer);
         audio.play().catch(() => weiter(dauer));
@@ -1428,7 +1508,9 @@ details p { padding-bottom: 20px; color: var(--leise); }
       start.style.background = 'transparent';
       start.style.inset = 'auto 1.4cqw 1.4cqw auto';
     }
-    start.addEventListener('click', () => { i = 0; laeuft = true; start.removeAttribute('style'); szene.classList.add('laeuft'); pause.textContent = 'Pause'; zeige(); });
+    // Alle Sätze beim ersten Klick vorladen, damit es keine Pausen gibt
+    let vorrat = [];
+    start.addEventListener('click', () => { if (aufnahmen && !vorrat.length) vorrat = aufnahmen.map((u) => { const a = new Audio(u); a.preload = 'auto'; return a; }); i = 0; laeuft = true; start.removeAttribute('style'); szene.classList.add('laeuft'); pause.textContent = 'Pause'; zeige(); });
     pause.addEventListener('click', () => {
       laeuft = !laeuft;
       pause.textContent = laeuft ? 'Pause' : 'Weiter';
