@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dein Platz bei Sales Universe</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B0B0D">
+<link rel="icon" href="bilder/logo.png">
+<style>
+@font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('schrift/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('schrift/inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 700; font-display: swap; src: url('schrift/inter-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 900; font-display: swap; src: url('schrift/nunito-latin-900-normal.woff2') format('woff2'); }
+:root { --nacht: #0B0B0D; --flaeche: #16171B; --flaeche-hoch: #202127; --kante: rgba(255, 255, 255, 0.08); --text: #F8F9FA; --leise: #A3A9B0; --gold: #D4AF7C; --gold-tief: #8F7046; --gold-zart: rgba(212, 175, 124, 0.13); --gruen: #2ECC71; --rot: #F0544F; --anzeige: 'Nunito', system-ui, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100dvh; background-color: var(--nacht); background-image: radial-gradient(ellipse at 50% -10%, rgba(212, 175, 124, 0.16), transparent 60%); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+main { max-width: 620px; margin: 0 auto; padding: clamp(32px, 7vw, 72px) max(20px, env(safe-area-inset-left, 0px)) 64px; display: grid; gap: 22px; }
+.marke { display: flex; align-items: center; gap: 10px; font-family: var(--anzeige); font-weight: 900; font-size: 20px; text-decoration: none; color: inherit; }
+.marke img { width: 32px; height: 32px; border-radius: 9px; }
+.marke span { color: var(--gold); }
+h1 { font-family: var(--anzeige); font-weight: 900; font-size: clamp(34px, 6vw, 48px); line-height: 1.08; margin: 8px 0 0; text-wrap: balance; }
+p { margin: 0; }
+.leise { color: var(--leise); }
+.karte { padding: clamp(22px, 4vw, 32px); border-radius: 22px; background: var(--flaeche); border: 1px solid var(--kante); display: grid; gap: 14px; }
+.platz { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.platz b { font-family: var(--anzeige); font-size: clamp(56px, 12vw, 84px); line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.spur { height: 12px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.spur span { display: block; height: 100%; width: 0; border-radius: 6px; background: var(--gold); transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.linkzeile { display: flex; gap: 10px; flex-wrap: wrap; }
+.linkzeile input { flex: 1 1 240px; min-width: 0; min-height: 52px; padding: 0 16px; border-radius: 14px; border: 2px solid rgba(255, 255, 255, 0.14); background: var(--nacht); color: var(--text); font: inherit; font-size: 15px; }
+.knopf { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px; border-radius: 14px; font-family: var(--anzeige); font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: 0.02em; text-decoration: none; background: var(--gold); color: #1A1408; box-shadow: 0 4px 0 var(--gold-tief); border: 0; cursor: pointer; white-space: nowrap; }
+.knopf:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--gold-tief); }
+.knopf.zweit { background: transparent; color: var(--gold); box-shadow: 0 4px 0 var(--gold-tief), inset 0 0 0 2px var(--gold); }
+.teilen { display: flex; gap: 10px; flex-wrap: wrap; }
+.teilen a { flex: 1 1 140px; }
+.gruen { padding: 14px 16px; border-radius: 14px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.4); }
+.fehler { padding: 14px 16px; border-radius: 14px; background: rgba(240, 84, 79, 0.1); border: 1px solid rgba(240, 84, 79, 0.4); }
+.klein { font-size: 14px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <a class="marke" href="index.html"><img src="bilder/logo.png" alt="">Sales <span>Universe</span></a>
+
+  <section id="ok" hidden>
+    <h1>Du bist dabei.</h1>
+    <p class="leise" style="margin-top:12px">Am 1. Dezember geht es los. Bis dahin kannst du nach vorn rücken.</p>
+  </section>
+
+  <div class="karte" id="stand" hidden>
+    <div class="platz"><b id="platz">–</b><span class="leise">dein Platz auf der Warteliste</span></div>
+    <div class="spur" aria-hidden="true"><span id="spur"></span></div>
+    <p id="frueh"></p>
+    <p class="gruen" id="rabatt" hidden>Du hast die Lektion auf der Webseite geschafft: Zum Start bekommst du 10 % Rabatt auf die Vollversion. Der Code kommt mit der Start-Mail.</p>
+  </div>
+
+  <div class="karte" id="einladen" hidden>
+    <h2 style="font-family:var(--anzeige);font-size:24px;margin:0">Nimm Freunde mit.</h2>
+    <p class="leise">Für jeden Freund, der sich über deinen Link einträgt und bestätigt, rückst du 10 Plätze nach vorn. Zu zweit hält man die Serie im Dezember auch leichter durch.</p>
+    <div class="linkzeile">
+      <input id="link" readonly aria-label="Dein Link für Freunde">
+      <button class="knopf" type="button" id="kopieren">Kopieren</button>
+    </div>
+    <div class="teilen">
+      <a class="knopf zweit" id="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="knopf zweit" id="linkedin" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="knopf zweit" id="mail">E-Mail</a>
+    </div>
+    <p class="klein leise" id="empf"></p>
+  </div>
+
+  <div class="karte" id="geschenk" hidden>
+    <h2 style="font-family:var(--anzeige);font-size:24px;margin:0">Dein Spickzettel</h2>
+    <p class="leise">Zehn typische Einwände mit Antworten, die erst anerkennen und dann fragen. Zum Ausdrucken oder fürs Handy.</p>
+    <a class="knopf" href="spickzettel.pdf" download>Spickzettel laden</a>
+  </div>
+
+  <div id="meldung" hidden></div>
+  <p class="klein leise"><a href="index.html" style="color:inherit">Zurück zur Startseite</a> · <a href="datenschutz.html" style="color:inherit">Datenschutz</a></p>
+</main>
+<script>
+  // Gleiche Adresse wie in index.html (Ordner warteliste/). Leer = Vorschau mit Beispielwerten.
+  const WARTELISTE = '';
+  const $ = (id) => document.getElementById(id);
+  const q = new URLSearchParams(location.search);
+  const zeige = (...ids) => ids.forEach((id) => ($(id).hidden = false));
+  function meldung(text, art) { const m = $('meldung'); m.hidden = false; m.className = art; m.textContent = text; }
+
+  if (q.get('aus')) meldung('Du bist ausgetragen. Wir haben deine E-Mail und deinen Platz gelöscht.', 'gruen');
+  else if (q.get('fehler') === 'abgelaufen') meldung('Dieser Bestätigungs-Link ist abgelaufen oder wurde schon benutzt. Trag dich einfach noch einmal auf der Startseite ein.', 'fehler');
+  else if (q.get('fehler')) meldung('Das hat gerade nicht geklappt. Versuch es in ein paar Minuten noch mal.', 'fehler');
+  else {
+    const code = (q.get('c') || '').toUpperCase();
+    if (/^[A-Z2-9]{8}$/.test(code) || !WARTELISTE) zeigeStand(code || 'VORSCHAU');
+    else meldung('Diesen Platz finden wir nicht. Schau in deine Bestätigungs-Mail oder trag dich neu ein.', 'fehler');
+  }
+
+  async function zeigeStand(code) {
+    let s;
+    if (!WARTELISTE) s = { platz: 214, empfehlungen: 0, frueh: false, lektion: false, vorschau: true };
+    else {
+      try {
+        const r = await fetch(WARTELISTE + '/stand?c=' + encodeURIComponent(code));
+        if (r.status === 404) return meldung('Diesen Platz finden wir nicht mehr. Vielleicht hast du dich ausgetragen.', 'fehler');
+        if (!r.ok) throw new Error();
+        s = await r.json();
+      } catch { return meldung('Dein Platz lädt gerade nicht. Versuch es in ein paar Minuten noch mal.', 'fehler'); }
+    }
+    zeige('ok', 'stand', 'einladen', 'geschenk');
+    $('platz').textContent = s.platz.toLocaleString('de-DE');
+    // Balken: wie nah an den ersten 100 (bei Platz 1000 und mehr fast leer)
+    requestAnimationFrame(() => ($('spur').style.width = Math.max(4, Math.min(100, (100 / s.platz) * 100)) + '%'));
+    $('frueh').textContent = s.frueh ? 'Du gehörst zu den ersten 100: Du bist schon am 24. November drin.' : `Noch ${s.platz - 100} Plätze bis zu den ersten 100, die schon am 24. November reinkommen. Das sind ${Math.ceil((s.platz - 100) / 10)} Freunde.`;
+    if (s.lektion) zeige('rabatt');
+    $('empf').textContent = s.empfehlungen ? `Schon ${s.empfehlungen} ${s.empfehlungen === 1 ? 'Freund ist' : 'Freunde sind'} über deinen Link dabei.` : 'Noch niemand über deinen Link. Der erste bringt dich 10 Plätze nach vorn.';
+    if (s.vorschau) $('empf').textContent = 'Vorschau mit Beispielwerten: Die Warteliste ist noch nicht verbunden.';
+    const link = new URL('index.html?ref=' + code, location.href).href;
+    $('link').value = link;
+    const text = 'Ich lerne ab 1. Dezember Sales mit Sales Universe, fünf Minuten am Tag. Kommst du mit? ' + link;
+    $('whatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+    $('linkedin').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(link);
+    $('mail').href = 'mailto:?subject=' + encodeURIComponent('Sales lernen im Dezember?') + '&body=' + encodeURIComponent(text);
+    $('kopieren').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(link); } catch { $('link').select(); document.execCommand('copy'); }
+      $('kopieren').textContent = 'Kopiert';
+      setTimeout(() => ($('kopieren').textContent = 'Kopieren'), 1800);
+    });
+  }
+</script>
+</body>
+</html>

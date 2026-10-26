@@ -7,7 +7,10 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Keiner hat Bock auf Sales. Sales Universe bringt dir Verkaufen bei wie eine Sprach-App eine Sprache: fünf Minuten am Tag am Handy, mit Serie, XP und echten Antworten auf Einwände.">
 <meta name="theme-color" content="#0B0B0D">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="bilder/logo.png">
+<link rel="alternate" hreflang="de" href="index.html">
+<link rel="alternate" hreflang="en" href="en.html">
 <style>
 /* Schriften liegen bei der Seite, es wird nichts von Google geladen. */
 @font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('schrift/inter-latin-400-normal.woff2') format('woff2'); }
@@ -73,13 +76,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .leiste .knopf { padding: 10px 18px; font-size: 15px; box-shadow: 0 4px 0 var(--gold-tief); }
 @media (max-width: 1100px) { .leiste nav { display: none; } .leiste .knopf { margin-left: auto; } }
 .leiste .knopf { white-space: nowrap; }
-@media (max-width: 420px) { .leiste .knopf { padding: 9px 13px; font-size: 13px; } .marke { font-size: 18px; } }
+@media (max-width: 420px) { .leiste .knopf { padding: 9px 13px; font-size: 13px; } .marke { font-size: 18px; } .leiste .huelle { gap: 12px; } }
+/* Sprachwahl DE/EN neben dem Knopf, auch am Handy sichtbar */
+.sprachwahl { font-size: 13.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--leise); text-decoration: none; border: 1px solid var(--kante); border-radius: 8px; padding: 6px 9px; }
+.sprachwahl:hover { color: var(--text); border-color: rgba(255, 255, 255, 0.2); }
+@media (max-width: 1100px) { .leiste .sprachwahl { margin-left: auto; } .leiste .sprachwahl + .knopf { margin-left: 0; } }
+/* Am Handy ist kein Platz neben Logo und Knopf: Sprache dann unten im Fuß */
+@media (max-width: 520px) { .leiste .sprachwahl { display: none; } .leiste .sprachwahl + .knopf { margin-left: auto; } }
 
 /* Start */
 .held { padding-block: clamp(40px, 7vw, 90px) clamp(56px, 8vw, 100px); position: relative; overflow: hidden; }
 .held::before { content: ""; position: absolute; inset: -20% -10% auto auto; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px; background: radial-gradient(circle, rgba(212, 175, 124, 0.16), transparent 62%); pointer-events: none; }
-.held .huelle { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; position: relative; }
-.held h1 { font-size: clamp(44px, 7.4vw, 86px); }
+.held .huelle { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; position: relative; }
+.held h1 { font-size: clamp(38px, 4.7vw, 64px); }
 .held h1 em { font-style: normal; color: var(--gold); }
 .held .unter { font-size: clamp(18px, 2vw, 21px); color: var(--leise); max-width: 34ch; margin-top: 22px; }
 .held .aktionen { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; }
@@ -91,19 +100,21 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .telefon.zwei { right: 2%; top: 0; transform: rotate(5deg); z-index: 2; }
 .abzeichen { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 18px; background: var(--flaeche-hoch); border: 1px solid var(--kante); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); font-weight: 700; font-size: 15px; }
 .abzeichen b { font-family: var(--anzeige); font-size: 24px; }
-.abzeichen.flamme { left: -2%; bottom: 70px; color: var(--flamme); }
-.abzeichen.ziel { right: -1%; bottom: 20px; color: var(--gruen); }
+/* Die Kärtchen bleiben im Rahmen und schweben gegenläufig: eins hoch, eins runter */
+.abzeichen.flamme { left: 0; bottom: 96px; color: var(--flamme); }
+.abzeichen.ziel { right: 0; bottom: 28px; color: var(--gruen); max-width: calc(100% - 16px); }
 @media (prefers-reduced-motion: no-preference) {
-  .abzeichen.flamme { animation: schweben 5s ease-in-out infinite; }
-  .abzeichen.ziel { animation: schweben 5s ease-in-out 1.6s infinite; }
+  .abzeichen.flamme { animation: schwebauf 4.8s ease-in-out infinite; }
+  .abzeichen.ziel { animation: schwebab 4.8s ease-in-out infinite; }
 }
-@keyframes schweben { 50% { transform: translateY(-10px); } }
+@keyframes schwebauf { 0%, 100% { transform: translateY(7px); } 50% { transform: translateY(-7px); } }
+@keyframes schwebab { 0%, 100% { transform: translateY(-7px); } 50% { transform: translateY(7px); } }
 @media (max-width: 900px) {
   .held .huelle { grid-template-columns: 1fr; }
   .telefone { height: 520px; max-width: 440px; width: 100%; margin: 0 auto; }
   .telefon { width: 230px; }
 }
-@media (max-width: 420px) { .telefone { height: 440px; } .telefon { width: 190px; border-radius: 30px; padding: 7px; } .telefon img { border-radius: 24px; } .abzeichen { font-size: 13px; padding: 9px 12px; } .abzeichen b { font-size: 19px; } }
+@media (max-width: 420px) { .telefone { height: 440px; } .telefon { width: 190px; border-radius: 30px; padding: 7px; } .telefon img { border-radius: 24px; } .abzeichen { font-size: 13px; padding: 9px 12px; gap: 8px; } .abzeichen b { font-size: 19px; } .abzeichen.flamme { bottom: 84px; } .abzeichen.ziel { bottom: 18px; } }
 
 /* Zahlen */
 .zahlen { padding-block: 0; }
@@ -190,7 +201,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .zielwahl button small { color: var(--leise); font-weight: 500; }
 .zielwahl button.an { border-color: var(--gold); background: var(--gold-zart); }
 .prognose { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.prognose div { padding: 16px 10px; border-radius: 16px; background: var(--flaeche-hoch); text-align: center; display: grid; gap: 4px; }
+.prognose div { padding: 4px 6px; text-align: center; display: grid; gap: 4px; }
+.prognose div + div { border-left: 1px solid var(--kante); }
 .prognose b { font-family: var(--anzeige); font-size: 34px; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
 .prognose small { color: var(--leise); font-size: 13px; }
 .prognose em { font-style: normal; font-weight: 700; font-size: 14px; }
@@ -201,22 +213,22 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .zertband { margin-top: 26px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: center; padding: clamp(22px, 3vw, 32px); border-radius: var(--rund); border: 1px solid rgba(212, 175, 124, 0.4); background: linear-gradient(160deg, rgba(212, 175, 124, 0.16), rgba(212, 175, 124, 0.03)); }
 .zertband h3 { font-size: 26px; margin: 6px 0; }
 .zertpreise { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.zertpreise div { padding: 16px; border-radius: 16px; background: var(--flaeche); border: 1px solid var(--kante); display: grid; gap: 4px; }
-.zertpreise div.gold { border-color: rgba(212, 175, 124, 0.5); }
+.zertpreise div { padding: 2px 0 2px 16px; border-left: 1px solid var(--kante); display: grid; gap: 4px; }
+.zertpreise div.gold { border-left-color: rgba(212, 175, 124, 0.5); }
 .zertpreise b { font-family: var(--anzeige); font-size: 32px; color: var(--gold); }
 .zertpreise span { color: var(--leise); font-size: 14px; }
 @media (max-width: 760px) { .zertband { grid-template-columns: 1fr; } }
 
 .stufenreihe { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stufenreihe div { padding: 14px; border-radius: 16px; background: var(--flaeche-hoch); border: 1px solid var(--kante); display: grid; gap: 2px; }
-.stufenreihe div.gold { border-color: rgba(212, 175, 124, 0.5); background: var(--gold-zart); }
+.stufenreihe div { padding: 2px 0 2px 16px; border-left: 1px solid var(--kante); display: grid; gap: 2px; }
+.stufenreihe div.gold { border-left-color: rgba(212, 175, 124, 0.5); }
 .stufenreihe b { font-family: var(--anzeige); font-size: 30px; color: var(--gold); }
 .stufenreihe span { font-weight: 700; }
 .stufenreihe small { color: var(--leise); font-size: 13px; }
 
-.planpreise { display: flex; gap: 8px; flex-wrap: wrap; }
-.planpreise div { padding: 10px 14px; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--kante); display: grid; }
-.planpreise div.gold { border-color: rgba(212, 175, 124, 0.5); }
+.planpreise { display: flex; gap: 10px 18px; flex-wrap: wrap; }
+.planpreise div { padding: 2px 0 2px 14px; border-left: 1px solid var(--kante); display: grid; }
+.planpreise div.gold { border-left-color: rgba(212, 175, 124, 0.5); }
 .planpreise b { font-family: var(--anzeige); font-size: 22px; color: var(--gold); }
 .planpreise span { font-size: 12.5px; color: var(--leise); }
 
@@ -573,7 +585,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (prefers-reduced-motion: reduce) { .lichter i, .grosswort, .grosswort span, .treffer, .treffer i { animation: none !important; } }
 
 .grundlage { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.grund { padding: 20px; border-radius: 18px; background: var(--flaeche); border: 1px solid var(--kante); border-top: 3px solid var(--gold); }
+.grund { padding: 20px; border-radius: 18px; background: var(--flaeche); border: 1px solid var(--kante); }
+.grund h3 { color: var(--gold); }
 .grund b { font-family: var(--anzeige); font-size: 19px; }
 .grund p { color: var(--leise); margin-top: 6px; }
 @media (max-width: 860px) { .grundlage { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -732,8 +745,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .spalte { display: grid; gap: 12px; }
 .spaltenkopf { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--leise); padding: 0 4px 4px; }
 .punkt { width: 10px; height: 10px; border-radius: 50%; }
-.punkt.fertig { background: #2ECC71; box-shadow: 0 0 0 4px rgba(46,204,113,0.16); }
-.punkt.arbeit { background: var(--gold); box-shadow: 0 0 0 4px rgba(212,175,124,0.18); animation: puls 2s ease-in-out infinite; }
+.punkt.fertig { background: #2ECC71; }
+.punkt.arbeit { background: var(--gold); }
 .punkt.geplant { background: transparent; border: 2px solid var(--leise); }
 @keyframes puls { 50% { box-shadow: 0 0 0 8px rgba(212,175,124,0.05); } }
 @media (prefers-reduced-motion: reduce) { .punkt.arbeit { animation: none; } }
@@ -757,7 +770,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Gewohnheit: Serie, Ziel, Schutz */
 .dreier { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .kachel { background: var(--flaeche); border: 1px solid var(--kante); border-radius: var(--rund); padding: 26px; display: grid; gap: 10px; align-content: start; }
-.kachel .symbol { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; }
+.kachel:has(> .symbol) { grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
+.kachel > .symbol { display: grid; place-items: center; background: none !important; }
+.kachel:has(> .symbol) > :not(.symbol, h3) { grid-column: 1 / -1; }
 .kachel p { color: var(--leise); font-size: 15.5px; }
 @media (max-width: 860px) { .dreier { grid-template-columns: 1fr; } }
 @media (min-width: 861px) { .dreier.zweierreihe { grid-template-columns: repeat(2, 1fr); } }
@@ -771,10 +786,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Freunde und Ambassador */
 .einladeschritte { display: grid; gap: 10px; margin: 14px 0; }
-.einladeschritte div { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--kante); }
+.einladeschritte div { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 4px 0; }
 .einladeschritte b { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--flaeche-hoch); font-family: var(--anzeige); font-size: 18px; }
-.einladeschritte .geschenk { border-color: var(--gold); background: linear-gradient(90deg, rgba(212,175,124,0.18), transparent); }
-.einladeschritte .geschenk b { background: var(--gold); color: #1a1408; font-size: 15px; animation: puls 2s infinite; }
+.einladeschritte .geschenk span { color: var(--text); font-weight: 700; }
+.einladeschritte .geschenk b { background: var(--gold); color: #1a1408; font-size: 15px; }
 
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .angebot { border-radius: var(--rund); padding: clamp(24px, 3.4vw, 40px); display: grid; gap: 14px; align-content: start; border: 1px solid var(--kante); background: var(--flaeche); }
@@ -842,7 +857,8 @@ details p { padding-bottom: 20px; color: var(--leise); }
   .testleiste.da { transform: none; }
   .testleiste span { display: grid; line-height: 1.25; }
   .testleiste small { color: var(--leise); font-size: 13px; }
-  .testleiste .knopf { padding: 12px 18px; font-size: 15px; }
+  .testleiste .knopf { padding: 12px 16px; font-size: 14px; white-space: nowrap; flex: none; }
+  .testleiste strong { white-space: nowrap; }
   .fuss { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 }
 /* Schluss */
@@ -854,6 +870,297 @@ details p { padding-bottom: 20px; color: var(--leise); }
 .fuss a { text-decoration: none; }
 .fuss a:hover { color: var(--text); }
 .fuss .platz { flex: 1; }
+
+/* Warteliste und Dezember-Challenge */
+.warteliste .huelle { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+.wl-text { display: grid; gap: 18px; }
+.wl-text h2 { font-size: clamp(30px, 4vw, 46px); }
+.wl-text > .leise { max-width: 52ch; }
+.wl-schritte { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 16px; counter-reset: schritt; }
+.wl-schritte li { display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; counter-increment: schritt; }
+.wl-schritte li::before { content: counter(schritt); grid-row: span 2; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-family: var(--anzeige); font-weight: 900; color: var(--gold); background: var(--gold-zart); border: 1px solid rgba(212, 175, 124, 0.3); }
+.wl-schritte b { font-family: var(--anzeige); font-size: 19px; }
+.wl-schritte span { color: var(--leise); font-size: 16px; }
+.wl-karte { position: relative; padding: clamp(24px, 3.5vw, 40px); border-radius: var(--rund); background: linear-gradient(160deg, rgba(212, 175, 124, 0.1), rgba(22, 23, 27, 0.9) 45%), var(--flaeche); border: 1px solid rgba(212, 175, 124, 0.28); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05); display: grid; gap: 18px; }
+.wl-karte h3 { font-size: clamp(24px, 3vw, 30px); padding-right: 92px; }
+.wl-kalender { position: absolute; top: clamp(20px, 3vw, 32px); right: clamp(20px, 3vw, 32px); width: 76px; border-radius: 16px; overflow: hidden; text-align: center; background: var(--nacht); border: 1px solid var(--kante); box-shadow: 0 5px 0 #050506; }
+.wl-kalender small { display: block; padding: 4px 0; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--gold); color: #1A1408; }
+.wl-kalender b { display: block; font-family: var(--anzeige); font-size: 34px; line-height: 1.15; }
+.wl-kalender span { display: block; padding-bottom: 6px; font-size: 12px; color: var(--leise); }
+.eintragen { display: grid; gap: 10px; }
+.eintragen label { font-weight: 700; font-size: 15px; }
+.wl-zeile { display: flex; gap: 10px; flex-wrap: wrap; }
+.wl-zeile input { flex: 1 1 220px; min-width: 0; min-height: 56px; padding: 0 18px; border-radius: 16px; border: 2px solid rgba(255, 255, 255, 0.14); background: var(--nacht); color: var(--text); font: inherit; font-size: 17px; }
+.wl-zeile input::placeholder { color: #8E949C; }
+.wl-zeile input:focus { outline: none; border-color: var(--gold); }
+.wl-zeile input[aria-invalid="true"] { border-color: var(--rot); }
+.wl-zeile .knopf { flex: 0 0 auto; }
+.wl-honig { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.wl-meldung { min-height: 0; font-size: 15px; font-weight: 600; }
+.wl-meldung:empty { display: none; }
+.wl-meldung.fehler { color: var(--rot); }
+.wl-meldung.gut { color: var(--gruen); }
+.wl-fein { font-size: 13px; color: var(--leise); }
+.wl-fein a { color: var(--leise); }
+.wl-rabatt { padding: 14px 16px; border-radius: 14px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.4); color: var(--text); font-size: 15px; }
+.eintragen.gesendet .wl-zeile, .eintragen.gesendet label { display: none; }
+@media (max-width: 900px) { .warteliste .huelle { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .wl-zeile .knopf { width: 100%; } .wl-karte h3 { padding-right: 84px; } }
+/* Eintragen gleich oben im Start */
+.held .eintragen { margin-top: 30px; max-width: 520px; }
+.held .eintragen label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.held .wl-zweit { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 700; text-decoration: none; }
+.held .wl-zweit:hover { text-decoration: underline; }
+.status { margin-left: 8px; padding: 2px 10px; border-radius: 999px; font-family: var(--schrift); font-size: 13px; font-weight: 600; vertical-align: 0.3em; color: var(--leise); border: 1px solid var(--kante); white-space: nowrap; }
+.kachel.rolle p b { color: var(--text); }
+::selection { background: rgba(212, 175, 124, 0.85); color: #1A1408; }
+html { scrollbar-color: #3a3b42 var(--nacht); accent-color: var(--gold); }
+input, textarea { caret-color: var(--gold); }
+a { text-underline-offset: 0.18em; }
+
+/* Video-Player auf dem Handy: hochkant, Inhalte größer, untereinander statt nebeneinander.
+   Steht am Ende, damit es die älteren Handy-Regeln oben sicher ersetzt. */
+@media (max-width: 600px) {
+  .kino { border-radius: 16px; }
+  .willkommen { aspect-ratio: 4 / 5; }
+  .willkommen .wb { inset: 22% 3% 24%; zoom: 1.35; }
+  .willkommen .wloesung, .willkommen .weinwand, .willkommen .wnutzen, .willkommen .wfenster { grid-template-columns: 1fr !important; grid-auto-flow: row !important; justify-items: center; align-items: center; }
+  .willkommen .wpfeil { transform: rotate(90deg); }
+  .willkommen .wraster { grid-template-columns: repeat(3, auto) !important; }
+  .willkommen .wb.wschmerz { zoom: 0.92; }
+  .willkommen .wb.weinwand, .willkommen .wb.wnutzen { zoom: 1.05; }
+  .wkapitel { top: 13%; left: 5%; right: 5%; }
+  .wkapitel b { font-size: 3.4cqw; }
+  .wkapitel span { font-size: 3.8cqw; }
+  .szenesteuer { top: 3cqw; right: 3cqw; gap: 1.6cqw; }
+  .szenesteuer button { font-size: 3.4cqw; padding: 1.4cqw 3cqw; }
+  .kino .untertitel, .willkommen .untertitel { font-size: 4.4cqw; padding: 5cqw 6cqw 7cqw; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85) 30%); }
+}
+
+/* Video „Vom Noob nach oben“: eigener Look mit echten App-Bildschirmen und
+   einer Level-Anzeige, die durch das ganze Video mitläuft. */
+.aufstieg { background: radial-gradient(ellipse at 70% 40%, rgba(212, 175, 124, 0.12), transparent 55%), radial-gradient(ellipse at 20% 80%, #14161f, #07070a 70%); }
+.aufstieg .ab { position: absolute; inset: 12% 6% 17%; display: flex; align-items: center; justify-content: center; gap: 5cqw; opacity: 0; transform: translateY(3cqw) scale(0.97); filter: blur(0.6cqw); transition: opacity 0.4s, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s; pointer-events: none; z-index: 2; }
+.aufstieg .ab.an { opacity: 1; transform: none; filter: none; pointer-events: auto; }
+.aufstieg .ab.weg { opacity: 0; transform: translateY(-2cqw) scale(1.02); }
+.auf-titelbild { flex-direction: column; gap: 0.4cqw !important; }
+.auf-titelbild b { font-family: var(--anzeige); font-weight: 900; font-size: 7cqw; line-height: 1.02; }
+.auf-titelbild b + b { color: var(--gold); }
+.auf-handy { height: 100%; aspect-ratio: 780 / 1688; flex: none; border-radius: 2.6cqw; padding: 0.5cqw; background: #1d1e23; box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.1), 0 2cqw 5cqw rgba(0, 0, 0, 0.6); }
+.auf-handy img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 2.1cqw; }
+.aufstieg .ab.an .auf-handy { animation: aufhandy 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes aufhandy { from { transform: translateY(6cqw) rotate(-4deg); } }
+.auf-text { display: grid; gap: 1.2cqw; justify-items: start; max-width: 42cqw; }
+.auf-text b { font-family: var(--anzeige); font-weight: 900; font-size: 5.4cqw; line-height: 1.05; }
+.auf-text > span { font-size: 2.3cqw; font-weight: 600; color: var(--leise); }
+.auf-grossfig { height: 100%; width: auto; filter: drop-shadow(0 2cqw 3cqw rgba(0, 0, 0, 0.5)); }
+.auf-noob .auf-text b { color: var(--rot); }
+.auf-chips, .auf-stufen { display: flex; gap: 1cqw; flex-wrap: wrap; }
+.auf-chips span, .auf-stufen span { padding: 0.7cqw 1.6cqw; border-radius: 999px; font-size: 2.2cqw; font-weight: 700; background: var(--gold-zart); border: 0.12cqw solid rgba(212, 175, 124, 0.45); color: var(--gold); }
+.aufstieg .ab.an .auf-chips span, .aufstieg .ab.an .auf-stufen span { animation: aufpop 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.aufstieg .ab.an .auf-chips span:nth-child(2), .aufstieg .ab.an .auf-stufen span:nth-child(2) { animation-delay: 0.35s; }
+.aufstieg .ab.an .auf-chips span:nth-child(3), .aufstieg .ab.an .auf-stufen span:nth-child(3) { animation-delay: 0.7s; }
+@keyframes aufpop { from { opacity: 0; transform: translateY(1.4cqw) scale(0.9); } }
+.auf-blase { padding: 1cqw 1.8cqw; border-radius: 1.6cqw; font-size: 2.4cqw !important; font-weight: 700; }
+.auf-blase.kunde { background: #fff; color: #111 !important; }
+.auf-blase.du { background: var(--gold); color: #1a1408 !important; justify-self: end; }
+.aufstieg .ab.an .auf-blase.du { animation: aufpop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both; }
+.auf-geheim { color: var(--gruen) !important; }
+.auf-deal { flex-direction: column; gap: 2cqw !important; }
+.auf-stempel { font-family: var(--anzeige); font-weight: 900; font-size: 9cqw; color: var(--gruen); padding: 1cqw 4cqw; border: 0.6cqw solid var(--gruen); border-radius: 2cqw; transform: rotate(-6deg); }
+.aufstieg .ab.an .auf-stempel { animation: aufstempel 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+@keyframes aufstempel { from { transform: rotate(-6deg) scale(2.2); opacity: 0; } }
+.auf-deal > span { font-size: 2.6cqw; font-weight: 700; color: var(--leise); }
+.auf-oben .auf-text b { color: var(--gold); }
+.auf-ende { flex-direction: column; gap: 1.6cqw !important; }
+.auf-ende img { width: 9cqw; height: 9cqw; border-radius: 2cqw; }
+.auf-ende b { font-family: var(--anzeige); font-weight: 900; font-size: 5cqw; }
+/* Level-Anzeige oben links */
+.auf-hud { position: absolute; left: 3cqw; top: 3cqw; z-index: 6; display: flex; align-items: center; gap: 1.2cqw; padding: 1cqw 1.8cqw 1cqw 1cqw; border-radius: 1.8cqw; background: rgba(11, 11, 13, 0.7); border: 0.12cqw solid var(--kante); opacity: 0; transition: opacity 0.4s; }
+.aufstieg.laeuft .auf-hud { opacity: 1; }
+.aufstieg[data-schritt="a-ende"] .auf-hud { opacity: 0; }
+.auf-fig { width: 4.6cqw; height: auto; }
+.auf-hud small { display: block; font-size: 1.4cqw; font-weight: 700; color: var(--gold); }
+.auf-hud b { display: block; font-family: var(--anzeige); font-size: 2.4cqw; line-height: 1.1; }
+.auf-level { display: inline-block; font-variant-numeric: tabular-nums; }
+.auf-level.hoch { animation: hoch 0.5s; }
+.auf-spur { display: block; width: 14cqw; height: 0.7cqw; margin-top: 0.5cqw; border-radius: 1cqw; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.auf-spur em { display: block; height: 100%; width: 4%; background: var(--gold); border-radius: inherit; transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.aufstieg[data-schritt="a-ende"] .untertitel { display: none; }
+.aufstieg[data-schritt="a-noob"] .lichter i:nth-child(1), .aufstieg[data-schritt="a-deal"] .lichter i:nth-child(1) { background: #e03131; }
+.aufstieg[data-schritt="a-deal"] .lichter i:nth-child(1) { background: #2ecc71; }
+.aufstieg[data-schritt="a-oben"] .lichter i:nth-child(2), .aufstieg[data-schritt="a-wachsen"] .lichter i:nth-child(2) { background: #d4af7c; }
+@media (max-width: 600px) {
+  .aufstieg { aspect-ratio: 2 / 3; }
+  .aufstieg .ab { inset: 17% 5% 21%; flex-direction: column; gap: 0; }
+  .auf-handy { height: 74%; }
+  /* Text als Karte über dem unteren Rand des Handys */
+  .aufstieg .ab > .auf-text { margin-top: -9cqw; position: relative; z-index: 2; padding: 2.6cqw 4.4cqw; border-radius: 3.4cqw; background: rgba(16, 17, 21, 0.88); border: 0.25cqw solid var(--kante); box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, 0.5); }
+  .auf-noob .auf-text, .auf-oben .auf-text { margin-top: -4cqw !important; }
+  .auf-text { justify-items: center; text-align: center; max-width: none; gap: 1.6cqw; }
+  .auf-text b { font-size: 7cqw; }
+  .auf-text > span, .auf-blase { font-size: 4cqw !important; }
+  .auf-blase.du { justify-self: center; }
+  .auf-chips span, .auf-stufen span { font-size: 3.6cqw; padding: 1cqw 2.6cqw; }
+  .auf-grossfig { height: 62%; }
+  .auf-titelbild b { font-size: 13cqw; }
+  .auf-stempel { font-size: 11.5cqw; padding: 1cqw 3cqw; }
+  .auf-deal > span { font-size: 4.6cqw; }
+  .auf-ende img { width: 16cqw; height: 16cqw; }
+  .auf-ende b { font-size: 8cqw; }
+  .auf-hud { left: 4cqw; top: 4cqw; padding: 1.6cqw 3cqw 1.6cqw 1.6cqw; border-radius: 3cqw; }
+  .auf-fig { width: 8cqw; }
+  .auf-hud small { font-size: 2.8cqw; }
+  .auf-hud b { font-size: 4.4cqw; }
+  .auf-spur { width: 24cqw; height: 1.2cqw; }
+}
+
+/* ---------- Bewegung (nach Emil Kowalski: Zweck, starke ease-out-Kurven, nur transform/opacity) ---------- */
+:root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+button, a.knopf, .antwort, .einwandchip, .zielwahl button, summary { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+.knopf { transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out), filter 150ms ease; }
+@media (hover: none) { .knopf:hover, .antwort:hover:not(:disabled) { filter: none; border-color: var(--kante); } }
+
+/* Beim Scrollen: jede Art Inhalt mit eigenem Auftritt, nicht überall derselbe */
+.js-bewegung [data-rein] { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 60ms); }
+.js-bewegung [data-rein="maske"] { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); translate: 0 0.35em; transition: clip-path 900ms var(--ease-out), translate 900ms var(--ease-out); }
+.js-bewegung [data-rein="zoom"] { transform: scale(0.96); filter: blur(6px); transition: opacity 800ms var(--ease-out), transform 1100ms var(--ease-out), filter 700ms ease; }
+.js-bewegung [data-rein].da { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 -0.25em 0); translate: 0 0; }
+
+/* Start: gestaffelter Auftritt beim Laden */
+.js-bewegung .held [data-start] { opacity: 0; transform: translateY(22px); animation: startrein 900ms var(--ease-out) forwards; animation-delay: calc(120ms + var(--i, 0) * 90ms); }
+@keyframes startrein { to { opacity: 1; transform: none; } }
+.js-bewegung .held .telefone { animation: startzoom 1200ms var(--ease-out) 260ms both; }
+@keyframes startzoom { from { opacity: 0; transform: translateY(30px) scale(0.96); } }
+
+/* Umlaufbahn hinter den Handys: das Universum, sehr langsam */
+.orbit { position: absolute; inset: -8% -12%; pointer-events: none; z-index: 0; }
+.orbit svg { width: 100%; height: 100%; overflow: visible; }
+.orbit .bahn { fill: none; stroke: rgba(212, 175, 124, 0.4); stroke-width: 1.4; stroke-dasharray: 2 7; }
+.orbit .bahn.zwei { stroke: rgba(255, 255, 255, 0.13); stroke-dasharray: none; }
+.orbit .dreh { transform-origin: 50% 50%; transform-box: fill-box; animation: kreisen 60s linear infinite; }
+.orbit .dreh.rueck { animation-duration: 90s; animation-direction: reverse; }
+@keyframes kreisen { to { transform: rotate(360deg); } }
+.telefon { z-index: 1; }
+.telefone .neigung { position: absolute; inset: 0; transition: transform 600ms var(--ease-out); }
+
+/* Laufband mit echten Einwänden */
+.laufband { padding-block: 22px; border-block: 1px solid var(--kante); overflow: hidden; background: linear-gradient(90deg, var(--nacht), transparent 12%, transparent 88%, var(--nacht)), rgba(22, 23, 27, 0.6); -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.laufband .spur { display: flex; gap: 44px; width: max-content; animation: laufen 48s linear infinite; }
+.laufband:hover .spur { animation-play-state: paused; }
+.laufband span { display: inline-flex; align-items: center; gap: 44px; white-space: nowrap; font-family: var(--anzeige); font-weight: 800; font-size: clamp(18px, 2.2vw, 24px); color: var(--text); }
+.laufband span::after { content: ""; width: 7px; height: 7px; border-radius: 2px; transform: rotate(45deg); background: var(--gold); opacity: 0.7; }
+.laufband em { font-style: normal; color: var(--gold); }
+@keyframes laufen { to { transform: translateX(-50%); } }
+
+/* Lernpfad: Stationen werden beim Scrollen freigeschaltet */
+.js-bewegung .station.weiter .knoten { transition: background 500ms ease, color 500ms ease, box-shadow 500ms ease, transform 500ms var(--ease-out); }
+.js-bewegung .station.weiter.frei .knoten { background: var(--gold); color: #1A1408; box-shadow: 0 6px 0 var(--gold-tief); animation: freischalten 600ms var(--ease-out); }
+@keyframes freischalten { 40% { transform: scale(1.12); } }
+
+/* Preisvergleich */
+.vergleich .huelle { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.vergleich .text { display: grid; gap: 18px; }
+.vergleich .text .leise { max-width: 48ch; }
+.vergleich .text .knopf { justify-self: start; }
+.vergleich h2 { font-size: clamp(32px, 3.8vw, 48px); }
+.vgl-fazit strong { font-size: clamp(19px, 2vw, 23px); line-height: 1.35; }
+.vgl-karte { padding: clamp(22px, 3vw, 34px); border-radius: var(--rund); background: var(--flaeche); border: 1px solid var(--kante); display: grid; gap: 22px; }
+.vgl-zeile { display: grid; gap: 10px; }
+.vgl-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 700; }
+.vgl-kopf b { font-family: var(--anzeige); font-size: clamp(22px, 2.6vw, 28px); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vgl-balken { position: relative; height: 18px; }
+.vgl-balken i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 9px; transform-origin: left center; transform: scaleX(var(--w)); transition: transform 1300ms var(--ease-out); transition-delay: calc(var(--i, 0) * 120ms); }
+.js-bewegung .vgl-karte:not(.da) .vgl-balken i { transform: scaleX(0); }
+.vgl-balken .bis { width: 100%; background: repeating-linear-gradient(135deg, rgba(240, 84, 79, 0.35) 0 6px, rgba(240, 84, 79, 0.18) 6px 12px); }
+.vgl-balken .ab { width: 100%; background: var(--rot); }
+.vgl-balken .su { width: 100%; background: var(--gold); }
+.vgl-zeile small { color: var(--leise); font-size: 14px; }
+.vgl-jahre { display: flex; gap: 8px; }
+.vgl-jahre button { flex: 1; padding: 10px 8px; border-radius: 12px; border: 2px solid var(--kante); background: var(--flaeche-hoch); color: var(--text); font: inherit; font-weight: 800; cursor: pointer; transition: transform 140ms var(--ease-out), border-color 160ms ease; }
+.vgl-jahre button:active { transform: scale(0.97); }
+.vgl-jahre button[aria-pressed="true"] { border-color: var(--gold); background: var(--gold-zart); }
+.vgl-fazit { padding-top: 18px; border-top: 1px solid var(--kante); display: grid; gap: 6px; }
+.vgl-fazit strong { font-family: var(--anzeige); font-size: clamp(20px, 2.4vw, 26px); }
+.vgl-quelle { font-size: 13px; color: var(--leise); }
+@media (max-width: 900px) { .vergleich .huelle { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-bewegung [data-rein], .js-bewegung [data-rein="maske"], .js-bewegung [data-rein="zoom"] { transform: none !important; filter: none !important; clip-path: none !important; translate: none !important; transition: opacity 300ms ease !important; }
+  .js-bewegung .held [data-start], .js-bewegung .held .telefone { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .laufband .spur { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+  .orbit .dreh { animation: none; }
+  .vgl-balken i { transition: none; }
+}
+
+/* ---------- Feinschliff: hochwertig statt verspielt ----------
+   Überschriften in Inter Extra-Bold mit engem Zeichenabstand, ruhige Knöpfe
+   mit Lichtkante statt dicker Spielkonsolen-Kante. Die Videos behalten ihre
+   runde Schrift, weil ihre Szenen darauf abgestimmt sind. */
+@font-face { font-family: 'Inter'; font-weight: 800; font-display: swap; src: url('schrift/inter-latin-800-normal.woff2') format('woff2'); }
+:root {
+  --anzeige: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --nacht: #0A0A0C;
+  --flaeche: #131418;
+  --flaeche-hoch: #1B1C21;
+  --kante: rgba(255, 255, 255, 0.075);
+  --leise: #A1A6AE;
+}
+.kino { --anzeige: 'Nunito', 'Arial Rounded MT Bold', system-ui, sans-serif; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; }
+h3 { letter-spacing: -0.02em; line-height: 1.2; }
+.held h1 { letter-spacing: -0.035em; line-height: 1.02; }
+p { text-wrap: pretty; }
+::selection { background: rgba(212, 175, 124, 0.85); color: #1A1408; }
+
+/* Knöpfe: Gold mit Lichtkante, weicher Schatten, normale Schreibweise */
+.knopf {
+  padding: 14px 24px; border-radius: 12px; font-family: var(--schrift); font-weight: 600; font-size: 16px; letter-spacing: -0.005em; text-transform: none;
+  color: #17120A; background: linear-gradient(180deg, #E6C898 0%, #CFA66C 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 24px -10px rgba(0, 0, 0, 0.7);
+  transition: transform 160ms var(--ease-out), box-shadow 200ms ease, filter 200ms ease;
+}
+.knopf:active { transform: scale(0.97); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 1px rgba(0, 0, 0, 0.5); }
+.knopf.zweit { color: var(--text); background: rgba(255, 255, 255, 0.04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.knopf.zweit:active { transform: scale(0.97); }
+.leiste .knopf { padding: 9px 16px; font-size: 14.5px; border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(0, 0, 0, 0.5); }
+.testleiste .knopf { font-size: 14.5px; }
+@media (hover: hover) and (pointer: fine) {
+  .knopf:hover { filter: brightness(1.05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 30px -10px rgba(0, 0, 0, 0.8); }
+  .knopf.zweit:hover { filter: none; background: rgba(255, 255, 255, 0.07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); }
+}
+.held .wl-zweit { font-weight: 600; }
+.wl-zeile input { border-radius: 12px; border-width: 1px; background: rgba(255, 255, 255, 0.03); }
+.wl-zeile input:focus { box-shadow: 0 0 0 4px rgba(212, 175, 124, 0.18); }
+
+/* Zahlen: eine ruhige Reihe mit Trennlinien statt sechs gleicher Kästchen */
+.zahlen .huelle { gap: 0; padding-block: 28px; border-block: 1px solid var(--kante); }
+.zahl { background: none; border: 0; border-radius: 0; padding: 6px 14px; }
+.zahl + .zahl { border-left: 1px solid var(--kante); }
+.zahl b { font-family: var(--anzeige); font-weight: 800; letter-spacing: -0.04em; font-size: clamp(34px, 3.4vw, 44px); }
+@media (max-width: 900px) { .zahl:nth-child(3n + 1) { border-left: 0; } .zahl:nth-child(n + 4) { border-top: 1px solid var(--kante); padding-top: 18px; } .zahlen .huelle { row-gap: 18px; } }
+@media (max-width: 480px) { .zahl:nth-child(3n + 1) { border-left: 1px solid var(--kante); } .zahl:nth-child(odd) { border-left: 0; } .zahl:nth-child(n + 3) { border-top: 1px solid var(--kante); padding-top: 18px; } }
+
+/* Karten: feinere Kante oben wie Glas, kein Spielzeug-Schatten */
+.kachel, .preis, .angebot, .grund, .vgl-karte, .rechnerkarte, .lohnrechner, .quiz, .wl-karte, .vorhernachher { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); }
+.antwort { box-shadow: none; border-width: 1px; }
+.preis { display: flex; flex-direction: column; }
+.preis .knopf { margin-top: auto; }
+.kino .knopf:not(.zweit) { color: #17120A; }
+.antwort:active:not(:disabled) { transform: scale(0.985); box-shadow: none; }
+.knoten { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 18px -8px rgba(0, 0, 0, 0.7) !important; }
+.station.weiter:not(.frei) .knoten { box-shadow: inset 0 0 0 1px var(--kante) !important; }
+.station.ende .knoten { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 18px -8px rgba(0, 0, 0, 0.7) !important; }
+
+/* Farben: eine Akzentfarbe (Gold). Grün und Rot nur, wo sie etwas bedeuten
+   (richtig/falsch, Fehler), Vergleichswerte in neutralem Grau. */
+.liste li::before { background: rgba(212, 175, 124, 0.14) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF7C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg>") center / 14px no-repeat; box-shadow: inset 0 0 0 1px rgba(212, 175, 124, 0.3); }
+.abzeichen.ziel { color: var(--gold); }
+.station.ende .knoten { background: var(--text); color: #0A0A0C; }
+.vgl-balken .ab { background: rgba(255, 255, 255, 0.34); }
+.vgl-balken .bis { background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0 6px, rgba(255, 255, 255, 0.06) 6px 12px); }
+.preis.haupt { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05); }
 </style>
 </head>
 <body>
@@ -870,7 +1177,8 @@ details p { padding-bottom: 20px; color: var(--leise); }
       <a href="#ambassador">Ambassador</a>
       <a href="#pipeline">Was kommt</a>
     </nav>
-    <a class="knopf" data-link="gratis" href="#preise">30 Tage testen</a>
+    <a class="sprachwahl" href="en.html" hreflang="en" lang="en" aria-label="English version">EN</a>
+    <a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a>
   </div>
 </header>
 
@@ -878,16 +1186,25 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section class="held" id="start">
     <div class="huelle">
       <div>
-        <span class="etikett">Sales lernen wie eine Sprache. Am Handy.</span>
-        <h1 style="margin-top:14px">Keiner hat Bock auf Sales. <em>Du musst trotzdem verkaufen.</em></h1>
-        <p class="unter">Kein 400-Seiten-Buch, kein Wochenend-Seminar, keine trockenen Frameworks. Fünf Minuten am Tag am Handy, in der Bahn, in der Pause. Mit Serie, XP und Level wie in einer Sprach-App, bis Verkaufen sich anfühlt wie etwas, das du einfach kannst.</p>
-        <div class="aktionen">
-          <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
-          <a class="knopf zweit" href="#film">Video ansehen, 1 Minute</a>
-        </div>
-        <p class="fein">Handy, Windows und Mac. Dein Fortschritt läuft überall mit.</p>
+        <h1>Keiner hat Bock auf Sales. <em>Du musst trotzdem verkaufen.</em></h1>
+        <p class="unter">Ab 1. Dezember lernst du Sales wie eine Sprache: fünf Minuten am Tag, mit Serie, XP und Level.</p>
+        <form class="eintragen" novalidate>
+          <label for="held-mail">Deine E-Mail</label>
+          <div class="wl-zeile">
+            <input id="held-mail" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="Deine E-Mail">
+            <button class="knopf" type="submit">Platz sichern</button>
+          </div>
+          <input class="wl-honig" name="firma" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="wl-meldung" role="status" aria-live="polite"></p>
+          <p class="wl-fein">Kostenlos. Spickzettel mit 10 typischen Einwänden gratis dazu.</p>
+        </form>
+        <a class="wl-zweit" href="#film">Video ansehen, 1 Minute</a>
       </div>
       <div class="telefone" aria-hidden="true">
+        <div class="orbit"><svg viewBox="0 0 600 600">
+          <g transform="translate(300 300) rotate(-14) scale(1 0.36)"><g class="dreh"><circle class="bahn" r="290"/><circle r="7" cx="290" cy="0" fill="#D4AF7C"/><circle r="4" cx="-205" cy="205" fill="#F2D9B0" opacity="0.8"/></g></g>
+          <g transform="translate(300 300) rotate(22) scale(1 0.28)"><g class="dreh rueck"><circle class="bahn zwei" r="250"/><circle r="5" cx="0" cy="-250" fill="#2ECC71" opacity="0.85"/></g></g>
+        </svg></div>
         <div class="telefon eins"><img src="bilder/pfad.jpg" alt="" width="780" height="1688"></div>
         <div class="telefon zwei"><img src="bilder/quiz.jpg" alt="" width="780" height="1688"></div>
         <div class="abzeichen flamme"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1.2 3.4 5.5 5.6 5.5 10.6A5.5 5.5 0 0 1 6.5 12.6c0-2.4 1.2-3.9 2.5-5 0 2.2 1 3.6 2.4 3.6.3-3.6-.6-6.4.6-9.2z" fill="#F59E0B"/></svg>Serie halten</div>
@@ -896,13 +1213,14 @@ details p { padding-bottom: 20px; color: var(--leise); }
     </div>
   </section>
 
+  <div class="laufband" aria-label="Typische Einwände, auf die Sales Universe eine Antwort hat"><div class="spur"><span>„Zu teuer.“</span><span>„Keine Zeit.“</span><span>„Schicken Sie mir was.“</span><span>„Ich melde mich.“</span><span>„Kein Budget.“</span><span>„Wir haben schon einen Anbieter.“</span><span>„Das muss ich mir überlegen.“</span><span>„Kein Interesse.“</span><span aria-hidden="true">„Zu teuer.“</span><span aria-hidden="true">„Keine Zeit.“</span><span aria-hidden="true">„Schicken Sie mir was.“</span><span aria-hidden="true">„Ich melde mich.“</span><span aria-hidden="true">„Kein Budget.“</span><span aria-hidden="true">„Wir haben schon einen Anbieter.“</span><span aria-hidden="true">„Das muss ich mir überlegen.“</span><span aria-hidden="true">„Kein Interesse.“</span></div></div>
+
   <section id="film" class="filmabschnitt">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">In einer Minute erklärt</span>
         <h2>Worum es bei Sales Universe geht.</h2>
       </div>
-      <div class="kino willkommen" id="willkommen" data-tempo="1.12" data-schritt="w-start" aria-label="Video: Warum es Sales Universe gibt und was drin ist">
+      <div class="kino willkommen" id="willkommen" data-tempo="1.18" data-schritt="w-start" aria-label="Video: Warum es Sales Universe gibt und was drin ist">
         <div class="lichter" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="wraum" aria-hidden="true"><div class="wsterne"></div></div>
         <div class="konfetti" aria-hidden="true"></div>
@@ -962,7 +1280,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <span class="wpfeil">→</span>
           <div class="wnachher"><small>Mit Sales Universe</small><span>Sicher in jeden Call</span><span>Du weißt, was du sagst</span><span>Verkaufen ohne Überreden</span></div>
         </div>
-        <div class="wb wende" data-bei="w-ende"><img src="bilder/logo.png" alt="" width="80" height="80"><b>Willkommen im Sales Universe.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage kostenlos testen</a></div>
+        <div class="wb wende" data-bei="w-ende"><img src="bilder/logo.png" alt="" width="80" height="80"><b>Willkommen im Sales Universe.</b><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a></div>
         <div class="vignette"></div>
         <div class="balken oben" aria-hidden="true"></div><div class="balken unten" aria-hidden="true"></div>
         <div class="untertitel" aria-live="polite"></div>
@@ -976,7 +1294,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="schmerz" class="schmerz">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Kommt dir das bekannt vor?</span>
         <h2>Sales klingt nach Krawatte, Druck und Dauerlächeln. Kein Wunder, dass keiner Bock hat.</h2>
       </div>
       <div class="gedanken">
@@ -987,14 +1304,13 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <div class="gedanke"><q>Ich lese das Sales-Buch am Wochenende.</q><p>Es liegt seit Monaten auf dem Nachttisch. Ungelesen.</p></div>
         <div class="gedanke gut"><strong>Die gute Nachricht</strong><p>Verkaufen heißt nicht überreden. Es heißt, Menschen zu helfen, eine gute Entscheidung zu treffen. Und das lernst du in kleinen Häppchen, nebenbei am Handy, so wie Vokabeln.</p></div>
       </div>
-    <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Kostenlos, ohne Zahlungsdaten. Endet von selbst.</span></div>
+    <div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">Kostenlos eintragen. Start am 1. Dezember.</span></div>
     </div>
   </section>
 
   <section id="grundlage" style="padding-top:0">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Warum gerade Sales</span>
         <h2>Sales ist die Grundlage für alles, was du erreichen willst.</h2>
         <p class="leise">Du verkaufst jeden Tag, auch wenn du es nicht so nennst. Wer das früh lernt, kommt schneller dahin, wo er hin will.</p>
       </div>
@@ -1010,7 +1326,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="nutzen">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Warum sich das lohnt</span>
         <h2>Ein Kunde mehr, und die 49 € sind wieder drin.</h2>
         <p class="leise">Kein Seminar am Wochenende, kein Abo. Du lernst jeden Tag ein paar Minuten und hast im Call die Antwort parat.</p>
       </div>
@@ -1029,10 +1344,41 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <p class="lohnergebnis" id="lohnergebnis" aria-live="polite">Gib ein, was dir ein Kunde bringt, und sieh, ab wann sich Sales Universe bezahlt macht.</p>
           <ul class="haken">
             <li>30 Tage kostenlos, ohne Zahlungsdaten</li>
-            <li>Danach einmal 49 €, kein Abo</li>
+            <li>Danach 49 € im Jahr, rund 4 € im Monat</li>
             <li>Dein Fortschritt bleibt beim Upgrade</li>
           </ul>
-          <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+          <a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vergleich" id="vergleich">
+    <div class="huelle">
+      <div class="text">
+        <h2>Weniger als eine Sprach-App. Und es verlängert sich nicht von selbst.</h2>
+        <p class="leise">Für Vokabeln zahlen viele jedes Jahr ein Abo. Verkaufen ist eine Fähigkeit, mit der du selbst Geld verdienst: bei jedem Kunden, in jeder Gehaltsrunde, mit dem eigenen Business. Der Jahrespass läuft nach zwölf Monaten einfach aus. Du entscheidest dann, ob du weitermachst.</p>
+        <a class="knopf zweit" href="#nutzen">Rechne mit deiner Zahl</a>
+      </div>
+      <div class="vgl-karte" aria-live="polite">
+        <div class="vgl-jahre" role="group" aria-label="Zeitraum">
+          <button type="button" data-jahre="1">1 Jahr</button>
+          <button type="button" data-jahre="2">2 Jahre</button>
+          <button type="button" data-jahre="3">3 Jahre</button>
+        </div>
+        <div class="vgl-zeile">
+          <div class="vgl-kopf"><span>Sprach-App im Abo</span><b id="vgl-app">180 € bis 540 €</b></div>
+          <div class="vgl-balken" aria-hidden="true"><i class="bis" style="--i:0"></i><i class="ab" style="--i:1"></i></div>
+          <small>Jedes Jahr wieder, solange du lernst.</small>
+        </div>
+        <div class="vgl-zeile">
+          <div class="vgl-kopf"><span>Sales Universe</span><b id="vgl-su">49 €</b></div>
+          <div class="vgl-balken" aria-hidden="true"><i class="su" style="--i:2"></i></div>
+          <small>Jahrespass ohne Abo, neue Lektionen inklusive.</small>
+        </div>
+        <div class="vgl-fazit">
+          <strong id="vgl-text">Nach 3 Jahren hast du für eine Sprach-App 180 € bis 540 € bezahlt. Für Sales Universe 147 €, und nur, wenn du jedes Jahr weitermachen willst.</strong>
+          <span class="vgl-quelle">Preise bekannter Sprach-Apps laut Preisvergleichen, Stand Oktober 2026: etwa 60 bis 180 € im Jahr, je nach Abo und Anbieter.</span>
         </div>
       </div>
     </div>
@@ -1052,7 +1398,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="probe">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Probier's aus</span>
         <h2>Deine erste Lektion. Jetzt, in 60 Sekunden.</h2>
         <p class="leise">Such dir eine Figur aus und beantworte fünf echte Fragen aus der App. Du bekommst XP wie in der App: 10 für jede richtige Antwort, 5 fürs Üben, wenn es noch nicht saß.</p>
       </div>
@@ -1074,11 +1419,10 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="fenster">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Das kleine Fenster</span>
         <h2>Der Kunde sagt „zu teuer“. Du teilst gerade deinen Bildschirm.</h2>
         <p class="leise">Ein Tastendruck, und die passende Antwort steht neben deinem Call. Dein Gegenüber sieht davon nichts, auch nicht, wenn du deinen Bildschirm überträgst.</p>
       </div>
-      <div class="kino" id="szene" data-schritt="start" aria-label="Video: Im Videocall kommt ein Einwand, das kleine Fenster zeigt die Antwort, die Kundin sieht es nicht">
+      <div class="kino" id="szene" data-tempo="1.15" data-schritt="start" aria-label="Video: Im Videocall kommt ein Einwand, das kleine Fenster zeigt die Antwort, die Kundin sieht es nicht">
         <div class="kamera">
           <div class="bildschirm du">
             <div class="callleiste"><span class="punkt rot"></span> Du teilst deinen Bildschirm <span class="callzeit">12:41</span></div>
@@ -1121,10 +1465,10 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <div class="vignette"></div>
         <div class="balken oben" aria-hidden="true"></div><div class="balken unten" aria-hidden="true"></div>
         <div class="titelkarte"><small>Sales Universe</small><b>Jeder Call hat diesen einen Moment.</b></div>
-        <div class="kinoende"><img src="bilder/logo.png" alt="" width="72" height="72" class="kinologo"><small>Sales Universe</small><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a></div>
+        <div class="kinoende"><img src="bilder/logo.png" alt="" width="72" height="72" class="kinologo"><small>Sales Universe</small><b>Die richtige Antwort.<br>Genau dann, wenn du sie brauchst.</b><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a></div>
         <div class="untertitel" aria-live="polite"></div>
         <div class="kinofortschritt"><span></span></div>
-        <button class="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, 50 Sekunden</small></button>
+        <button class="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, rund 35 Sekunden</small></button>
         <div class="szenesteuer"><button type="button" class="szeneton">Ton an</button><button type="button" class="szeneknopf">Pause</button></div>
       </div>
       <div class="dreier fenstervorteile">
@@ -1138,7 +1482,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="moment" style="padding-top:0">
     <div class="huelle moment">
       <div class="kopfzeile" style="margin:0">
-        <span class="etikett">Der Moment, in dem es zählt</span>
         <h2>Was sagst du, wenn …</h2>
         <p class="leise">Tipp einen Einwand an. Die Antworten stammen aus der App: erst anerkennen, was berechtigt ist, dann eine offene Frage. Kein Druck, kein Verbiegen.</p>
         <div class="einwandchips" role="tablist" aria-label="Einwände">
@@ -1154,22 +1497,21 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <p class="leise klein" id="antwortwarum"></p>
       </div>
     </div>
-    <div class="huelle"><div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">30 Einwände mit Antworten warten in der App.</span></div>
+    <div class="huelle"><div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">30 Einwände mit Antworten warten in der App.</span></div>
     </div>
   </section>
 
   <section id="fuerwen" style="padding-top:0">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Für wen</span>
         <h2>In einer Minute auf dich eingestellt.</h2>
         <p class="leise">Beim ersten Start fragt Sales Universe, wer du bist, wie viel du schon weißt, was dir am schwersten fällt und wie viel du am Tag schaffen willst. Danach passen Level, Tagesziel und Schwerpunkt.</p>
       </div>
       <div class="dreier zweierreihe">
-        <div class="kachel rolle haupt"><span class="etikett">Jung und ehrgeizig</span><h3>Du willst was erreichen.</h3><p>Dann lern die eine Fähigkeit, die dir überall hilft. Fünf Minuten am Tag am Handy, ohne Vorwissen.</p></div>
-        <div class="kachel rolle"><span class="etikett">Gründer und Startups</span><h3>Du musst kein Verkäufer werden.</h3><p>Du musst dein Produkt verkaufen können. Ehrlich, ohne Druck, auch wenn du lieber am Produkt arbeiten würdest.</p></div>
-        <div class="kachel rolle"><span class="etikett">Neu im Vertrieb</span><h3>Vom ersten Tag an sicherer.</h3><p>Fachbegriffe erklärt, Grundlagen zuerst, und für jeden Einwand eine Antwort, die du im Gespräch nachschlagen kannst.</p></div>
-        <div class="kachel rolle"><span class="etikett">Schon im Vertrieb</span><h3>Besser werden, jeden Tag.</h3><p>Sieben Frameworks von SPIN bis MEDDIC in Übungen statt in Folien, Zertifikate für LinkedIn und ein Rückblick nach jedem Gespräch.</p></div>
+        <div class="kachel rolle haupt"><h3>Jung und ehrgeizig</h3><p><b>Du willst was erreichen.</b> Dann lern die eine Fähigkeit, die dir überall hilft. Fünf Minuten am Tag am Handy, ohne Vorwissen.</p></div>
+        <div class="kachel rolle"><h3>Gründer und Startups</h3><p><b>Du musst kein Verkäufer werden.</b> Du musst dein Produkt verkaufen können. Ehrlich, ohne Druck, auch wenn du lieber am Produkt arbeiten würdest.</p></div>
+        <div class="kachel rolle"><h3>Neu im Vertrieb</h3><p><b>Vom ersten Tag an sicherer.</b> Fachbegriffe erklärt, Grundlagen zuerst, und für jeden Einwand eine Antwort, die du im Gespräch nachschlagen kannst.</p></div>
+        <div class="kachel rolle"><h3>Schon im Vertrieb</h3><p><b>Besser werden, jeden Tag.</b> Sieben Frameworks von SPIN bis MEDDIC in Übungen statt in Folien, Zertifikate für LinkedIn und ein Rückblick nach jedem Gespräch.</p></div>
       </div>
     </div>
   </section>
@@ -1177,7 +1519,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="lernpfad" style="background:linear-gradient(180deg,transparent,rgba(212,175,124,0.05),transparent)">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Der Lernpfad</span>
         <h2>Neun Einheiten vom ersten Call bis zur Prüfung.</h2>
         <p class="leise">Jede Einheit hat kurze Lektionen. Du gehst Schritt für Schritt, die nächste öffnet sich, wenn du die vorige geschafft hast.</p>
       </div>
@@ -1192,7 +1533,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <li class="station weiter"><div class="knoten">8</div><div><h3>Die großen Frameworks</h3><p>SPIN, Sandler, Challenger und SNAP: wie die Besten fragen, qualifizieren und Gespräche führen.</p></div></li>
         <li class="station ende"><div class="knoten">✓</div><div><h3>Die Prüfung</h3><p>Alles gemischt. Wer hier durchkommt, ist bereit für echte Gespräche.</p></div></li>
       </ol>
-    <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Einheit 1 kannst du heute noch anfangen.</span></div>
+    <div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">Einheit 1 wartet am 1. Dezember auf dich.</span></div>
     </div>
   </section>
 
@@ -1200,7 +1541,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
     <div class="huelle">
       <div class="teil">
         <div class="text">
-          <span class="etikett">Im Gespräch</span>
           <h2>Der Kunde zögert. Du hast die Antwort.</h2>
           <p>Jeder Einwand mit einer Antwort, die erst anerkennt, was am Einwand berechtigt ist, und dann mit einer offenen Frage weiterführt. Nie überreden, immer dem Kunden helfen, selbst zu entscheiden.</p>
           <ul class="liste">
@@ -1214,7 +1554,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
 
       <div class="teil links">
         <div class="text">
-          <span class="etikett">Dein Sales-Universum</span>
           <h2>Jede Karte, die sitzt, wird ein Stern.</h2>
           <p>Sechs Galaxien: Wissen, Netzwerk, Einwände, Kundentypen, Frameworks und Vokabeln. Am Handy wischst du von Galaxie zu Galaxie und siehst, wo du schon sicher bist und was noch wackelt.</p>
         </div>
@@ -1223,7 +1562,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
 
       <div class="teil">
         <div class="text">
-          <span class="etikett">Deine Karriere</span>
           <h2>100 Level. Ein Jahr Karriere.</h2>
           <p>Deine Figur steigt nur mit dem auf, was du wirklich tust: Übungen, gelesene Kapitel, geschaffte Lektionen. Keine Punkte fürs bloße Klicken. Jedes Level ist etwas schwerer als das davor, ganz oben kommt nur an, wer lange dranbleibt.</p>
         </div>
@@ -1249,14 +1587,13 @@ details p { padding-bottom: 20px; color: var(--leise); }
         <div class="stufe geheim"><div class="saeule" style="height:160px"></div><span>???</span><small>Level 100</small></div>
       </div>
       <p class="leise mitte-text">16 Titel aus der echten Vertriebs-Karriere. Welcher als Nächstes kommt, verraten wir nicht.</p>
-    <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Jeder fängt als Sales-Neuling an.</span></div>
+    <div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">Jeder fängt als Sales-Neuling an.</span></div>
     </div>
   </section>
 
   <section id="rechner" style="padding-top:0">
     <div class="huelle rechner">
       <div class="kopfzeile" style="margin:0">
-        <span class="etikett">Wie weit kommst du?</span>
         <h2>100 Level. Wo stehst du in einem Jahr?</h2>
         <p class="leise">Wähl dein Tagesziel. Gerechnet wird mit derselben Formel wie in der App: jedes Level braucht etwas mehr XP als das davor, und jeder Tag, an dem du lernst, gibt 10 XP extra.</p>
       </div>
@@ -1276,7 +1613,6 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section style="padding-top:0">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Dranbleiben</span>
         <h2>Gewohnheit schlägt Talent.</h2>
       </div>
       <div class="dreier">
@@ -1296,14 +1632,13 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <p>Karten von gestern und von vor 3, 7, 14 und 30 Tagen kommen zurück. So bleibt im Kopf, was du gelernt hast.</p>
         </div>
       </div>
-    <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">30 Tage reichen, um zu merken, ob es zur Gewohnheit wird.</span></div>
+    <div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">30 Tage reichen, um zu merken, ob es zur Gewohnheit wird.</span></div>
     </div>
   </section>
 
   <section id="widgets" style="padding-top:0">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Widgets für den Mac</span>
         <h2>Deine Serie, immer im Blick. Direkt auf dem Schreibtisch.</h2>
         <p class="leise">Klein für den schnellen Blick, groß für den ganzen Lernstand. Leg sie auf den Schreibtisch oder in die Mitteilungszentrale.</p>
       </div>
@@ -1357,9 +1692,8 @@ details p { padding-bottom: 20px; color: var(--leise); }
     <div class="huelle geraete">
       <div class="laptop"><img src="bilder/desktop.jpg" alt="Sales Universe am Computer: der Sales Baum mit dem Einwand „Zu teuer“" width="1600" height="1000" loading="lazy"></div>
       <div style="display:grid;gap:14px">
-        <span class="etikett">Überall dabei</span>
         <h2 style="font-size:clamp(30px,4vw,44px)">Am Schreibtisch, im Zug, vor dem Call.</h2>
-        <p class="leise">Ein Schlüssel für zwei Geräte. Was du auf dem Handy lernst, zählt auch am Computer: XP, Serie, Lektionen und deine eigenen Einwände. Alles wird auf deinem Gerät verschlüsselt, bevor es abgeglichen wird. Wir können es nicht lesen.</p>
+        <p class="leise">Ein Kauf für iPhone und Mac. Was du auf dem Handy lernst, zählt auch am Computer: XP, Serie, Lektionen und deine eigenen Einwände. Alles wird auf deinem Gerät verschlüsselt, bevor es abgeglichen wird. Wir können es nicht lesen.</p>
         <div class="plattformen"><span class="plattform">Windows</span><span class="plattform">Mac</span><span class="plattform">iPhone und Android</span></div>
       </div>
     </div>
@@ -1368,36 +1702,35 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="preise" style="background:linear-gradient(180deg,transparent,rgba(212,175,124,0.06),transparent)">
     <div class="huelle">
       <div class="kopfzeile" style="text-align:center;margin-left:auto;margin-right:auto">
-        <span class="etikett">Preise</span>
-        <h2>Einmal zahlen. Für immer lernen.</h2>
+        <h2>Ein Jahr lernen. Kein Abo.</h2>
       </div>
       <div class="preise">
         <div class="preis">
           <h3>Testversion</h3>
           <div class="betrag">0 € <small>für 30 Tage</small></div>
           <ul class="liste">
-            <li>Alles aus der Vollversion</li>
+            <li>Alles aus dem Jahrespass</li>
             <li>Ohne Zahlungsdaten</li>
             <li>Dein Fortschritt bleibt beim Upgrade</li>
           </ul>
-          <a class="knopf zweit" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+          <p class="leise klein" style="margin-top:auto">Startet am 1. Dezember, zusammen mit der App.</p>
         </div>
         <div class="preis haupt">
-          <h3>Vollversion</h3>
-          <div class="betrag"><span data-preis>49 €</span> <small>einmalig</small></div>
+          <h3>Jahrespass</h3>
+          <div class="betrag"><span data-preis>49 €</span> <small>pro Jahr</small></div>
+          <p class="leise klein">Rund 4 € im Monat. Läuft nach 12 Monaten aus, nichts verlängert sich von selbst.</p>
           <ul class="liste">
             <li>Lernpfad, Quiz, Vokabeln, Universum</li>
             <li>30 Einwände, 7 Frameworks, das ganze Playbook</li>
             <li>Das kleine Fenster für deine Calls</li>
             <li>Windows, Mac und Handy, zwei Geräte, Widgets am Mac</li>
           </ul>
-          <a class="knopf" data-link="kaufen" href="#preise">Vollversion holen</a>
+          <a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a>
         </div>
       </div>
       <div class="zertband">
         <div>
-          <span class="etikett">Neu: Zertifikate für LinkedIn</span>
-          <h3>Zeig, was du kannst.</h3>
+          <h3>Zertifikate für LinkedIn</h3>
           <p class="leise">Besteh die Prüfung zu einem Framework mit mindestens 80 % und hol dir dein Zertifikat mit Name, Ergebnis und Nummer. Ein Klick trägt es in dein LinkedIn-Profil ein. Die Prüfungen sind kostenlos.</p>
         </div>
         <div class="zertpreise">
@@ -1405,14 +1738,13 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <div class="gold"><b>20 €</b><span>alle 7 Frameworks plus „Sales Frameworks Master“</span></div>
         </div>
       </div>
-      <p class="hinweis">Bezahlt wird über Lemon Squeezy. Den Schlüssel bekommst du sofort per E-Mail.</p>
+      <p class="hinweis">Testen und kaufen kannst du ab dem 1. Dezember. Bezahlt wird direkt in der App über Apple, so wie bei anderen Apps auch.</p>
     </div>
   </section>
 
   <section id="ambassador">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Gemeinsam lernen</span>
         <h2>Bring jemanden mit.</h2>
       </div>
       <div class="duo">
@@ -1423,24 +1755,24 @@ details p { padding-bottom: 20px; color: var(--leise); }
             <div><b>2</b><span>Dein Freund lernt 30 Tage kostenlos, mit allem.</span></div>
             <div class="geschenk"><b>+30</b><span>Für jeden Freund, der startet, bekommst du 30 Tage dazu.</span></div>
           </div>
-          <p class="leise klein">Zu zweit hält man die Serie leichter durch. Die 30 Tage für dich gibt es ab dem Verkaufsstart.</p>
-          <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+          <p class="leise klein">Zu zweit hält man die Serie leichter durch. Schon jetzt: Mit deinem Link von der Warteliste rückst du für jeden Freund 10 Plätze nach vorn.</p>
+          <a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a>
         </div>
         <div class="angebot" id="partner">
           <h3>Ambassador werden</h3>
           <p>Du machst Content, coachst oder hast eine Community rund um Startups und Vertrieb? Empfiehl Sales Universe und verdiene an jedem Kauf über deinen Link mit.</p>
           <div class="stufenreihe">
-            <div><b>10 %</b><span>an jedem Verkauf</span><small>rund 4 € je Vollversion, rund 7 € je Bundle</small></div>
-            <div class="gold"><b>1 Schlüssel</b><span>jeden Monat gratis</span><small>zum Verlosen oder Verschenken an deine Community</small></div>
+            <div><b>10 %</b><span>an jedem Verkauf</span><small>rund 3,50 € je Jahrespass, 5 % bei jeder Verlängerung</small></div>
+            <div class="gold"><b>1 Jahrespass</b><span>jeden Monat gratis</span><small>zum Verlosen oder Verschenken an deine Community</small></div>
           </div>
           <ul class="haken">
-            <li>Vollversion und Zertifikate für dich gratis</li>
+            <li>Jahrespass und Zertifikate für dich gratis</li>
             <li>Content-Kit: Karussell-Vorlagen, Hooks, Screenshots</li>
             <li>Dein eigener Link, deine Follower testen 30 Tage kostenlos</li>
-            <li>Auszahlung direkt über Lemon Squeezy, zweimal im Monat</li>
+            <li>Auszahlung einmal im Monat</li>
           </ul>
-          <a class="knopf zweit" data-link="partner" href="#partner">Als Ambassador anmelden</a>
-          <p class="leise klein">Provision auf Vollversion, Bundle und Erweiterungen, gerechnet vom Preis ohne Umsatzsteuer. Ausgezahlt wird nach 30 Tagen Rückgabefrist.</p>
+          <a class="knopf zweit" data-link="partner" href="#partner">Ambassador werden</a>
+          <p class="leise klein">Provision auf Jahrespass und Erweiterungen, gerechnet von dem, was nach Umsatzsteuer und App-Store-Gebühr bei uns ankommt. Ausgezahlt wird, sobald die Rückgabefrist vorbei ist.</p>
         </div>
       </div>
     </div>
@@ -1449,9 +1781,8 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section id="pipeline">
     <div class="huelle">
       <div class="kopfzeile">
-        <span class="etikett">Was als Nächstes kommt</span>
         <h2>Gebaut mit denen, die es nutzen.</h2>
-        <p class="leise">Das kommt als Nächstes. Feste Termine versprechen wir nicht. Alles, was ihr euch gegenseitig schreibt, ist Ende-zu-Ende-verschlüsselt: nur ihr könnt es lesen, wir nicht.</p>
+        <p class="leise">Feste Termine versprechen wir nicht. Alles, was ihr euch gegenseitig schreibt, ist Ende-zu-Ende-verschlüsselt: nur ihr könnt es lesen, wir nicht.</p>
       </div>
       <div class="pipeline">
         <div class="spalte">
@@ -1465,19 +1796,20 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <div class="spaltenkopf"><span class="punkt arbeit"></span>Als Nächstes</div>
           <div class="projekt"><h3>Lerngruppen mit Freunden</h3><p>Eine Gruppe aufmachen, Freunde einladen, gemeinsame Wochenziele. Wer hält die Serie am längsten?</p><span class="schloss">Verschlüsselt</span></div>
           <div class="projekt"><h3>Gruppen-Chat</h3><p>Einwände aus echten Calls teilen, Antworten gemeinsam verbessern, sich gegenseitig anfeuern.</p><span class="schloss">Ende-zu-Ende-verschlüsselt</span></div>
+          <div class="projekt"><h3>Bestenliste</h3><p>Wer hält die längste Serie, wer ist zuerst auf Level 100? Nur wer mitmachen will, erscheint dort, mit Spitzname statt Klarnamen.</p></div>
+          <div class="projekt"><h3>Talent-Programm</h3><p>Die Besten können sich mit ihrem Stand bei uns melden: für Sales-Jobs und Projekte, in denen sie mit Provision verkaufen. Nur, wenn du das willst.</p></div>
         </div>
         <div class="spalte">
           <div class="spaltenkopf"><span class="punkt geplant"></span>Geplant</div>
           <div class="projekt"><h3>Duelle</h3><p>Fordere jemanden heraus: dieselben zehn Fragen, wer hat mehr richtig?</p></div>
           <div class="projekt"><h3>Teams für Startups</h3><p>Gründer und die ersten Leute im Vertrieb lernen zusammen, mit eurem eigenen Produkt und euren eigenen Einwänden.</p><span class="schloss">Verschlüsselt</span></div>
           <div class="projekt"><h3>Gespräche üben mit KI</h3><p>Ein Kunde, der wirklich widerspricht. Du übst, bevor es zählt.</p></div>
-          <div class="projekt"><h3>App Store, Microsoft Store, mehr Sprachen</h3><p>Installieren mit einem Klick, und Sales Universe auch auf Spanisch, Französisch und mehr.</p></div>
+          <div class="projekt"><h3>Microsoft Store, mehr Sprachen</h3><p>Installieren mit einem Klick auch unter Windows, und Sales Universe auf Spanisch, Französisch und mehr.</p></div>
         </div>
       </div>
       <div class="vision">
         <div class="visionkarte life">
-          <span class="etikett">Erweiterung · geplant</span>
-          <h3>Sales Universe Life</h3>
+          <h3>Sales Universe Life <small class="status">geplant</small></h3>
           <p>Verkaufen kannst du dann. Jetzt lernst du, dich selbst zu managen. Dieselbe App, dieselbe Serie, neue Lernpfade:</p>
           <ul class="haken">
             <li>Selbstmanagement und Fokus: Planen, Prioritäten, Nein sagen</li>
@@ -1485,12 +1817,11 @@ details p { padding-bottom: 20px; color: var(--leise); }
             <li>Effektivität: Routinen, Pipeline-Tag, Fokus-Blöcke</li>
             <li>Mindset: Rückschläge, Motivation, Ziele, die halten</li>
           </ul>
-          <div class="planpreise"><div><b>49 €</b><span>einzeln</span></div><div class="gold"><b>30 €</b><span>wenn du die Vollversion hast</span></div><div><b>79 €</b><span>beides im Bundle</span></div></div>
-          <p class="leise klein">Geplante Preise, einmalig. Freigeschaltet mit einem zweiten Schlüssel, dein Fortschritt läuft einfach weiter.</p>
+          <div class="planpreise"><div><b>49 €</b><span>einzeln</span></div><div class="gold"><b>30 €</b><span>wenn du den Jahrespass hast</span></div><div><b>79 €</b><span>beides im Bundle</span></div></div>
+          <p class="leise klein">Geplante Preise. Freigeschaltet in der App, dein Fortschritt läuft einfach weiter.</p>
         </div>
         <div class="visionkarte">
-          <span class="etikett">Vision · fernere Zukunft</span>
-          <h3>Radar: der KI-Alarm für deine Calls</h3>
+          <h3>Radar: der KI-Alarm für deine Calls <small class="status">später</small></h3>
           <p>Du verbindest Sales Universe mit der Transkription deines Meeting-Tools, zum Beispiel Gemini. Das kleine Fenster liest mit und meldet sich, wenn es zählt:</p>
           <ul class="haken">
             <li>Ein Einwand fällt: drei passende Antworten als Pop-up</li>
@@ -1501,23 +1832,101 @@ details p { padding-bottom: 20px; color: var(--leise); }
           <p class="leise klein">Geplant. Als Abo, weil die KI laufend Kosten verursacht. Nur mit Zustimmung aller im Gespräch, nichts wird über deine Kunden gespeichert.</p>
         </div>
       </div>
-      <div class="mitte-cta"><a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a><span class="leise">Neues kommt per Update direkt in die App.</span></div>
+      <div class="mitte-cta"><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a><span class="leise">Neues kommt per Update direkt in die App.</span></div>
+    </div>
+  </section>
+
+  <section id="warteliste" class="warteliste">
+    <div class="huelle">
+      <div class="wl-text">
+        <h2>Nimm dir keinen Neujahrsvorsatz. Fang im Dezember an.</h2>
+        <p class="leise">Am 1. Dezember starten alle gemeinsam. 31 Tage, jeden Tag dein Tagesziel, bis Silvester. Wer durchhält, bekommt das Abzeichen „Dezember 2026“ in der App und geht am 1. Januar mit einem Vorsprung ins neue Jahr.</p>
+        <ol class="wl-schritte">
+          <li><b>Eintragen</b><span>Deine E-Mail, mehr nicht. Nach der Bestätigung bekommst du den Spickzettel mit zehn typischen Einwänden.</span></li>
+          <li><b>Freunde mitnehmen</b><span>Mit deinem Link rückst du für jeden Freund 10 Plätze nach vorn. Die ersten 100 sind schon am 24. November drin.</span></li>
+          <li><b>Am 1. Dezember loslegen</b><span>30 Tage kostenlos testen, danach 49 € im Jahr. Kein Abo.</span></li>
+        </ol>
+      </div>
+      <div class="wl-karte">
+        <div class="wl-kalender" aria-hidden="true"><small>Dezember</small><b>1</b><span>Start</span></div>
+        <h3>Sichere dir deinen Platz.</h3>
+        <form class="eintragen" novalidate>
+          <label for="wl-mail">Deine E-Mail</label>
+          <div class="wl-zeile">
+            <input id="wl-mail" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="du@beispiel.de">
+            <button class="knopf" type="submit">Platz sichern</button>
+          </div>
+          <input class="wl-honig" name="firma" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="wl-meldung" role="status" aria-live="polite"></p>
+          <p class="wl-fein">Kostenlos. Du bekommst eine Mail zum Bestätigen und kannst dich jederzeit mit einem Klick wieder austragen. <a href="datenschutz.html">Datenschutz</a></p>
+        </form>
+        <p class="wl-rabatt" hidden>Du hast die Lektion geschafft: Zum Start bekommst du 10 % Rabatt auf den Jahrespass. Der Code kommt mit der Start-Mail.</p>
+      </div>
     </div>
   </section>
 
   <section id="fragen">
     <div class="huelle">
       <div class="kopfzeile" style="text-align:center;margin-left:auto;margin-right:auto">
-        <span class="etikett">Fragen</span>
         <h2>Gut zu wissen.</h2>
       </div>
       <div class="fragen">
+        <details><summary>Wann geht es los?</summary><p>Am 1. Dezember. Die ersten 100 auf der Warteliste kommen schon am 24. November rein. Wer sich einträgt, bekommt am Starttag eine Mail mit dem Link zur App.</p></details>
+        <details><summary>Was passiert mit meiner E-Mail?</summary><p>Wir schicken dir die Bestätigung, den Spickzettel und zum Start den Link zur App. Kein Newsletter-Spam, kein Weitergeben. Jede Mail hat einen Link zum Austragen.</p></details>
         <details><summary>Brauche ich Erfahrung im Vertrieb?</summary><p>Nein. Sales Universe ist für Einsteiger geschrieben. Fachbegriffe werden erklärt, und der Lernpfad beginnt bei den Grundlagen.</p></details>
         <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Das bestimmst du mit deinem Tagesziel: von einer halben Lektion bis zu drei Lektionen und mehr. Die Serie zählt jeden Tag, an dem du dein Ziel erreichst.</p></details>
-        <details><summary>Funktioniert die App ohne Internet?</summary><p>Ja. Zum Freischalten braucht sie einmal Internet, danach läuft sie offline. Ab und zu prüft sie, ob der Schlüssel noch gilt.</p></details>
-        <details><summary>Auf wie vielen Geräten kann ich lernen?</summary><p>Ein Schlüssel gilt für zwei Geräte, zum Beispiel Laptop und Handy. Bei einem neuen Gerät meldest du das alte in den Optionen ab. Mit dem Abgleich ist dein Fortschritt auf beiden Geräten gleich.</p></details>
+        <details><summary>Funktioniert die App ohne Internet?</summary><p>Ja. Zum Freischalten braucht sie einmal Internet, danach läuft sie offline.</p></details>
+        <details><summary>Auf wie vielen Geräten kann ich lernen?</summary><p>Der Jahrespass gilt auf deinem iPhone und deinem Mac mit derselben Apple-ID. Koppelst du die Geräte in den Optionen, ist dein Fortschritt überall gleich.</p></details>
         <details><summary>Speichert die App etwas über meine Kunden?</summary><p>Nein. Sales Universe ist kein CRM. Gespeichert wird nur dein eigener Lernstand, deine eigenen Notizen und dein Rückblick nach dem Gespräch, auf deinem Gerät. Schaltest du den Abgleich zwischen Handy und Computer ein, werden sie vorher auf deinem Gerät verschlüsselt. Lesen können wir sie nicht.</p></details>
-        <details><summary>Was passiert nach den 30 Tagen?</summary><p>Die Testversion endet von selbst, es wird nichts abgebucht. Holst du die Vollversion, lernst du mit deinem bisherigen Fortschritt weiter.</p></details>
+        <details><summary>Was passiert nach den 30 Tagen?</summary><p>Die Testversion endet von selbst, es wird nichts abgebucht. Holst du den Jahrespass, lernst du mit deinem bisherigen Fortschritt weiter.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="werdegang" class="filmabschnitt">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <h2>Vom Noob nach oben.</h2>
+        <p class="leise">Wie Sales Universe dich vom ersten Tag im Vertrieb bis zur Person bringt, die im Team alle fragen. In 30 Sekunden.</p>
+      </div>
+      <div class="kino aufstieg" id="karriere" data-tempo="1.15" data-schritt="a-poster" aria-label="Video: Vom Sales-Neuling ohne Plan bis ganz nach oben, mit Bildern aus der App">
+        <div class="lichter" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="konfetti" aria-hidden="true"></div>
+        <div class="auf-hud" aria-hidden="true">
+          <img class="auf-fig" src="bilder/figuren/jordan-1.svg" alt="" width="48" height="60">
+          <div><small class="auf-titel">Sales-Neuling</small><b>Level <span class="auf-level">1</span></b><i class="auf-spur"><em></em></i></div>
+        </div>
+        <div class="ab auf-titelbild" data-bei="a-poster"><b>Vom Noob</b><b>nach oben.</b></div>
+        <div class="ab auf-noob" data-bei="a-noob">
+          <img class="auf-grossfig" src="bilder/figuren/jordan-1.svg" alt="" width="160" height="200">
+          <div class="auf-text"><b>Noob.</b><span>Kein Plan. Kein Abschluss.</span><span>Konto leer.</span></div>
+        </div>
+        <div class="ab" data-bei="a-start">
+          <div class="auf-handy"><img src="bilder/pfad.jpg" alt="" width="780" height="1688"></div>
+          <div class="auf-text"><b>Tag 1.</b><div class="auf-chips"><span>Handy</span><span>Laptop</span><span>Mac</span></div><span>Egal wo.</span></div>
+        </div>
+        <div class="ab" data-bei="a-lernen">
+          <div class="auf-handy"><img src="bilder/quiz.jpg" alt="" width="780" height="1688"></div>
+          <div class="auf-text"><b>5 Minuten.</b><span class="auf-blase kunde">„Zu teuer.“</span><span class="auf-blase du">„Im Vergleich wozu?“</span></div>
+        </div>
+        <div class="ab" data-bei="a-call">
+          <div class="auf-handy"><img src="bilder/einwand.jpg" alt="" width="780" height="1688"></div>
+          <div class="auf-text"><b>Im Call.</b><span>Die Antwort steht neben dir.</span><span class="auf-geheim">Nur du siehst das.</span></div>
+        </div>
+        <div class="ab auf-deal" data-bei="a-deal"><div class="auf-stempel">Abschluss!</div><span>Dein erster.</span></div>
+        <div class="ab" data-bei="a-wachsen">
+          <div class="auf-handy"><img src="bilder/universum.jpg" alt="" width="780" height="1688"></div>
+          <div class="auf-text"><b>Woche für Woche.</b><div class="auf-stufen"><span>Lv 10</span><span>Lv 20</span><span>Lv 50</span></div></div>
+        </div>
+        <div class="ab auf-oben" data-bei="a-oben">
+          <img class="auf-grossfig" src="bilder/figuren/jordan-2.svg" alt="" width="160" height="200">
+          <div class="auf-text"><b>Der, den alle fragen.</b><span>Vom Noob nach oben.</span></div>
+        </div>
+        <div class="ab auf-ende" data-bei="a-ende"><img src="bilder/logo.png" alt="" width="80" height="80"><b>Start am 1. Dezember.</b><a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a></div>
+        <div class="untertitel" aria-live="polite"></div>
+        <div class="kinofortschritt"><span></span></div>
+        <button class="szenestart" type="button"><span class="dreieck"></span><b>Video ansehen</b><small>mit Ton, rund 30 Sekunden</small></button>
+        <div class="szenesteuer"><button type="button" class="szeneton">Ton an</button><button type="button" class="szeneknopf">Pause</button></div>
       </div>
     </div>
   </section>
@@ -1525,15 +1934,15 @@ details p { padding-bottom: 20px; color: var(--leise); }
   <section class="schluss">
     <div class="huelle">
       <img src="bilder/logo.png" alt="" width="96" height="96">
-      <h2>Fünf Minuten heute. Eine Fähigkeit fürs ganze Leben.</h2>
-      <a class="knopf" data-link="gratis" href="#preise">30 Tage jetzt testen</a>
+      <h2>Kein Neujahrsvorsatz. Ab 1. Dezember, fünf Minuten am Tag.</h2>
+      <a class="knopf" data-link="warteliste" href="#warteliste">Platz sichern</a>
     </div>
   </section>
 </main>
 
 <div class="testleiste" id="testleiste" aria-hidden="true">
-  <span><strong>30 Tage kostenlos</strong><small>ohne Zahlungsdaten</small></span>
-  <a class="knopf" data-link="gratis" href="#preise" tabindex="-1">Jetzt testen</a>
+  <span><strong>Start am 1. Dezember</strong><small>kostenlos eintragen</small></span>
+  <a class="knopf" data-link="warteliste" href="#warteliste" tabindex="-1">Platz sichern</a>
 </div>
 
 <footer class="fuss">
@@ -1543,16 +1952,17 @@ details p { padding-bottom: 20px; color: var(--leise); }
     <a href="impressum.html">Impressum</a>
     <a href="datenschutz.html">Datenschutz</a>
     <a href="#partner">Ambassador</a>
+    <a href="en.html" hreflang="en" lang="en">English</a>
   </div>
 </footer>
 
 <script>
-  // Links zu Lemon Squeezy: hier eintragen, sobald die Produkte angelegt sind.
+  // Links zum App Store und zum Ambassador-Programm: hier eintragen, sobald es sie gibt.
   // Leer = der Knopf springt zu den Preisen. PREIS gilt für alle Preisangaben.
   const LINKS = {
     gratis: '', // Kauflink der kostenlosen 30-Tage-Version
-    kaufen: '', // Kauflink der Vollversion
-    partner: '', // Anmeldeseite des Ambassador-Programms (Affiliates bei Lemon Squeezy)
+    kaufen: '', // Link zur App im App Store
+    partner: '', // Anmeldeseite des Ambassador-Programms
   };
   const PREIS = '49 €';
 
@@ -1566,16 +1976,56 @@ details p { padding-bottom: 20px; color: var(--leise); }
   }
   for (const p of document.querySelectorAll('[data-preis]')) p.textContent = PREIS;
 
+  // Warteliste: Adresse des Servers aus warteliste/ (Cloudflare Worker).
+  // Leer = Vorschau, es wird nichts gesendet.
+  const WARTELISTE = '';
+  const merke = (k, v) => { try { sessionStorage.setItem(k, v); } catch {} };
+  const lies = (k) => { try { return sessionStorage.getItem(k); } catch { return null; } };
+  // Einladungs-Code aus dem Link (?ref=ABCD1234) für diesen Besuch merken
+  const refAusLink = new URLSearchParams(location.search).get('ref');
+  if (refAusLink && /^[A-Za-z0-9]{6,12}$/.test(refAusLink)) merke('su-ref', refAusLink);
+  const zeigeRabatt = () => { if (lies('su-lektion') === '1') document.querySelectorAll('.wl-rabatt').forEach((p) => (p.hidden = false)); };
+  zeigeRabatt();
+  const mailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+  document.querySelectorAll('form.eintragen').forEach((form) => {
+    const feld = form.querySelector('input[type=email]');
+    const knopf = form.querySelector('button[type=submit]');
+    const meldung = form.querySelector('.wl-meldung');
+    const sag = (text, art) => { meldung.textContent = text; meldung.className = 'wl-meldung ' + (art || ''); };
+    feld.addEventListener('input', () => { feld.removeAttribute('aria-invalid'); if (meldung.classList.contains('fehler')) sag(''); });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = feld.value.trim();
+      if (!mailOk(email)) { feld.setAttribute('aria-invalid', 'true'); sag('Bitte gib eine gültige E-Mail-Adresse ein.', 'fehler'); feld.focus(); return; }
+      if (form.querySelector('.wl-honig').value) return;
+      if (!WARTELISTE) { sag('Vorschau: Die Warteliste ist noch nicht verbunden. Deine E-Mail wurde nicht gespeichert.', 'gut'); return; }
+      knopf.disabled = true; const alt = knopf.textContent; knopf.textContent = 'Einen Moment …';
+      try {
+        const antwort = await fetch(WARTELISTE + '/eintragen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, ref: lies('su-ref') || '', lektion: lies('su-lektion') === '1', sprache: 'de' }) });
+        if (!antwort.ok) throw new Error(String(antwort.status));
+        form.classList.add('gesendet');
+        sag('Fast geschafft: Schau in dein Postfach und bestätige deine E-Mail. Danach siehst du deinen Platz und deinen Link für Freunde.', 'gut');
+      } catch (err) {
+        sag(String(err.message) === '429' ? 'Zu viele Versuche. Probier es in einer Minute noch mal.' : 'Gerade klemmt es. Versuch es in ein paar Minuten noch mal.', 'fehler');
+      } finally { knopf.disabled = false; knopf.textContent = alt; }
+    });
+  });
+
   // Handy: die Test-Leiste unten erscheint, sobald der Start aus dem Bild ist
   const leisteUnten = document.getElementById('testleiste');
   const start = document.getElementById('start');
   if ('IntersectionObserver' in window && leisteUnten && start) {
-    new IntersectionObserver(([e]) => {
-      const da = !e.isIntersecting;
+    // Nicht doppelt: bei Start und Warteliste ist das Formular schon zu sehen
+    const sichtbar = new Set();
+    const ziele = [start, document.getElementById('warteliste')].filter(Boolean);
+    const beobachter = new IntersectionObserver((eintraege) => {
+      eintraege.forEach((x) => (x.isIntersecting ? sichtbar.add(x.target) : sichtbar.delete(x.target)));
+      const da = sichtbar.size === 0;
       leisteUnten.classList.toggle('da', da);
       leisteUnten.setAttribute('aria-hidden', String(!da));
       leisteUnten.querySelector('a').tabIndex = da ? 0 : -1;
-    }).observe(start);
+    });
+    ziele.forEach((z) => beobachter.observe(z));
   }
 
   // Der Moment: echte Einwände und Antworten aus der App (src/startinhalt.js)
@@ -1711,10 +2161,11 @@ details p { padding-bottom: 20px; color: var(--leise); }
       else t.append(neu('strong', null, 'Noch ' + (levelAb(3) - spiel.xp) + ' XP bis Level 3'), neu('p', 'leise klein', 'Dort wartet dein erster geheimer Titel. Welcher, siehst du erst in der App.'));
       geheim.append(img, t);
       const cta = neu('div'); cta.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;align-items:center';
-      const k = neu('a', 'knopf', '30 Tage jetzt testen'); k.href = '#preise'; k.dataset.link = 'gratis';
+      merke('su-lektion', '1'); zeigeRabatt();
+      const k = neu('a', 'knopf', 'Platz sichern'); k.href = '#warteliste';
       const n = neu('a', 'knopf zweit', 'Nochmal'); n.href = '#spiel'; n.addEventListener('click', (e) => { e.preventDefault(); Object.assign(spiel, { nr: -1, xp: 0, richtig: 0, fehler: 0 }); zeigeStand(); $('lektionsspur').style.width = '0'; figurWahl(); });
       cta.append(k, n);
-      box.append(geheim, neu('p', 'leise klein', 'Level ' + l + ' von 100 mit ' + spiel.xp + ' XP. Mit dem Tagesziel „Locker“ (50 XP) wäre heute Tag 1 deiner Serie.'), cta);
+      box.append(geheim, neu('p', 'leise klein', 'Level ' + l + ' von 100 mit ' + spiel.xp + ' XP. Mit dem Tagesziel „Locker“ (50 XP) wäre heute Tag 1 deiner Serie.'), neu('p', 'wl-rabatt', 'Geschafft! Trag dich ein, dann bekommst du zum Start 10 % Rabatt auf den Jahrespass.'), cta);
       if (typeof setzeLinks === 'function') setzeLinks();
     }
   }
@@ -1723,11 +2174,12 @@ details p { padding-bottom: 20px; color: var(--leise); }
 
 
   // Videos auf der Seite: Szenen aus HTML und CSS, Stimme je Satz als Aufnahme
-  // (Higgsfield, ElevenLabs), Soundeffekte aus einer Sammeldatei (Mixkit, freie Lizenz).
+  // (Higgsfield, ElevenLabs), Soundeffekte aus einer Sammeldatei (Mixkit, freie Lizenz),
+  // beides im Ordner ton/ auf unserem eigenen Server, keine Anfrage an fremde Server.
   // Geladen wird erst beim Klick auf „Video ansehen“. Lädt eine Aufnahme nicht,
   // spricht die Stimme des Geräts, das Video bleibt nie stumm.
-  const STIMME_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/hf_';
-  const KLAENGE_URL = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3GXf0a2IUSvksHxeUEDyqFXz9fG/5f16d090-ebbd-4122-acf7-99f105e3e912.mp3';
+  const STIMME_URL = 'ton/hf_';
+  const KLAENGE_URL = 'ton/klaenge.mp3';
   // Name: [Start in Sekunden, Länge]
   const KLAENGE = { intro: [0, 2.8], wusch: [3.2, 1.76], schlag: [5.357, 3], herz: [8.757, 2.6], taste: [11.757, 0.31], plopp: [12.463, 0.38], tippen: [13.244, 1.3], glitzer: [14.944, 2.6], nachricht: [17.944, 1.06], richtig: [19.403, 1.96], swoosh: [21.763, 1.39], erfolg: [23.553, 1.8] };
   const effekte = (() => {
@@ -1765,6 +2217,59 @@ details p { padding-bottom: 20px; color: var(--leise); }
     k.classList.remove('knall'); void k.offsetWidth; k.classList.add('knall');
   }, nach * 1000);
 
+  // Stimme ohne lange Pausen: Die Aufnahmen haben Stille von bis zu einer
+  // Sekunde in und nach den Sätzen. Jede Aufnahme wird einmal geladen, jede
+  // Pause über 0,28 s auf 0,2 s gekürzt, Anfang und Ende fast ganz, und als
+  // WAV abgespielt. Kurze Betonungspausen bleiben. Klappt das nicht, läuft
+  // die Original-Aufnahme.
+  const kompaktFertig = new Map();
+  const kompaktLaeuft = new Map();
+  function baueKompakt(id) {
+    if (kompaktLaeuft.has(id)) return kompaktLaeuft.get(id);
+    const p = (async () => {
+      const Ctx = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+      if (!Ctx) return null;
+      const roh = await (await fetch(STIMME_URL + id + '.mp3')).arrayBuffer();
+      const ctx = new Ctx(1, 2, 44100);
+      const buf = await new Promise((ok, nein) => { const r = ctx.decodeAudioData(roh, ok, nein); if (r && r.then) r.then(ok, nein); });
+      const sr = buf.sampleRate, d = buf.getChannelData(0), fenster = Math.max(1, Math.round(sr * 0.01)), schwelle = 0.015;
+      const anzahl = Math.ceil(d.length / fenster);
+      const laut = new Uint8Array(anzahl);
+      for (let w = 0; w < anzahl; w++) {
+        let m = 0;
+        for (let j = w * fenster, e = Math.min(d.length, j + fenster); j < e; j++) { const a = Math.abs(d[j]); if (a > m) m = a; }
+        laut[w] = m >= schwelle ? 1 : 0;
+      }
+      const erstes = laut.indexOf(1), letztes = laut.lastIndexOf(1);
+      if (erstes < 0) return null;
+      // Fenster behalten: Sprache immer, Stille innen höchstens 20 Fenster (0,2 s)
+      const behalten = [];
+      for (let w = Math.max(0, erstes - 3); w <= Math.min(anzahl - 1, letztes + 5); w++) {
+        if (laut[w] || w < erstes || w > letztes) { behalten.push(w); continue; }
+        let lauf = 0;
+        for (let v = w; v >= 0 && !laut[v]; v--) lauf++;
+        let rest = 0;
+        for (let v = w; v < anzahl && !laut[v]; v++) rest++;
+        const gesamt = lauf + rest - 1;
+        if (gesamt <= 28 || lauf <= 10 || rest <= 10) behalten.push(w);
+      }
+      // WAV, 16 Bit mono
+      const n = behalten.length * fenster;
+      const wav = new DataView(new ArrayBuffer(44 + n * 2));
+      const schreib = (o, s) => { for (let k = 0; k < s.length; k++) wav.setUint8(o + k, s.charCodeAt(k)); };
+      schreib(0, 'RIFF'); wav.setUint32(4, 36 + n * 2, true); schreib(8, 'WAVEfmt '); wav.setUint32(16, 16, true); wav.setUint16(20, 1, true); wav.setUint16(22, 1, true);
+      wav.setUint32(24, sr, true); wav.setUint32(28, sr * 2, true); wav.setUint16(32, 2, true); wav.setUint16(34, 16, true); schreib(36, 'data'); wav.setUint32(40, n * 2, true);
+      let o = 44;
+      for (const w of behalten) for (let j = w * fenster, e = j + fenster; j < e; j++, o += 2) { const s = Math.max(-1, Math.min(1, d[j] || 0)); wav.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); }
+      const url = URL.createObjectURL(new Blob([wav], { type: 'audio/wav' }));
+      kompaktFertig.set(id, url);
+      return url;
+    })().catch(() => null);
+    kompaktLaeuft.set(id, p);
+    return p;
+  }
+  const stimmeUrl = (id) => kompaktFertig.get(id) || STIMME_URL + id + '.mp3';
+
   function kino(szene, { saetze, stimme, klang = {}, nochmal = 'Nochmal ansehen' }) {
     if (!szene) return;
     const start = szene.querySelector('.szenestart');
@@ -1773,6 +2278,9 @@ details p { padding-bottom: 20px; color: var(--leise); }
     const text = szene.querySelector('.untertitel');
     const spur = szene.querySelector('.kinofortschritt span');
     const ebenen = [...szene.querySelectorAll('[data-bei]')];
+    // Englische Seite: Sätze und Stimme aus videos-en.js, Szenen bleiben gleich
+    const en = window.VIDEOS_EN && window.VIDEOS_EN[szene.id];
+    if (en) { saetze = en.saetze; stimme = en.stimme; }
     if (istMac) szene.querySelectorAll('kbd[data-mac]').forEach((k) => (k.textContent = k.dataset.mac));
     const k = szene.querySelector('.konfetti');
     if (k && !k.children.length) for (let n = 0; n < 36; n++) { const t = document.createElement('i'); t.style.cssText = `--x:${(Math.random() * 2 - 1) * 48}cqw;--y:${-(10 + Math.random() * 38)}cqw;--r:${Math.round(Math.random() * 720 - 360)}deg;--d:${(Math.random() * 0.25).toFixed(2)}s;--f:${['#D4AF7C', '#2ECC71', '#4D9BE8', '#F59E0B', '#ffffff', '#A78BFA'][n % 6]}`; k.append(t); }
@@ -1799,11 +2307,11 @@ details p { padding-bottom: 20px; color: var(--leise); }
       if (klang[schritt]) klang[schritt](szene, mitTon);
       let erledigt = false;
       const weiter = (p) => { if (erledigt || meiner !== lauf) return; erledigt = true; clearTimeout(timer); timer = setTimeout(() => naechster(meiner), p); };
-      const mindest = Date.now() + Math.min(dauer, 1800);
+      const mindest = Date.now() + Math.min(dauer, 1200);
       if (!mitTon || !stimme[i] || !sprecher) { timer = setTimeout(() => weiter(0), dauer); return; }
-      sprecher.src = STIMME_URL + stimme[i] + '.mp3';
+      sprecher.src = stimmeUrl(stimme[i]);
       sprecher.playbackRate = szene.dataset.tempo ? Number(szene.dataset.tempo) : 1;
-      sprecher.onended = () => weiter(Math.max(szene.dataset.tempo ? 120 : 450, mindest - Date.now()));
+      sprecher.onended = () => weiter(Math.max(szene.dataset.tempo ? 60 : 300, mindest - Date.now()));
       // Lädt eine Aufnahme nicht, läuft das Video mit Untertiteln weiter
       sprecher.onerror = () => weiter(dauer);
       sprecher.play().catch(() => weiter(dauer));
@@ -1820,7 +2328,7 @@ details p { padding-bottom: 20px; color: var(--leise); }
       effekte.bereit();
       if (!sprecher) { sprecher = new Audio(); sprecher.preload = 'auto'; }
       // Die übrigen Sätze schon laden, damit es keine Pausen gibt
-      if (!vorrat.length) vorrat = stimme.slice(1).map((s) => { const a = new Audio(STIMME_URL + s + '.mp3'); a.preload = 'auto'; return a; });
+      if (!vorrat.length) vorrat = stimme.map((s) => baueKompakt(s));
       i = 0; laeuft = true; start.classList.remove('klein'); szene.classList.add('laeuft'); pause.textContent = 'Pause'; zeige();
     });
     pause.addEventListener('click', () => {
@@ -1864,9 +2372,9 @@ details p { padding-bottom: 20px; color: var(--leise); }
       ['w-karriere', 'Deine Figur steigt mit dir auf. Vom Sales-Neuling bis ganz nach oben. Hundert Level.', 6000, 'Dranbleiben', '100 Level · deine Figur steigt mit auf'],
       ['w-ueberall', 'Handy, Windows, Mac. Dein Fortschritt läuft überall mit.', 4200, 'Überall', 'Handy, Windows und Mac · Fortschritt wird abgeglichen'],
       ['w-nutzen', 'Und was bringt dir das? Du gehst sicher in jeden Call. Du weißt, was du sagst. Und du verkaufst, ohne zu überreden.', 7500, 'Was du davon hast', 'Sicherer im Call · weniger Rabatt aus Panik · mehr Abschlüsse durch bessere Fragen'],
-      ['w-ende', 'Willkommen im Sales Universe. Fang heute an. Dreißig Tage kostenlos.', 5000],
+      ['w-ende', 'Willkommen im Sales Universe. Wir starten am 1. Dezember. Sichere dir deinen Platz.', 5000],
     ],
-    stimme: ['20261023_232632_62226f78-a997-4628-869e-09da394dc248', '20261023_232645_c44d5fc4-feac-4720-8680-7fb99ae1c571', '20261023_232645_b936f081-3198-4350-be64-49f761845bd2', '20261023_232659_81b416ee-c357-4b31-9d7f-2fc7493b9a1e', '20261024_000343_210e4607-06e4-47fd-a3e6-cc15c9260202', '20261023_232711_3db4c88a-f56b-4d18-86be-35377702171b', '20261023_232711_67f79630-cfbe-4270-aff5-a97f81b35fae', '20261023_232723_66c7e216-5893-480f-af5d-c78d05aa4273', '20261023_233706_6f1f3ee8-16d6-4d42-a6f2-d3cc01704554', '20261023_233706_6f3eac06-1cf6-428a-b16f-e902216cffb2', '20261023_232723_63285b62-79d1-4130-b2bd-e6556d806160', '20261023_232735_54835070-76c8-4082-8bae-ed96650916f9', '20261023_234458_461bed73-fd48-4107-9403-0f296781a10f', '20261023_232735_ff0ec6a8-6e98-4ff8-a9d8-7c7f9c655be2'],
+    stimme: ['20261023_232632_62226f78-a997-4628-869e-09da394dc248', '20261023_232645_c44d5fc4-feac-4720-8680-7fb99ae1c571', '20261023_232645_b936f081-3198-4350-be64-49f761845bd2', '20261023_232659_81b416ee-c357-4b31-9d7f-2fc7493b9a1e', '20261024_000343_210e4607-06e4-47fd-a3e6-cc15c9260202', '20261023_232711_3db4c88a-f56b-4d18-86be-35377702171b', '20261023_232711_67f79630-cfbe-4270-aff5-a97f81b35fae', '20261023_232723_66c7e216-5893-480f-af5d-c78d05aa4273', '20261023_233706_6f1f3ee8-16d6-4d42-a6f2-d3cc01704554', '20261023_233706_6f3eac06-1cf6-428a-b16f-e902216cffb2', '20261023_232723_63285b62-79d1-4130-b2bd-e6556d806160', '20261023_232735_54835070-76c8-4082-8bae-ed96650916f9', '20261023_234458_461bed73-fd48-4107-9403-0f296781a10f', '20261024_080810_3dd65ae2-68a8-4fb8-8c9f-3cc58f1654b4'],
     klang: {
       'w-hook': (sz) => { fx('intro', 0, 0.5); stoss(sz, 0.15, 1.6); stoss(sz, 0.75, 1); },
       'w-schmerz': (sz) => { fx('swoosh', 0.1); fx('plopp', 0.9); fx('plopp', 2.1); fx('plopp', 3.3); fx('schlag', 4.4, 0.4); [0.9, 2.1, 3.3].forEach((n) => stoss(sz, n, 0.5)); stoss(sz, 4.4, 1.8); },
@@ -1915,6 +2423,39 @@ details p { padding-bottom: 20px; color: var(--leise); }
     },
   });
 
+  // Vom Noob nach oben: echte App-Bildschirme, die Level-Anzeige oben links steigt mit
+  // (Titel wie in der App: Level 1, 3, 6, 10; ab 15 geheim). Stimme Jasper, Higgsfield/ElevenLabs.
+  const hud = (sz, level, titel, figur, anteil) => {
+    const l = sz.querySelector('.auf-level');
+    if (l.textContent !== String(level)) { l.textContent = String(level); l.classList.remove('hoch'); void l.offsetWidth; l.classList.add('hoch'); }
+    sz.querySelector('.auf-titel').textContent = titel;
+    sz.querySelector('.auf-fig').src = 'bilder/figuren/' + figur + '.svg';
+    sz.querySelector('.auf-spur em').style.width = anteil + '%';
+  };
+  kino(document.getElementById('karriere'), {
+    saetze: [
+      ['a-noob', 'Level eins. Sales-Neuling. Kein Plan, kein Abschluss, und das Konto ist leer.', 4800],
+      ['a-start', 'Dann holst du dir Sales Universe. Am Handy, am Laptop oder am Mac. Egal wo.', 4800],
+      ['a-lernen', 'Jeden Tag fünf Minuten. Du lernst, was du sagst, wenn der Kunde sagt: zu teuer.', 5000],
+      ['a-call', 'Im echten Call steht die Antwort direkt neben dir. Und dein Kunde sieht davon nichts.', 5000],
+      ['a-deal', 'Und dann passiert es: dein erster Abschluss.', 3000],
+      ['a-wachsen', 'Woche für Woche wächst dein Universum. Level zehn. Zwanzig. Fünfzig.', 4800],
+      ['a-oben', 'Vom Noob zu dem, den im Team alle fragen.', 3400],
+      ['a-ende', 'Fang am 1. Dezember an. Sichere dir deinen Platz.', 3600],
+    ],
+    stimme: ['20261024_082026_59f02473-38ab-424a-82ac-55f37ef1f877', '20261024_082026_e09b1caa-71e8-44ef-8c44-3d33d7228044', '20261024_082026_179a83f5-b0c4-48aa-96ff-ada1ec4df109', '20261024_082041_acb19239-09a1-4756-8aa5-4d5376031033', '20261024_082042_43b3b96e-035f-4d06-981d-64c67fbe33fc', '20261024_082058_4b98032e-3505-42ee-9c57-5443c407a564', '20261024_082058_38d50ffb-56e6-4b1b-b317-e71f965e1989', '20261024_082058_929329dc-ef8d-45d2-be5d-73e2bbabeba4'],
+    klang: {
+      'a-noob': (sz) => { hud(sz, 1, 'Sales-Neuling', 'jordan-1', 4); fx('schlag', 0.2, 0.45); stoss(sz, 0.2, 1.4); },
+      'a-start': (sz) => { hud(sz, 1, 'Sales-Neuling', 'jordan-1', 18); fx('wusch', 0); fx('plopp', 1.4); fx('plopp', 1.75); fx('plopp', 2.1); [1.4, 1.75, 2.1].forEach((n) => stoss(sz, n, 0.35)); },
+      'a-lernen': (sz) => { hud(sz, 3, 'Cold Caller', 'jordan-1', 35); fx('richtig', 1.3, 0.45); fx('nachricht', 1.4); stoss(sz, 1.3, 0.8); },
+      'a-call': (sz) => { hud(sz, 6, 'Terminleger', 'jordan-1', 52); fx('taste', 0.4); fx('plopp', 0.6); fx('glitzer', 2.4, 0.4); stoss(sz, 0.6, 0.6); },
+      'a-deal': (sz) => { hud(sz, 10, 'Sales Development Rep', 'jordan-2', 66); fx('schlag', 0, 0.4); fx('erfolg', 0.25, 0.55); knallen(sz, 0.25); stoss(sz, 0.1, 2); },
+      'a-wachsen': (sz) => { hud(sz, 20, '??? (geheim)', 'jordan-2', 80); fx('plopp', 2.2); fx('plopp', 2.9); fx('plopp', 3.6); [2.2, 2.9, 3.6].forEach((n) => stoss(sz, n, 0.5)); setTimeout(() => hud(sz, 50, '??? (geheim)', 'jordan-2', 92), 3600); },
+      'a-oben': (sz) => { hud(sz, 50, '??? (geheim)', 'jordan-2', 100); fx('wusch', 0); fx('erfolg', 0.8, 0.5); knallen(sz, 0.8); stoss(sz, 0.8, 1.4); },
+      'a-ende': (sz) => { fx('schlag', 0, 0.4); fx('erfolg', 0.5, 0.5); stoss(sz, 0, 1.6); knallen(sz, 0.5); },
+    },
+  });
+
   // Mac-Schreibtisch auf die verfügbare Breite verkleinern
   (() => {
     const schirm = document.querySelector('.macschirm');
@@ -1937,10 +2478,10 @@ details p { padding-bottom: 20px; color: var(--leise); }
       const b = document.createElement('b');
       if (wert >= 49) {
         b.textContent = fmt(wert / 49) + '-mal';
-        aus.append('Ein einziger zusätzlicher Kunde bezahlt Sales Universe ', b, '. Alles danach ist Gewinn.');
+        aus.append('Ein einziger zusätzlicher Kunde bezahlt ein Jahr Sales Universe ', b, '. Alles danach ist Gewinn.');
       } else {
         b.textContent = String(Math.ceil(49 / wert)) + ' zusätzliche Kunden';
-        aus.append('Nach ', b, ' hat sich Sales Universe bezahlt. Für immer, ohne Abo.');
+        aus.append('Nach ', b, ' hat sich ein Jahr Sales Universe bezahlt.');
       }
     });
   })();
@@ -1961,6 +2502,105 @@ details p { padding-bottom: 20px; color: var(--leise); }
     b.addEventListener('click', () => { document.querySelectorAll('.zielwahl button').forEach((x) => { x.classList.toggle('an', x === b); x.setAttribute('aria-checked', String(x === b)); }); rechne(Number(b.dataset.ziel)); });
   });
   rechne(100);
+
+  // ---------- Bewegung beim Scrollen ----------
+  // Überschriften werden aufgedeckt, Karten steigen gestaffelt ein, Bilder und
+  // Videos zoomen leicht. Einmalig, ohne Scroll-Listener (IntersectionObserver).
+  (() => {
+    if (!('IntersectionObserver' in window)) return;
+    const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.documentElement.classList.add('js-bewegung');
+    const markiere = (liste, art) => liste.forEach((e) => { if (!e.closest('.held') && !e.closest('.kino')) e.dataset.rein = art; });
+    markiere(document.querySelectorAll('main section .kopfzeile h2, .vergleich h2, .warteliste h2, .schluss h2, .teil .text h2'), 'maske');
+    markiere(document.querySelectorAll('.telefon, .macschirm, .kino, .bild img, .zertband'), 'zoom');
+    const gruppen = ['.zahlen .huelle', '.fuerwen-raster, #fuerwen .raster', '.pfad', '.preise', '.duo', '.pipeline .spalte', '.fragen', '.wl-schritte', '#grundlage .huelle > div:last-child', '#schmerz .huelle > div:last-child', '.vgl-karte'];
+    document.querySelectorAll('.kachel, .station, .zahl, .preis, .grund, .angebot, .projekt, .fragen details, .wl-schritte li, .vorhernachher, .lohnrechner, .rechnerkarte, .wl-karte, .vgl-zeile, .vgl-fazit').forEach((e) => {
+      if (e.closest('.held') || e.closest('.kino') || e.dataset.rein) return;
+      e.dataset.rein = 'steigen';
+      const geschwister = [...e.parentElement.children].filter((x) => x.matches(e.tagName.toLowerCase() + (e.className ? '.' + e.classList[0] : '')));
+      e.style.setProperty('--i', String(Math.min(8, geschwister.indexOf(e))));
+    });
+    void gruppen;
+    const beobachter = new IntersectionObserver((eintraege) => {
+      for (const x of eintraege) {
+        if (!x.isIntersecting) continue;
+        x.target.classList.add('da');
+        beobachter.unobserve(x.target);
+      }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    document.querySelectorAll('[data-rein], .vgl-karte').forEach((e) => beobachter.observe(e));
+
+    // Zahlen zählen hoch, wenn sie ins Bild kommen
+    const zaehler = new IntersectionObserver((eintraege) => {
+      for (const x of eintraege) {
+        if (!x.isIntersecting) continue;
+        zaehler.unobserve(x.target);
+        const b = x.target, ziel = Number(b.dataset.ziel);
+        if (ruhig || !(ziel > 1)) { b.textContent = String(ziel); continue; }
+        const t0 = performance.now(), dauer = 1400;
+        const schritt = (t) => { const p = Math.min(1, (t - t0) / dauer); b.textContent = String(Math.round(ziel * (1 - Math.pow(1 - p, 4)))); if (p < 1) requestAnimationFrame(schritt); };
+        requestAnimationFrame(schritt);
+      }
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.zahl b').forEach((b) => { b.dataset.ziel = b.textContent.trim(); if (!ruhig) b.textContent = '0'; zaehler.observe(b); });
+
+    // Lernpfad: jede Station wird freigeschaltet, wenn sie die Bildmitte erreicht
+    const pfad = new IntersectionObserver((eintraege) => {
+      for (const x of eintraege) {
+        if (!x.isIntersecting) continue;
+        // Auch alle Stationen davor, falls jemand schnell darüber gescrollt ist
+        const alle = [...document.querySelectorAll('.station.weiter')];
+        alle.slice(0, alle.indexOf(x.target) + 1).forEach((s, i, l) => { if (!s.classList.contains('frei')) setTimeout(() => s.classList.add('frei'), (i - (l.length - 1)) * -90); pfad.unobserve(s); });
+      }
+    }, { rootMargin: '0px 0px -40% 0px' });
+    document.querySelectorAll('.station.weiter').forEach((s) => pfad.observe(s));
+
+    // Start: Elemente nacheinander
+    document.querySelectorAll('.held .huelle > div:first-child > *').forEach((e, i) => { e.dataset.start = ''; e.style.setProperty('--i', String(i)); });
+
+    // Handys folgen am Desktop leicht der Maus, mit Nachlauf (Feder statt Sprung)
+    const tel = document.querySelector('.telefone');
+    if (tel && !ruhig && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const huelle = document.createElement('div');
+      huelle.className = 'neigung';
+      [...tel.children].filter((c) => !c.classList.contains('orbit')).forEach((c) => huelle.append(c));
+      tel.append(huelle);
+      let zx = 0, zy = 0, x = 0, y = 0, laeuft = false;
+      const takt = () => {
+        x += (zx - x) * 0.08; y += (zy - y) * 0.08;
+        huelle.style.transform = `perspective(1200px) rotateY(${(x * 6).toFixed(2)}deg) rotateX(${(-y * 5).toFixed(2)}deg) translate3d(${(x * 10).toFixed(1)}px, ${(y * 8).toFixed(1)}px, 0)`;
+        if (Math.abs(zx - x) > 0.001 || Math.abs(zy - y) > 0.001) requestAnimationFrame(takt); else laeuft = false;
+      };
+      document.querySelector('.held').addEventListener('pointermove', (e) => {
+        const r = tel.getBoundingClientRect();
+        zx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / r.width));
+        zy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / r.height));
+        if (!laeuft) { laeuft = true; requestAnimationFrame(takt); }
+      });
+      document.querySelector('.held').addEventListener('pointerleave', () => { zx = 0; zy = 0; if (!laeuft) { laeuft = true; requestAnimationFrame(takt); } });
+    }
+  })();
+
+  // ---------- Preisvergleich: Sprach-App im Abo gegen den Jahrespass für 49 € ----------
+  (() => {
+    const karte = document.querySelector('.vgl-karte');
+    if (!karte) return;
+    // Preise bekannter Sprach-Apps laut Preisvergleichen (Oktober 2026): etwa 60 bis 180 € im Jahr
+    const VON = 60, BIS = 180, SU = 49;
+    const fmt = (n) => n.toLocaleString('de-DE') + ' €';
+    function zeige(jahre) {
+      const max = BIS * 3;
+      karte.querySelector('#vgl-app').textContent = `${fmt(VON * jahre)} bis ${fmt(BIS * jahre)}`;
+      karte.querySelector('#vgl-su').textContent = fmt(SU * jahre);
+      karte.querySelector('.vgl-balken .bis').style.setProperty('--w', String((BIS * jahre) / max));
+      karte.querySelector('.vgl-balken .ab').style.setProperty('--w', String((VON * jahre) / max));
+      karte.querySelector('.vgl-balken .su').style.setProperty('--w', String((SU * jahre) / max));
+      karte.querySelector('#vgl-text').textContent = jahre === 1 ? `Ein Jahr Sprach-App kostet ${fmt(VON)} bis ${fmt(BIS)}. Ein Jahr Sales Universe ${fmt(SU)}, ohne Abo.` : `Nach ${jahre} Jahren hast du für eine Sprach-App ${fmt(VON * jahre)} bis ${fmt(BIS * jahre)} bezahlt. Für Sales Universe ${fmt(SU * jahre)}, und nur, wenn du jedes Jahr weitermachen willst.`;
+      karte.querySelectorAll('.vgl-jahre button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.jahre) === jahre)));
+    }
+    karte.querySelectorAll('.vgl-jahre button').forEach((b) => b.addEventListener('click', () => zeige(Number(b.dataset.jahre))));
+    zeige(3);
+  })();
 </script>
 </body>
 </html>
