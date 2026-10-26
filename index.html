@@ -1027,6 +1027,11 @@ input[type='checkbox'], input[type='radio'] { accent-color: var(--gold); }
 .einheithakenzeichen { width: 20px; height: 20px; }
 .einheithakenzeichen path { fill: none; stroke: #1a1408; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 
+/* Die nächste Einheit nur angedeutet */
+.einheit.vorschau { position: relative; opacity: 1; max-height: 120px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 20%, transparent 95%); mask-image: linear-gradient(#000 20%, transparent 95%); pointer-events: none; }
+.einheit.vorschau .verschwommen { filter: blur(6px); opacity: 0.5; user-select: none; }
+.vorschauschloss { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding-bottom: 24px; }
+
 /* Kein Zoomen: kein Doppeltipp-Zoom, Eingabefelder mit 16px, sonst zoomt das iPhone beim Antippen */
 html, body { overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 input, textarea, select { font-size: max(16px, 1em); }
@@ -6724,12 +6729,11 @@ function pfadKarte() {
       return el('button', { class: 'einheit erledigt', onclick: () => (pfadAufgeklappt.add(ei), zeichne()) }, el('span', { class: 'einheithaken', 'aria-hidden': 'true' }, svg('svg', { viewBox: '0 0 24 24', class: 'einheithakenzeichen' }, svg('path', { d: 'M5 12.5l4.5 4.5L19 7.5' }))), el('div', { class: 'platz' }, el('div', { class: 'leise klein', text: tx(`Einheit ${ei + 1}`) + ' · ' + tx('geschafft') }), el('strong', { text: e.titel })), el('span', { class: 'leise klein', text: tx('Wiederholen') }));
     }
     if (ei === jetzt + 1) {
-      const rest = einheiten.length - ei - 1;
       return el(
         'div',
         { class: 'einheitvorschau' },
-        el('section', { class: 'einheit zu vorschau' }, el('div', { class: 'einheitskopf' }, el('span', { class: 'schloss gross', 'aria-hidden': 'true' }), el('div', { class: 'platz' }, el('div', { class: 'leise klein', text: tx(`Einheit ${ei + 1}`) }), el('h2', { text: e.titel }), el('p', { class: 'leise', text: tx(`Schaltest du frei, wenn du „${einheiten[jetzt].titel}“ geschafft hast.`) })))),
-        rest > 0 ? el('p', { class: 'leise klein kapitelrest', text: rest === 1 ? tx('Danach wartet noch 1 Einheit.') : tx(`Danach warten noch ${rest} Einheiten.`) }) : null
+        // Nur angedeutet: Titel und Text verschwommen, die Karte läuft nach unten aus
+        el('section', { class: 'einheit zu vorschau', title: tx(`Schaltest du frei, wenn du „${einheiten[jetzt].titel}“ geschafft hast.`) }, el('div', { class: 'vorschauschloss' }, el('span', { class: 'schloss gross', 'aria-hidden': 'true' }), el('span', { class: 'leise klein', text: tx(`Einheit ${ei + 1}`) })), el('div', { class: 'einheitskopf verschwommen', 'aria-hidden': 'true' }, el('div', { class: 'platz' }, el('h2', { text: e.titel }), el('p', { class: 'leise', text: e.text }))))
       );
     }
     const offen = e.lektionen.some((x) => aktuell && x.id === aktuell.id) || fertig > 0;
