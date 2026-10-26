@@ -5,7 +5,7 @@ self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(SPEICHER).then((c) => c.addAll(DATEIEN)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((alle) => Promise.all(alle.filter((n) => n !== SPEICHER).map((n) => caches.delete(n)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then((alle) => Promise.all(alle.filter((n) => n.startsWith('sales-universe-') && n !== SPEICHER).map((n) => caches.delete(n)))).then(() => self.clients.claim()));
 });
 // Tägliche Erinnerung: Der Server schickt nur einen leeren Anstoß, der Text steht hier
 self.addEventListener('push', (e) => {
@@ -21,6 +21,8 @@ self.addEventListener('notificationclick', (e) => {
 });
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  // Andere Apps auf derselben Adresse (eigene Ordner) nicht anfassen
+  if (/^\/(vigil|sonnenklar|webseite)(\/|$)/.test(new URL(e.request.url).pathname)) return;
   if (e.request.mode === 'navigate') {
     e.respondWith(fetch(e.request).then((r) => {
       const kopie = r.clone();
