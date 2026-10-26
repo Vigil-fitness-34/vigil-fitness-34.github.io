@@ -929,12 +929,13 @@ button.link { background: none; border: none; padding: 0; min-height: 0; color: 
 
 /* Fühlt sich wie eine App an: kein Markieren von Knöpfen und Menüs, kein
    blauer Tipp-Schatten, kein Gummiband-Effekt am Rand, Knöpfe geben nach. */
-body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+html, body { overscroll-behavior: none; }
+body { -webkit-tap-highlight-color: transparent; }
 button, .nav, .antwortwahl, .karte h2, .karte h3, .leiste, .seite, .unterleiste { -webkit-user-select: none; user-select: none; }
 button { transition: transform 0.12s ease, filter 0.12s ease; }
 button:active:not(:disabled) { transform: scale(0.97); filter: brightness(0.95); }
 :focus:not(:focus-visible) { outline: none; }
-.flaeche { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.flaeche { scroll-behavior: smooth; overscroll-behavior: none; }
 
 /* Kapitel Schritt für Schritt */
 .blatt.zu { opacity: 0.45; cursor: default; }
@@ -947,7 +948,7 @@ button:active:not(:disabled) { transform: scale(0.97); filter: brightness(0.95);
 .schlosszeichen rect, .schlosszeichen path { fill: none !important; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 
 /* Kein Zoomen: kein Doppeltipp-Zoom, Eingabefelder mit 16px, sonst zoomt das iPhone beim Antippen */
-html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 input, textarea, select { font-size: max(16px, 1em); }
 
 /* ---------- Web-Version (scripts/handy.js) ---------- */
@@ -4689,6 +4690,19 @@ function figur(nr, klasse, aussehen) {
 const flaeche = document.getElementById('flaeche');
 // Handy: nicht mit zwei Fingern oder Doppeltippen zoomen (iPhone hält sich nicht an den Viewport)
 document.addEventListener('gesturestart', (e) => e.preventDefault());
+// iPhone: kein Nachfedern am oberen und unteren Rand. Ältere iPhones kennen
+// overscroll-behavior nicht, darum beim Antippen einen Pixel vom Rand wegrücken.
+flaeche.addEventListener('touchstart', () => {
+  const max = flaeche.scrollHeight - flaeche.clientHeight;
+  if (max <= 0) return;
+  if (flaeche.scrollTop <= 0) flaeche.scrollTop = 1;
+  else if (flaeche.scrollTop >= max) flaeche.scrollTop = max - 1;
+}, { passive: true });
+// Ist nichts zum Scrollen da, soll auch nichts federn
+document.addEventListener('touchmove', (e) => {
+  const f = e.target.closest && e.target.closest('.flaeche, .unterleiste, .antwortleiste .karte, .webdialog, textarea, select');
+  if (!f || (f === flaeche && flaeche.scrollHeight <= flaeche.clientHeight)) e.preventDefault();
+}, { passive: false });
 const suchfeld = document.getElementById('suche');
 
 let z = null;
