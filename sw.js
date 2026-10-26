@@ -26,7 +26,8 @@ self.addEventListener('fetch', (e) => {
   const pfad = new URL(e.request.url).pathname;
   if (['/vigil', '/sonnenklar', '/uni', '/webseite'].some((o) => pfad === o || pfad.startsWith(o + '/'))) return;
   if (e.request.mode === 'navigate') {
-    e.respondWith(fetch(e.request).then((r) => {
+    // an der Browser-Zwischenablage (GitHub: 10 Minuten) vorbei, damit Updates sofort ankommen
+    e.respondWith(fetch(e.request, { cache: 'no-cache' }).then((r) => {
       const kopie = r.clone();
       caches.open(SPEICHER).then((c) => c.put('index.html', kopie));
       return r;
