@@ -56,8 +56,10 @@ h3 { font-size: 13px; font-weight: 600; }
 .klein { font-size: 12px; }
 .versteckt { display: none !important; }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: var(--surface-light); border-radius: 6px; border: 2px solid var(--dark); }
+/* Keine sichtbaren Scrollbalken, wie in einer App. Scrollen geht weiter mit
+   Maus, Trackpad, Finger und Tastatur. */
+* { scrollbar-width: none; }
+::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
 button, input, select, textarea { font: inherit; color: inherit; }
 button {
@@ -517,7 +519,6 @@ button.typ:hover:not(:disabled) { background: var(--surface-hoch); }
   .zeitfuell { animation-duration: inherit !important; }
 }
 
-::-webkit-scrollbar-thumb:hover { background: #33363c; }
 
 /* ---------- Dealstreak: Tag, Lernpfad, Lektion ----------
    Wie in Sprach-Lern-Apps: eine Flamme für die Serie, ein Ring fürs Tagesziel, runde
@@ -926,6 +927,15 @@ button.link { background: none; border: none; padding: 0; min-height: 0; color: 
 .kopplungscode { font-variant-numeric: tabular-nums; font-family: ui-monospace, 'Cascadia Mono', Menlo, monospace; font-size: 17px; letter-spacing: 0.06em; color: var(--gold); user-select: all; }
 .kopplung .aktionen input { flex: 1; min-width: 200px; text-transform: uppercase; }
 
+/* Fühlt sich wie eine App an: kein Markieren von Knöpfen und Menüs, kein
+   blauer Tipp-Schatten, kein Gummiband-Effekt am Rand, Knöpfe geben nach. */
+body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .nav, .antwortwahl, .karte h2, .karte h3, .leiste, .seite, .unterleiste { -webkit-user-select: none; user-select: none; }
+button { transition: transform 0.12s ease, filter 0.12s ease; }
+button:active:not(:disabled) { transform: scale(0.97); filter: brightness(0.95); }
+:focus:not(:focus-visible) { outline: none; }
+.flaeche { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+
 /* Kein Zoomen: kein Doppeltipp-Zoom, Eingabefelder mit 16px, sonst zoomt das iPhone beim Antippen */
 html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 input, textarea, select { font-size: max(16px, 1em); }
@@ -933,7 +943,7 @@ input, textarea, select { font-size: max(16px, 1em); }
 /* ---------- Web-Version (scripts/handy.js) ---------- */
 /* Im Browser füllt die App die Seite; auf dem Handy wandert das Menü nach
    unten und alles steht in einer Spalte. */
-html, body { height: 100%; }
+html, body { height: 100%; height: 100dvh; }
 .app { height: 100%; }
 /* Als installierte Web-App ohne Browserleiste: oben Platz für die Statusleiste */
 .leiste { padding-top: calc(14px + env(safe-area-inset-top, 0px)); }
